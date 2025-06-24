@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "Lua.diagnostics.globals": ["vim"]
+  },
+  "[lua]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.tabSize": 2
+  }
+}
