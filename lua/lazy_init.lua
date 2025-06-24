@@ -24,36 +24,11 @@ rtp:prepend(lazypath)
 require('lazy').setup('plugins', {
   ui = {
     size = { width = 1, height = 1 },
-
     border = "none",
     backdrop = 100,
-
     wrap = false,
-
     icons = {
-      cmd = "  ",
-
-      config = "  ",
-      event = "  ",
-      ft = "  ",
-
-      init = "  ",
-      imports = "  ",
-
-      keys = "  ",
-
-      lazy = " ",
-      loaded = " ",
-      not_loaded = " ",
-
-      plugin = "  ",
-      runtime = "  ",
-      require = "  ",
-
-      source = " ",
-      start = "",
-
-      task = "  "
+      -- todo: update icons
     }
   }
 })
