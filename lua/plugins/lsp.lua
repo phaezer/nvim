@@ -1,4 +1,60 @@
+local K = Config.Key
+local icons = Config.Icon
+
+-- see: https://github.com/neovim/nvim-lspconfig for all the available servers
+-- Enable the following language servers
+--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+--
+--  Add any additional override configuration in the following tables. Available keys are:
+--  - cmd (table): Override the default command used to start the server
+--  - filetypes (table): Override the default list of associated filetypes for the server
+--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
+--  - settings (table): Override the default settings passed when initializing the server.
+--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+local servers = {
+  clangd = {},
+  cmake = {},
+  gopls = {},
+  pyright = {},
+  rust_analyzer = {},
+  ts_ls = {},
+  -- ansible requires npm package ansible-language-server
+  -- src: https://github.com/neovim/nvim-lspconfig/blob/master/lsp/ansiblels.lua
+  ansiblels = {},
+  eslint = {},
+  -- docker ls requires npm package dockerfile-language-server-nodejs
+  -- src: https://github.com/neovim/nvim-lspconfig/blob/master/lsp/dockerls.lua
+  dockerls = {},
+  tofu_ls = {},
+  -- bash ls requires npm package bash-language-server
+  -- src: https://github.com/neovim/nvim-lspconfig/blob/master/lsp/bashls.lua
+  bashls = {},
+  -- ruff formatter
+  -- src: https://github.com/neovim/nvim-lspconfig/blob/master/lsp/ruff.lua
+  ruff = {},
+  lua_ls = {
+    settings = {
+      Lua = {
+        completion = {
+          callSnippet = 'Replace',
+        },
+        diagnostics = { disable = { 'missing-fields' } },
+      },
+    },
+  },
+}
+
 return {
+  {
+    -- lspkind for icons in completion menu
+    'onsails/lspkind.nvim',
+    lazy = false,
+    config = function()
+      require('lspkind').init({
+        symbol_map = icons.kind,
+      })
+    end,
+  },
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
@@ -11,7 +67,9 @@ return {
       },
     },
   },
+
   {
+    -- https://github.com/neovim/nvim-lspconfig
     -- nvim-lspconfig - A collection of configurations for built-in LSP client
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -27,6 +85,7 @@ return {
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
+      'nvim-telescope/telescope.nvim',
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -71,42 +130,18 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          -- Rename the variable under your cursor.
-          --  Most Language Servers support renaming across files, etc.
-          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          K.set {
+            { 'grnn', vim.lsp.buf.rename,                                         desc = 'Rename buffer' },
+            { 'gra',  vim.lsp.buf.code_action,                                    desc = 'Code Action' },
+            { 'grr',  require('telescope.builtin').lsp_references,                desc = 'Goto References' },
+            { 'gri',  require('telescope.builtin').lsp_implementations,           desc = 'Goto Implementation' },
+            { 'grd',  require('telescope.builtin').lsp_definitions,               desc = 'Goto Definition' },
+            { 'grD',  vim.lsp.buf.declaration,                                    desc = 'Goto Declaration' },
+            { 'gO',   require('telescope.builtin').lsp_document_symbols,          desc = 'Open Document Symbols' },
+            { 'gW',   require('telescope.builtin').lsp_dynamic_workspace_symbols, desc = 'Open Workspace Symbols' },
+            { 'grt',  require('telescope.builtin').lsp_type_definitions,          desc = 'Goto Type Definition' },
+          }
 
-          -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
-          map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-
-          -- Find references for the word under your cursor.
-          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
-          -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-
-          -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
-          --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
-          -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
-
-          -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-
-          -- Jump to the type of the word under your cursor.
-          --  Useful when you're not sure what type a variable is and you want to see
-          --  the definition of its *type*, not where it was *defined*.
-          map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -170,10 +205,10 @@ return {
         underline = { severity = vim.diagnostic.severity.ERROR },
         signs = vim.g.have_nerd_font and {
           text = {
-            [vim.diagnostic.severity.ERROR] = '󰅚 ',
-            [vim.diagnostic.severity.WARN] = '󰀪 ',
-            [vim.diagnostic.severity.INFO] = '󰋽 ',
-            [vim.diagnostic.severity.HINT] = '󰌶 ',
+            [vim.diagnostic.severity.ERROR] = icons.ui.error .. ' ',
+            [vim.diagnostic.severity.WARN] = icons.ui.warning .. ' ',
+            [vim.diagnostic.severity.INFO] = icons.ui.info .. ' ',
+            [vim.diagnostic.severity.HINT] = icons.ui.hint .. ' ',
           },
         } or {},
         virtual_text = {
@@ -197,49 +232,6 @@ return {
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-      -- Enable the following language servers
-      --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-      --
-      --  Add any additional override configuration in the following tables. Available keys are:
-      --  - cmd (table): Override the default command used to start the server
-      --  - filetypes (table): Override the default list of associated filetypes for the server
-      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-      local servers = {
-        clangd = {},
-        gopls = {},
-        pyright = {},
-        rust_analyzer = {},
-        ts_ls = {},
-        ansiblels = {},
-        cmake = {},
-        eslint = {},
-        dockerls = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
-
-        lua_ls = {
-          -- cmd = { ... },
-          -- filetypes = { ... },
-          -- capabilities = {},
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
-            },
-          },
-        },
-      }
 
       -- Ensure the servers and tools above are installed
       --

@@ -1,29 +1,29 @@
 return {
   {
     -- tokyonight - A clean, dark Neovim theme written in Lua, with support for
-    "folke/tokyonight.nvim",
+    'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
 
     config = function()
       require('tokyonight').setup {
         styles = {
-          comments = { italic = false }
+          comments = { italic = false },
         },
       }
-      vim.cmd.colorscheme 'tokyonight-night'
-    end
+      vim.cmd.colorscheme 'tokyonight-storm'
+    end,
   },
 
   {
-    "olimorris/onedarkpro.nvim",
+    'olimorris/onedarkpro.nvim',
     lazy = true,
-    priority = 1000
+    priority = 1000,
   },
 
   {
-    "rebelot/kanagawa.nvim",
+    'rebelot/kanagawa.nvim',
     lazy = true,
-    priority = 1000
-  }
+    priority = 1000,
+  },
 }

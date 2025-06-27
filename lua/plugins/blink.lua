@@ -1,9 +1,13 @@
 return {
   -- blink.cmp - Autocompletion
+  -- src: https://github.com/saghen/blink.cmp
+  -- docs: https://cmp.saghen.dev/
   'saghen/blink.cmp',
   event = 'VimEnter',
   version = '1.*',
   dependencies = {
+    -- copilot
+    "fang2hou/blink-copilot",
     -- Snippet Engine
     {
       'L3MON4D3/LuaSnip',
@@ -65,20 +69,48 @@ return {
     },
 
     appearance = {
-      -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'mono',
     },
 
     completion = {
-      -- By default, you may press `<c-space>` to show the documentation.
-      -- Optionally, set `auto_show = true` to show the documentation after a delay.
-      documentation = { auto_show = false, auto_show_delay_ms = 500 },
+      documentation = {
+        -- show the documentation after a delay
+        auto_show = true,
+        auto_show_delay_ms = 1000
+      },
+      -- show the ghost text
+      ghost_text = { enabled = true },
+
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'lazydev' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+      per_filetype = {
+        text = { 'path', 'buffer' },
+        markdown = { 'lsp', 'path', 'buffer' },
+        json = { 'lsp', 'path', 'buffer' },
+        yaml = { 'lsp', 'path', 'buffer' },
+        codecompanion = { "codecompanion" },
+      },
       providers = {
+        -- copilot
+        copilot = {
+          name = "copilot",
+          module = "blink-copilot",
+          score_offset = 100,
+          async = true,
+          opts = {
+            max_completions = 5,
+            max_attempts = 5,
+            kind_name = "Copilot", ---@type string | false
+            -- kind_hl = false,
+            debounce = 125, ---@type integer | false
+            auto_refresh = {
+              backward = true,
+              forward = true,
+            },
+          }
+        },
         lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
       },
     },
@@ -92,7 +124,7 @@ return {
     -- the rust implementation via `'prefer_rust_with_warning'`
     --
     -- See :h blink-cmp-config-fuzzy for more information
-    fuzzy = { implementation = 'lua' },
+    fuzzy = { implementation = 'prefer_rust_with_warning' },
 
     -- Shows a signature help window while you type arguments for a function
     signature = { enabled = true },
