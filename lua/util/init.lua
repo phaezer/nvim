@@ -1,7 +1,6 @@
 --- @alias os 'mac' | 'win' | 'linux' | 'all'
 
-
----@class Utils
+---@module 'Util'
 local M = {}
 
 -- Check if the OS is Windows

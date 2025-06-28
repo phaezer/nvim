@@ -11,9 +11,9 @@ _G.Util = Util
 Config = require 'config'
 _G.Config = Config
 
-Config.Color.setup()
+-- Config.color.setup()
 
-local icons = Config.Icon
+local icons = Config.icon
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info

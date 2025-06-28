@@ -1,4 +1,4 @@
----@class Config.Key
+---@module 'Config.ke'
 local M = {}
 
 local _os_tbl = {
@@ -137,36 +137,40 @@ M.set {
   { '<C- >', 'za', desc = 'Toggle fold',    mode = { 'n', 'i', 'o' } },
 }
 
--- toggle colorcolumn
-local function toggle_colorcolumn()
-  local value = vim.inspect(vim.opt.colorcolumn:get())
 
-  if value == '{}' then
-    local value = vim.api.nvim_get_option_value('colorcolumn', {})
-    if value == '' then
-      vim.notify('Enable colorcolumn', 'info', 'functions.lua')
-      vim.opt.colorcolumn = '80'
-      vim.api.nvim_set_option_value('colorcolumn', '80', {})
-    else
-      vim.notify('Disable colorcolumn', 'info', 'functions.lua')
-      vim.opt.colorcolumn = {}
-      vim.api.nvim_set_option_value('colorcolumn', '', {})
-    end
-  end
-end
-
--- toggle animations
-local function toggle_animations()
-  if vim.g.animations then
-    vim.g.animations = false
-  else
-    vim.g.animations = true
-  end
-end
 
 M.set {
-  { '<leader>uc', toggle_colorcolumn, desc = 'Toggle colorcolumn' },
-  { '<leader>ua', toggle_animations,  desc = 'Toggle animations' },
+  {
+    '<leader>uc',
+    desc = 'Toggle colorcolumn',
+    function()
+      local value = vim.inspect(vim.opt.colorcolumn:get())
+
+      if value == '{}' then
+        local value = vim.api.nvim_get_option_value('colorcolumn', {})
+        if value == '' then
+          vim.notify('Enable colorcolumn', 'info', 'functions.lua')
+          vim.opt.colorcolumn = '80'
+          vim.api.nvim_set_option_value('colorcolumn', '80', {})
+        else
+          vim.notify('Disable colorcolumn', 'info', 'functions.lua')
+          vim.opt.colorcolumn = {}
+          vim.api.nvim_set_option_value('colorcolumn', '', {})
+        end
+      end
+    end,
+  },
+  {
+    '<leader>ua',
+    desc = 'Toggle animations',
+    function()
+      if vim.g.animations then
+        vim.g.animations = false
+      else
+        vim.g.animations = true
+      end
+    end,
+  },
 }
 
 return M

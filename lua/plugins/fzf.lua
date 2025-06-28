@@ -115,7 +115,7 @@ return {
 
       lsp = {
         symbols = {
-          symbol_icons = Config.Icon.kind,
+          symbol_icons = Config.icon.kind,
           symbol_hl = function(s) return "TroubleIcon" .. s end,
           symbol_fmt = function(s) return s:lower() .. "\t" end,
           child_prefix = false,

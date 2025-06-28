@@ -1,4 +1,4 @@
-local icons = Config.Icon
+local icons = Config.icon
 
 return {
   -- kulala.nvim - A plugin for sending HTTP requests

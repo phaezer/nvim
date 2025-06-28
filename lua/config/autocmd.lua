@@ -1,5 +1,6 @@
 -- see: https://neovim.io/doc/user/autocmd.html
 
+---@module 'Config.ai'
 local api = vim.api
 
 api.nvim_create_autocmd('TextYankPost', {

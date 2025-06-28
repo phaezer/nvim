@@ -1,4 +1,4 @@
----@class Utils.lualine
+---@module 'Util.lualine'
 local M = {}
 
 ---@param icon string
@@ -63,7 +63,7 @@ function M.pretty_path(opts)
     directory_hl = "",
     filename_hl = "Bold",
     modified_sign = "",
-    readonly_icon = " " .. Config.Icon.ui.Lock .. " ",
+    readonly_icon = " " .. Config.icon.ui.Lock .. " ",
     length = 3,
   }, opts or {})
 
