@@ -1,7 +1,4 @@
----@class Config.Icons
-local M      = {}
-
-M.kind       = {
+local kind       = {
   File          = "",
   Folder        = "",
   Array         = "󰅪",
@@ -46,12 +43,9 @@ M.kind       = {
   Unit          = "",
   Value         = "",
   Variable      = "󰫧",
-  Bot           = "󱙺",
-  ChatGPT       = "",
-  Anthropic     = "",
 }
 
-M.whitespace = {
+local whitespace = {
   Tab       = "",
   Space     = "",
   Newline   = "",
@@ -63,12 +57,17 @@ M.whitespace = {
   FoldSep   = "│",
 }
 
-M.ui         = {
+local ai         = {
+  Copilot = "",
+  ChatGPT = "",
+  Anthropic = "",
+  Bot = "󱙺",
+}
+
+local ui         = {
   File       = "",
   Folder     = "",
   FileTree   = "",
-  Copilot    = "",
-  TabNine    = "󰏚",
   Star       = "",
   Collapsed  = "",
   Expanded   = "",
@@ -104,7 +103,7 @@ M.ui         = {
   Web        = "",
 }
 
-M.debug      = {
+local debug      = {
   CurrentFrame = '',
   Pause = '',
   Play = '',
@@ -117,7 +116,7 @@ M.debug      = {
   Disconnect = '',
 }
 
-M.git        = {
+local git        = {
   Added    = "",
   Modified = "",
   Removed  = "",
@@ -125,4 +124,19 @@ M.git        = {
   GitHub   = "",
 }
 
-return M
+local table      = {
+  Bottom = '└',
+  Middle = '├',
+  Vertical = '│',
+}
+
+---@module 'Config.icon'
+return {
+  kind = vim.tbl_extend('force', kind, ai),
+  whitespace = whitespace,
+  ai = ai,
+  ui = ui,
+  debug = debug,
+  git = git,
+  table = table,
+}

@@ -4,8 +4,8 @@ require 'config.opt'
 
 local M = {}
 
-M.Color = require 'config.color'
-M.Icon = require 'config.icon'
-M.Key = require 'config.key'
+M.icon = require 'config.icon'
+M.key = require 'config.key'
+M.ai = require 'config.ai'
 
 return M

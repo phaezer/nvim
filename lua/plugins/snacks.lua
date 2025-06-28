@@ -28,7 +28,33 @@ return {
           char = "│",
           only_scope = false,
           only_current = false,
-          hl = Util.table_keys(Config.Color.highlights),
+          hl = {
+            "IndentRainbowDim0",
+            "IndentRainbowDim1",
+            "IndentRainbowDim2",
+            "IndentRainbowDim3",
+            "IndentRainbowDim4",
+            "IndentRainbowDim5",
+            "IndentRainbowDim6",
+            "IndentRainbowDim7",
+          }
+        },
+        scope = {
+          enabled = true, -- enable highlighting the current scope
+          priority = 200,
+          char = "│",
+          underline = false,    -- underline the start of the scope
+          only_current = false, -- only show scope in the current window
+          hl = {
+            "IndentRainbowBright0",
+            "IndentRainbowBright1",
+            "IndentRainbowBright2",
+            "IndentRainbowBright3",
+            "IndentRainbowBright4",
+            "IndentRainbowBright5",
+            "IndentRainbowBright6",
+            "IndentRainbowBright7",
+          }
         },
         animate = { enabled = false }, -- disable animations
       },
@@ -55,6 +81,8 @@ return {
         }
       }
     },
+
+
     keys = {
       -- Top Pickers & Explorer
       { "<leader><space>", function() Snacks.picker.smart() end,           desc = "Smart Find Files" },
@@ -66,7 +94,7 @@ return {
         "<leader>e",
         function()
           Snacks.explorer({
-            layout = { preset = "sidebar", preview = true }, -- enable preview
+            layout = { preset = "sidebar", preview = false }, -- enable preview
           })
         end,
         desc = "File Explorer"
@@ -179,6 +207,9 @@ return {
       vim.api.nvim_create_autocmd("User", {
         pattern = "VeryLazy",
         callback = function()
+          -- set the hl groups
+
+
           local toggle = Snacks.toggle
 
           -- Setup some globals for debugging (lazy-loaded)

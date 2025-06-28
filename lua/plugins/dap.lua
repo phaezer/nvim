@@ -1,27 +1,16 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
+local icons = Config.icon
 
 return {
-  -- NOTE: Yes, you can install new plugins here!
+  -- nvim-dap - Debug Adapter Protocol
+  -- src: https://github.com/mfussenegger/nvim-dap
   'mfussenegger/nvim-dap',
-  -- NOTE: And you can specify dependencies as well
   dependencies = {
-    -- Creates a beautiful debugger UI
+    -- nvim-dap-ui
+    -- src: https://github.com/rcarriga/nvim-dap-ui
     'rcarriga/nvim-dap-ui',
-
-    -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
-
-    -- Installs the debug adapters for you
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-
-    -- Add your own debuggers here
     'leoluz/nvim-dap-go',
   },
   keys = {
@@ -80,7 +69,6 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
-    local icons = Config.icons.dap
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -101,13 +89,27 @@ return {
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
-    dapui.setup {
+    require('dapui').setup {
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
       --    Don't feel like these are good choices.
-      icons = icons.icons,
+      icons = {
+        expanded = icons.ui.Expanded,
+        collapsed = icons.ui.Collapsed,
+        current_frame = icons.debug.CurrentFrame,
+      },
       controls = {
-        icons = icons.controls,
+        icons = {
+          pause = icons.debug.Pause,
+          play = icons.debug.Play,
+          step_into = icons.debug.StepInto,
+          step_over = icons.debug.StepOver,
+          step_out = icons.debug.StepOut,
+          step_back = icons.debug.StepBack,
+          run_last = icons.debug.RunLast,
+          terminate = icons.debug.Terminate,
+          disconnect = icons.debug.Disconnect,
+        },
       },
     }
 

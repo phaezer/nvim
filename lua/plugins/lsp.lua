@@ -1,5 +1,5 @@
-local K = Config.Key
-local icons = Config.Icon
+local K = Config.key
+local icons = Config.icon
 
 -- see: https://github.com/neovim/nvim-lspconfig for all the available servers
 -- Enable the following language servers
@@ -143,11 +143,6 @@ return {
           }
 
 
-          -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-          ---@param client vim.lsp.Client
-          ---@param method vim.lsp.protocol.Method
-          ---@param bufnr? integer some lsp support methods only in specific files
-          ---@return boolean
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
               return client:supports_method(method, bufnr)

@@ -1,4 +1,4 @@
-local icons = Config.Icon
+local icons = Config.icon
 
 return {
   "nvim-lualine/lualine.nvim",

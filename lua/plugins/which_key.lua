@@ -1,4 +1,4 @@
-local icons = Config.Icon
+local icons = Config.icon
 -- see: https://github.com/folke/which-key.nvim
 return {
   {
