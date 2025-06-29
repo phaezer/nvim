@@ -1,6 +1,6 @@
 --- @alias os 'mac' | 'win' | 'linux' | 'all'
 
----@module 'Util'
+---@module 'Core.util'
 local M = {}
 
 -- Check if the OS is Windows
@@ -27,6 +27,6 @@ function M.pad(val, left_pad, right_pad, pad_char)
   return pad_str
 end
 
--- M.lualine = require "util.lualine"
+M.lualine = require "util.lualine"
 
 return M

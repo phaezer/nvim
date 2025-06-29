@@ -2,10 +2,11 @@ require 'config.vim_plug'
 require 'config.autocmd'
 require 'config.opt'
 
-local M = {}
+Core.keymap.set(require 'config.keys')
 
-M.icon = require 'config.icon'
-M.key = require 'config.key'
-M.ai = require 'config.ai'
-
-return M
+---@module 'config'
+return {
+  icon = require 'config.icon',
+  ai = require 'config.ai',
+  lazy = require 'config.lazy',
+}

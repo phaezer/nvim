@@ -4,46 +4,11 @@ return {
   -- A sidebar with a tree-like outline of symbols from your code, powered by LSP.
   -- src: https://github.com/hedyhli/outline.nvim
   "hedyhli/outline.nvim",
-  lazy = true,
   cmd = { "Outline", "OutlineOpen" },
   keys = { -- Example mapping to toggle outline
     { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle outline" },
   },
-
   opts = {
-    outline_window = {
-      position = 'right',
-      width = 25,
-      relative_width = true,
-      auto_close = false,
-      focus_on_open = false, -- don't focus on the outline when opening it
-    },
-
-    guides = {
-      enabled = true,
-      markers = {
-        -- It is recommended for bottom and middle markers to use the same number
-        -- of characters to align all child nodes vertically.
-        bottom = icons.table.Bottom,
-        middle = icons.table.Middle,
-        vertical = icons.table.Vertical,
-      },
-    },
-
-    symbol_folding = {
-      -- Depth past which nodes will be folded by default. Set to false to unfold all on open.
-      autofold_depth = 1,
-      -- When to auto unfold nodes
-      auto_unfold = {
-        -- Auto unfold currently hovered symbol
-        hovered = true,
-        -- Auto fold when the root level only has this many nodes.
-        -- Set true for 1 node, false for 0.
-        only = true,
-      },
-      markers = { icons.ui.Collapsed, icons.ui.Expanded },
-    },
-
     keymaps = {
       show_help = '?',
       close = { '<Esc>', 'q' },
@@ -80,6 +45,39 @@ return {
       -- j/k/<down>/<up>.
       down_and_jump = '<C-j>',
       up_and_jump = '<C-k>',
+    },
+
+    outline_window = {
+      position = 'right',
+      width = 25,
+      relative_width = true,
+      auto_close = false,
+      focus_on_open = false, -- don't focus on the outline when opening it
+    },
+
+    guides = {
+      enabled = true,
+      markers = {
+        -- It is recommended for bottom and middle markers to use the same number
+        -- of characters to align all child nodes vertically.
+        bottom = icons.table.Bottom,
+        middle = icons.table.Middle,
+        vertical = icons.table.Vertical,
+      },
+    },
+
+    symbol_folding = {
+      -- Depth past which nodes will be folded by default. Set to false to unfold all on open.
+      autofold_depth = 1,
+      -- When to auto unfold nodes
+      auto_unfold = {
+        -- Auto unfold currently hovered symbol
+        hovered = true,
+        -- Auto fold when the root level only has this many nodes.
+        -- Set true for 1 node, false for 0.
+        only = true,
+      },
+      markers = { icons.ui.Collapsed, icons.ui.Expanded },
     },
 
     symbols = {

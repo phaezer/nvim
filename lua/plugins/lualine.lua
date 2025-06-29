@@ -3,6 +3,9 @@ local icons = Config.icon
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
+  dependencies = {
+    "bwpge/lualine-pretty-path",
+  },
   init = function()
     vim.g.lualine_laststatus = vim.o.laststatus
     if vim.fn.argc(-1) > 0 then
@@ -14,23 +17,52 @@ return {
     end
   end,
   opts = function()
-    -- PERF: we don't need this lualine require madness 🤷
-    local lualine_require = require("lualine_require")
-    lualine_require.require = require
+    -- Custom Lualine component to show attached language server
+    local clients_lsp = function()
+      local clients = vim.lsp.get_clients()
+      if next(clients) == nil then
+        return ""
+      end
+
+      local c = {}
+      for _, client in pairs(clients) do
+        table.insert(c, client.name)
+      end
+      return " " .. table.concat(c, "|")
+    end
 
     vim.o.laststatus = vim.g.lualine_laststatus
 
-    local opts = {
+    return {
       options = {
         theme = "auto",
-        globalstatus = vim.o.laststatus == 3,
-        disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
+        globalstatus = true,
+        disabled_filetypes = {
+          statusline = {
+            "dashboard",
+            "alpha",
+            "ministarter",
+            "snacks_dashboard",
+            "Outline"
+          }
+        },
+        component_separators = '|',
+        section_separators = { left = '', right = '' },
       },
       sections = {
 
-        lualine_a = { "mode" },
+        lualine_a = {
+          {
+            'mode',
+            separator = { left = ' ', right = '' },
+            -- padding = { left = 1, right = 1 },
+            icon = icons.ui.Neovim
+          }
+        },
 
-        lualine_b = { "branch" },
+        lualine_b = {
+          { "branch", icon = icons.git.Branch }
+        },
 
         lualine_c = {
           {
@@ -41,8 +73,9 @@ return {
               info = icons.ui.Info,
               hint = icons.ui.Hint,
             },
+            update_in_insert = true,
           },
-          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          { "pretty_path" }
         },
 
         lualine_x = {
@@ -92,39 +125,30 @@ return {
         },
 
         lualine_y = {
-          { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
-          { "location", padding = { left = 0, right = 1 } },
+          clients_lsp,
+          { "progress", separator = " ", padding = { left = 1, right = 2 } },
         },
 
         lualine_z = {
-          function()
-            return icons.ui.Date .. " " .. os.date("%R")
-          end,
+          {
+            "location",
+            -- padding = { left = 0, right = 1 },
+            separator = { left = '', right = '' },
+            icon = ""
+          },
         },
       },
 
-      extensions = { "neo-tree", "lazy", "fzf" },
+      extensions = { "neo-tree", "lazy", "fzf", "trouble" },
+
+      inactive_sections = {
+        lualine_a = { 'filename' },
+        lualine_b = {},
+        lualine_c = { 'pretty_path' },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { 'location' },
+      },
     }
-
-    -- do not add trouble symbols if aerial is enabled
-    -- And allow it to be overriden for some buffer types (see autocmds)
-    local trouble = require("trouble")
-    local symbols = trouble.statusline({
-      mode = "symbols",
-      groups = {},
-      title = false,
-      filter = { range = true },
-      format = "{kind_icon}{symbol.name:Normal}",
-      hl_group = "lualine_c_normal",
-    })
-
-    table.insert(opts.sections.lualine_c, {
-      symbols and symbols.get,
-      cond = function()
-        return vim.b.trouble_lualine ~= false and symbols.has()
-      end,
-    })
-
-    return opts
   end,
 }

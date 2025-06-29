@@ -1,4 +1,17 @@
-local K = Config.key
+local lsp_keymap = function()
+  return {
+    { 'grnn', vim.lsp.buf.rename,                                         desc = 'Rename buffer' },
+    { 'gra',  vim.lsp.buf.code_action,                                    desc = 'Code Action' },
+    { 'grr',  require('telescope.builtin').lsp_references,                desc = 'Goto References' },
+    { 'gri',  require('telescope.builtin').lsp_implementations,           desc = 'Goto Implementation' },
+    { 'grd',  require('telescope.builtin').lsp_definitions,               desc = 'Goto Definition' },
+    { 'grD',  vim.lsp.buf.declaration,                                    desc = 'Goto Declaration' },
+    { 'gO',   require('telescope.builtin').lsp_document_symbols,          desc = 'Open Document Symbols' },
+    { 'gW',   require('telescope.builtin').lsp_dynamic_workspace_symbols, desc = 'Open Workspace Symbols' },
+    { 'grt',  require('telescope.builtin').lsp_type_definitions,          desc = 'Goto Type Definition' },
+  }
+end
+
 local icons = Config.icon
 
 -- see: https://github.com/neovim/nvim-lspconfig for all the available servers
@@ -130,18 +143,7 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          K.set {
-            { 'grnn', vim.lsp.buf.rename,                                         desc = 'Rename buffer' },
-            { 'gra',  vim.lsp.buf.code_action,                                    desc = 'Code Action' },
-            { 'grr',  require('telescope.builtin').lsp_references,                desc = 'Goto References' },
-            { 'gri',  require('telescope.builtin').lsp_implementations,           desc = 'Goto Implementation' },
-            { 'grd',  require('telescope.builtin').lsp_definitions,               desc = 'Goto Definition' },
-            { 'grD',  vim.lsp.buf.declaration,                                    desc = 'Goto Declaration' },
-            { 'gO',   require('telescope.builtin').lsp_document_symbols,          desc = 'Open Document Symbols' },
-            { 'gW',   require('telescope.builtin').lsp_dynamic_workspace_symbols, desc = 'Open Workspace Symbols' },
-            { 'grt',  require('telescope.builtin').lsp_type_definitions,          desc = 'Goto Type Definition' },
-          }
-
+          Core.keymap.set(lsp_keymap())
 
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then

@@ -101,6 +101,14 @@ local ui         = {
   Loading    = "",
   Done       = "",
   Web        = "",
+  Todo       = "",
+  Bug        = "",
+  Note       = "",
+  Doc        = "󱗖",
+  Test       = "󰙨",
+  Perf       = "",
+  Hack       = "󰈸",
+  Neovim     = "",
 }
 
 local debug      = {
