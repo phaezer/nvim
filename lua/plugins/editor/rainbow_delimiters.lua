@@ -1,6 +1,6 @@
+-- Rainbow delimiters
+-- src: https://github.com/HiPhish/rainbow-delimiters.nvim
 return {
-  -- Rainbow delimiters
-  -- src: https://github.com/HiPhish/rainbow-delimiters.nvim
   'HiPhish/rainbow-delimiters.nvim',
   dependencies = {
     'nvim-treesitter/nvim-treesitter',

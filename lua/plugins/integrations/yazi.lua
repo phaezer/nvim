@@ -1,6 +1,6 @@
+-- yazi file manager for neovim
+-- src: https://github.com/mikavilpas/yazi.nvim
 return {
-  -- yazi file manager for neovim
-  -- src: https://github.com/mikavilpas/yazi.nvim
   "mikavilpas/yazi.nvim",
   event = "VeryLazy",
   dependencies = {

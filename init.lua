@@ -1,7 +1,5 @@
 vim.uv = vim.uv or vim.loop
-
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.termguicolors = true
 
 -- load Core
 Core = require 'core'
@@ -11,4 +9,42 @@ _G.Core = Core
 Config = require 'config'
 _G.Config = Config
 
-require('lazy').setup('plugins', Config.lazy)
+local plugins = {}
+
+-- dirs where plugins are stored
+local plugin_dirs = {
+  'plugins',
+  'plugins/themes',
+  'plugins/ai',
+  'plugins/editor',
+  'plugins/lsp',
+  'plugins/images',
+  'plugins/integrations',
+  'plugins/markdown',
+  'plugins/ui',
+}
+
+for _, dir in ipairs(plugin_dirs) do
+  vim.list_extend(plugins, Core.util.require_all(dir))
+end
+
+-- load all plugins, recursively
+for _, p in ipairs(plugins) do
+  Core.plugin.add(p)
+end
+
+-- set up the keymaps
+Config.keymap.setup()
+
+-- only include plugins that are compatible with VS Code if running in VS Codes
+local plugin_filter = function(plugin)
+  return not Core.util.is_vs_code() or plugin.vs_code == true
+end
+
+require('lazy').setup(vim.tbl_extend(
+  'force',
+  Config.lazy,
+  {
+    spec = Core.plugin.registry:get_plugins(plugin_filter)
+  }
+))

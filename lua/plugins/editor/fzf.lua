@@ -1,7 +1,6 @@
+-- fzf-lua - A fzf wrapper for neovim written in lua
+-- src: https://github.com/ibhagwan/fzf-lua
 return {
-  -- fzf-lua - A fzf wrapper for neovim written in lua
-  -- src: https://github.com/ibhagwan/fzf-lua
-  -- docs:
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
   dependencies = { "nvim-tree/nvim-web-devicons" },

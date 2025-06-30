@@ -1,7 +1,11 @@
--- set custom keymaps here
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
+-- set custom keymaps here
 ---@type key_table[]
-return {
+local keys = {
+  -- common keymaps
+
   -- Remap for dealing with visual line wraps
   { 'k',           'v:count == 0 ? "gk" : "k"',   desc = 'Move up',                         expr = true },
   { 'j',           'v:count == 0 ? "gj" : "j"',   desc = 'Move down',                       expr = true },
@@ -51,4 +55,18 @@ return {
   -- files
   { '<leader>fN',  '<cmd>enew<cr>',               desc = 'New file' },
   { '<leader>fs',  '<cmd>w<cr><esc>',             desc = 'Save file' },
+}
+
+if Core.util.is_vs_code() then
+  -- VS Code specific keymaps
+  keys = vim.list_extend(keys, {
+    { '<C-s>', '<cmd>save<cr>',  desc = 'Save file',  mode = 'n' },
+    { '<C-q>', '<cmd>close<cr>', desc = 'Close file', mode = 'n' },
+    { '<C-w>', '<cmd>close<cr>', desc = 'Close file', mode = 'n' },
+  })
+end
+
+return {
+  keys = keys,
+  setup = function() Core.keymap.set(keys) end,
 }

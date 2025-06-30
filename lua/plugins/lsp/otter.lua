@@ -1,7 +1,8 @@
+-- Otter.nvim provides lsp features and a code completion source for
+-- code embedded in other documents
+-- src: https://github.com/jmbuhr/otter.nvim
+
 return {
-  -- Otter.nvim provides lsp features and a code completion source for
-  -- code embedded in other documents
-  -- src: https://github.com/jmbuhr/otter.nvim
   'jmbuhr/otter.nvim',
   dependencies = {
     'nvim-treesitter/nvim-treesitter',

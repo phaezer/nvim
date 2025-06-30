@@ -1,8 +1,9 @@
+-- Highlight todo, notes, etc in comments
+-- src: https://github.com/folke/todo-comments.nvim
+
 local icons = Config.icon
 
 return {
-  -- Highlight todo, notes, etc in comments
-  -- src: https://github.com/folke/todo-comments.nvim
   'folke/todo-comments.nvim',
   event = 'VimEnter',
   dependencies = { 'nvim-lua/plenary.nvim' },

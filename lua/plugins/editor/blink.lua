@@ -1,7 +1,7 @@
+-- blink.cmp - Autocompletion
+-- src: https://github.com/saghen/blink.cmp
+-- docs: https://cmp.saghen.dev/
 return {
-  -- blink.cmp - Autocompletion
-  -- src: https://github.com/saghen/blink.cmp
-  -- docs: https://cmp.saghen.dev/
   'saghen/blink.cmp',
   event = 'VimEnter',
   version = '1.*',
