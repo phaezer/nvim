@@ -34,19 +34,22 @@ function Registry:get(name)
 end
 
 -- apply a configuration to a registered plugin
----@param name string
----@param ... any
+---@param opts table
 ---@throws if the plugin is not registered
 ---@return nil
-function Registry:config(name, ...)
+function Registry:config(opts)
+  local name = opts[1]
+  assert(name and type(name) == "string", "Expected a plugin name")
   local plugin = self:get(name)
+
+  assert(plugin, "Plugin '" .. name .. "' is not registered.")
   if not plugin then
     vim.schedule(function()
       vim.notify("Plugin '" .. name .. "' is not registered.", vim.log.levels.DEBUG)
     end)
     return
   end
-  plugin:set(...)
+  plugin:set(opts)
 end
 
 -- get all registered plugins

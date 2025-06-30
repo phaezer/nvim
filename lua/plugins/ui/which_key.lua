@@ -50,13 +50,18 @@ return {
 
     -- Document existing key chains
     spec = {
-      { '<leader>f', group = '[F]ind' },
-      { '<leader>s', group = '[S]earch' },
-      { '<leader>t', group = '[T]oggle' },
-      { '<leader>g', group = '[G]it' },
+      { '<leader>f', group = 'Files' },
+      { '<leader>s', group = 'Search' },
+      { '<leader>r', group = 'Refactor' },
+      { '<leader>t', group = 'Toggle' },
+      { '<leader>g', group = 'Git' },
       { '<leader>x', group = 'Trouble' },
-      { '<leader>u', group = '[U]I' },
-      { '<leader>h', group = 'Git [H]unk', mode = { 'n' } },
+      { '<leader>u', group = 'UI' },
+      { '<leader>w', group = 'Window' },
+      { '<leader>h', group = 'Git Hunk', mode = { 'n' } },
+      { '<leader>b', group = 'Buffer' },
+      { '<leader>t', group = 'Otter' },
+      { '<leader>?', group = 'WTF' },
     },
   },
 }

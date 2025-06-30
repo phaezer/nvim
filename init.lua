@@ -9,6 +9,7 @@ _G.Core = Core
 Config = require 'config'
 _G.Config = Config
 
+local Plugin = require 'core.plugins.plugin'
 local plugins = {}
 
 -- dirs where plugins are stored
@@ -30,11 +31,11 @@ end
 
 -- load all plugins, recursively
 for _, p in ipairs(plugins) do
-  Core.plugin.add(p)
+  Core.plugin:add(Plugin(p))
 end
 
 -- set up the keymaps
-Config.keymap.setup()
+require 'config.keymap'
 
 -- only include plugins that are compatible with VS Code if running in VS Codes
 local plugin_filter = function(plugin)
@@ -45,6 +46,6 @@ require('lazy').setup(vim.tbl_extend(
   'force',
   Config.lazy,
   {
-    spec = Core.plugin.registry:get_plugins(plugin_filter)
+    spec = Core.plugin:get_plugins(plugin_filter)
   }
 ))

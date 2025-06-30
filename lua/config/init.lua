@@ -7,7 +7,6 @@ local M = {
   icon = require 'config.icon',
   ai = require 'config.ai',
   lazy = require 'config.lazy',
-  keymap = require 'config.keymap',
 }
 
 return M

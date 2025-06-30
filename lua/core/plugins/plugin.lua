@@ -28,9 +28,9 @@ function Plugin.new(plugin)
 end
 
 -- Sets options for the plugin
----@param ... table
-function Plugin:set(...)
-  vim.tbl_deep_extend("force", self.config, ...)
+---@param opts table
+function Plugin:set(opts)
+  self.config = vim.tbl_deep_extend("force", self.config, opts)
 end
 
 ---@return Plugin
