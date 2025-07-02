@@ -114,7 +114,7 @@ return {
 
       lsp = {
         symbols = {
-          symbol_icons = Config.icon.kind,
+          symbol_icons = config.icon.kind,
           symbol_hl = function(s) return "TroubleIcon" .. s end,
           symbol_fmt = function(s) return s:lower() .. "\t" end,
           child_prefix = false,
@@ -145,6 +145,7 @@ return {
     require("fzf-lua").setup(opts)
   end,
 
+  -- disabling keys for now
   keys = {
     -- { "jk",    "<esc>", ft = "fzf", mode = { "i", "v", "t" }, desc = "Exit fzf" },
     --   { "<c-j>", "<c-j>", ft = "fzf", mode = "t", nowait = true },

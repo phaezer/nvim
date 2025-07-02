@@ -1,5 +1,7 @@
 return {
+  -- see: https://github.com/nvim-neo-tree/neo-tree.nvim
   'nvim-neo-tree/neo-tree.nvim',
+  enabled = false, -- disabled for now, replaced with snacks
   version = '*',
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -28,11 +30,9 @@ return {
           "toggle_preview",
           config = {
             use_float = false,
-            -- use_image_nvim = true,
-            -- title = 'Neo-tree Preview',
           },
         },
       }
     }
-  },
+  }
 }

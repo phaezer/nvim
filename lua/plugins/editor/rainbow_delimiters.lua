@@ -2,6 +2,7 @@
 -- src: https://github.com/HiPhish/rainbow-delimiters.nvim
 return {
   'HiPhish/rainbow-delimiters.nvim',
+  enabled = false,
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
   },

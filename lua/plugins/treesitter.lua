@@ -1,50 +1,5 @@
 -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
 -- docs: https://github.com/nvim-treesitter/nvim-treesitter
-
-local parsers = {
-  'bash',
-  'c',
-  'css',
-  'diff',
-  'dockerfile',
-  'git_config',
-  'git_rebase',
-  'gitattributes',
-  'gitcommit',
-  'gitignore',
-  'go',
-  'gomod',
-  'gosum',
-  'gotmpl',
-  'graphql',
-  'html',
-  'javascript',
-  'jq',
-  'json',
-  'lua',
-  'luadoc',
-  'make',
-  'markdown_inline',
-  'markdown',
-  'mermaid',
-  'nginx',
-  'nix',
-  'python',
-  'query',
-  'regex',
-  'rust',
-  'scss',
-  'sql',
-  'terraform',
-  'toml',
-  'typescript',
-  'vim',
-  'vimdoc',
-  'yaml',
-  'zig',
-}
-
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
@@ -53,7 +8,62 @@ return {
   config = function()
     require('nvim-treesitter.configs').setup {
       -- parsers found here: https://github.com/tree-sitter/tree-sitter/wiki/List-of-parsers
-      ensure_installed = parsers,
+      ensure_installed = {
+        'bash',
+
+        'make',
+        'c',
+        'rust',
+        'zig',
+
+        'diff',
+        'git_config',
+        'git_rebase',
+        'gitattributes',
+        'gitcommit',
+        'gitignore',
+
+        'go',
+        'gomod',
+        'gosum',
+        'gotmpl',
+
+        'graphql',
+        'html',
+        'javascript',
+        'typescript',
+
+        'lua',
+        'luadoc',
+
+        'markdown_inline',
+        'markdown',
+        'mermaid',
+
+        'yaml',
+        'jq',
+        'json',
+        'toml',
+
+        'nginx',
+        'nix',
+        'python',
+        'query',
+        'regex',
+
+        'scss',
+        'css',
+        'svelte',
+
+        'sql',
+        'query',
+
+        'vim',
+        'vimdoc',
+
+        'dockerfile',
+        'terraform',
+      },
       auto_install = true,
       highlight = {
         enable = true,

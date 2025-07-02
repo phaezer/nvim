@@ -1,51 +1,45 @@
 vim.uv = vim.uv or vim.loop
 vim.g.termguicolors = true
 
--- load Core
-Core = require 'core'
-_G.Core = Core
+require 'core.lib.strings'
 
--- load config
-Config = require 'config'
-_G.Config = Config
-
-local Plugin = require 'core.plugins.plugin'
-local plugins = {}
-
--- dirs where plugins are stored
-local plugin_dirs = {
-  'plugins',
-  'plugins/themes',
-  'plugins/ai',
-  'plugins/editor',
-  'plugins/lsp',
-  'plugins/images',
-  'plugins/integrations',
-  'plugins/markdown',
-  'plugins/ui',
-}
-
-for _, dir in ipairs(plugin_dirs) do
-  vim.list_extend(plugins, Core.util.require_all(dir))
-end
-
--- load all plugins, recursively
-for _, p in ipairs(plugins) do
-  Core.plugin:add(Plugin(p))
-end
-
+require 'config.opt'
 -- set up the keymaps
 require 'config.keymap'
 
--- only include plugins that are compatible with VS Code if running in VS Codes
-local plugin_filter = function(plugin)
-  return not Core.util.is_vs_code() or plugin.vs_code == true
+-- [[ Install `lazy.nvim` plugin manager ]]
+--    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+
+if not vim.uv.fs_stat(lazypath) then
+  local out = vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    '--branch=stable',
+    'https://github.com/folke/lazy.nvim.git',
+    lazypath
+  })
+
+  if vim.v.shell_error ~= 0 then
+    error('Error cloning lazy.nvim:\n' .. out)
+  end
 end
 
-require('lazy').setup(vim.tbl_extend(
-  'force',
-  Config.lazy,
-  {
-    spec = Core.plugin:get_plugins(plugin_filter)
-  }
-))
+vim.opt.rtp:prepend(lazypath)
+
+local lazy_config = require 'config.lazy'
+
+local spec = {
+  { import = 'plugins' },
+  { import = 'plugins/ui' },
+  { import = 'plugins/themes' },
+  { import = 'plugins/editor' },
+  { import = 'plugins/lsp' },
+  { import = 'plugins/languages' },
+  { import = 'plugins/ai' },
+}
+
+lazy_config.spec = spec
+
+require('lazy').setup(lazy_config)

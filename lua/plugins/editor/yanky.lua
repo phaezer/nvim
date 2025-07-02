@@ -2,6 +2,7 @@
 -- https://github.com/gbprod/yanky.nvim
 return {
   "gbprod/yanky.nvim",
+  lazy = false,
   dependencies = { "folke/snacks.nvim" },
   opts = {
     ring = {
@@ -38,5 +39,35 @@ return {
     textobj = {
       enabled = false,
     },
+  },
+
+  keys = {
+    {
+      "<leader>p",
+      function()
+        Snacks.picker.yanky()
+      end,
+      mode = { "n", "x" },
+      desc = "Open Yank History",
+    },
+    { "y",     "<Plug>(YankyYank)",                    desc = "Yank (copy)",                           mode = { "n", "x" } },
+    { "p",     "<Plug>(YankyPutAfter)",                desc = "Paste after",                           mode = { "n", "x" } },
+    { "P",     "<Plug>(YankyPutBefore)",               desc = "Paste before",                          mode = { "n", "x" } },
+    { "gp",    "<Plug>(YankyGPutAfter)",               desc = "Paste after and keep cursor position",  mode = { "n", "x" } },
+    { "gP",    "<Plug>(YankyGPutBefore)",              desc = "Paste before and keep cursor position", mode = { "n", "x" } },
+    { "<c-p>", "<Plug>(YankyPreviousEntry)",           desc = "Yank" },
+    { "<c-n>", "<Plug>(YankyNextEntry)",               desc = "Delete" },
+    { "]p",    "<Plug>(YankyPutIndentAfterLinewise)",  desc = "Change" },
+    { "[p",    "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Paste before indent linewise" },
+    { "]P",    "<Plug>(YankyPutIndentAfterLinewise)",  desc = "Paste after indent linewise" },
+    { "[P",    "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Paste before indent linewise" },
+    {
+      "iy",
+      function()
+        require("yanky.textobj").last_put()
+      end,
+      desc = "Paste last yanked text object",
+      mode = { "o", "x" },
+    }
   }
 }

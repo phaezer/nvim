@@ -1,6 +1,5 @@
 -- [[ options ]]
 local o = vim.opt
-local icons = require 'config.icon'
 
 o.number = true
 o.relativenumber = true
@@ -55,15 +54,15 @@ o.splitbelow     = true
 --   and `:help lua-options-guide`
 o.list           = true
 o.listchars      = {
-  tab = icons.whitespace.Tab .. ' ',
-  trail = icons.whitespace.Space,
-  nbsp = icons.whitespace.Nbsp,
+  tab = ' ',
+  trail = '',
+  nbsp = '␣',
 }
-o.fillchars      = "eob:" .. icons.whitespace.Eob ..
-    ",fold: " ..
-    ",foldsep:" .. icons.whitespace.FoldSep ..
-    ",foldopen:" .. icons.whitespace.FoldOpen ..
-    ",foldclose:" .. icons.whitespace.FoldClose
+o.fillchars      = "eob:" ..
+    ",fold:" ..
+    ",foldsep:│" ..
+    ",foldopen:󰘖" ..
+    ",foldclose:󰘕"
 o.foldtext       = ""
 
 -- Preview substitutions live, as you type!
