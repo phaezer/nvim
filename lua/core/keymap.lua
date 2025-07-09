@@ -3,6 +3,14 @@ local util = require 'core.util'
 ---@module 'Core.keymap'
 local M = {}
 
+-- OS types:
+-- mac: macOS
+-- win: Windows
+-- linux: Linux
+-- bsd: BSD (FreeBSD, OpenBSD, etc.)
+-- any: any OS
+---@alias os 'mac' | 'win' | 'linux' | 'bsd' | 'any'
+
 -- key modes:
 -- n: normal mode
 -- v: visual & select mode
@@ -15,27 +23,35 @@ local M = {}
 ---@alias keymode 'n' | 'v' | 's' | 'o' | 'i' | 'x' | 'c' | 't'
 
 -- key tables
----@alias key_table {[1]: string, [2]: string | function, ['mode']?: keymode, ['desc']?: string, ['vs_code']?: boolean, [string]: any}
+---@alias key_table {[1]: string, [2]: string | function, ['mode']?: keymode, ['desc']?: string, ['vs_code']?: boolean, ['os']?: os | os[], [string]: any}
 
 local _os_tbl = {
-  mac = util.is_mac(),
-  win = util.is_win(),
-  linux = not util.is_mac() and not util.is_win(),
-  any = true,
+  mac = function()
+    return vim.g.is_mac == true
+  end,
+  win = function()
+    return vim.g.is_win == true
+  end,
+  linux = function()
+    return vim.g.is_linux == true
+  end,
+  bsd = function()
+    return vim.g.is_bsd == true
+  end,
+  any = function()
+    return true
+  end,
 }
 
 local function is_os(os)
   if type(os) == 'string' then
-    return _os_tbl[os] or false
-  elseif type(os) == 'table' then
-    for _, o in ipairs(os) do
-      if _os_tbl[o] then
-        return true
-      end
-    end
-    return false
+    return _os_tbl[os]() or false
   end
-  return false
+
+  assert(type(os) == 'table', 'os must be a string or a table')
+  return vim.iter(os):any(function(v)
+    return _os_tbl[v]()
+  end)
 end
 
 -- set keymap
@@ -64,9 +80,11 @@ local function set_keymap(mode, lhs, rhs, opts)
 end
 
 -- Map a key with
----@param keys key_table[]
+---@param keys key_table | key_table[]
 local function set(keys)
-  local _os = { 'any' }
+  if not util.is_list(keys) or type(keys[1]) ~= 'table' then
+    keys = { keys }
+  end
 
   for _, key in ipairs(keys) do
     -- default options
@@ -94,11 +112,24 @@ local function set(keys)
   end
 end
 
-
--- Map keys via a scheduled function with vim.schedule
----@param keys key_table[]
+-- Set a key map
+---@param keys key_table | key_table[]
 function M.set(keys)
-  vim.schedule(function() set(keys) end)
+  set(keys)
+end
+
+-- Set a keymap that is lazy loaded
+-- This will create an autocommand that will load the keymap when the event is triggered
+---@param keys key_table | key_table[]
+---@param trigger string | string[]  the event to trigger the keymap, defaults to 'User'
+function M.set_lazy(keys, trigger)
+  -- lazy load the keymap
+  vim.api.nvim_create_autocmd(trigger or 'User', {
+    pattern = 'VeryLazy',
+    callback = function()
+      set(keys)
+    end,
+  })
 end
 
 return M

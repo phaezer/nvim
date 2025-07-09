@@ -1,11 +1,6 @@
 {
-  "settings": {
-    "Lua.diagnostics.globals": ["vim", "Snacks"]
-  },
   "[lua]": {
-    "editor.formatOnSave": true,
-    "editor.formatOnSaveMode": "file",
-    "editor.tabSize": 2
+    "editor.formatOnSave": true
   },
   "cSpell.words": ["keymap", "keymode"]
 }
