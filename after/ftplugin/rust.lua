@@ -1,5 +1,5 @@
 local bufnr = vim.api.nvim_get_current_buf()
-local keymap = require 'core.keymap'
+local keymap = require 'lua.phaezer.keymap'
 
 keymap.set {
   {

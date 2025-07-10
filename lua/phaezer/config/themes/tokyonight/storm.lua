@@ -1,5 +1,5 @@
-local hl = require 'config.highlights'
-local common = require 'config.themes.tokyonight.common'
+local hl = require 'phaezer.config.highlights'
+local common = require 'phaezer.config.themes.tokyonight.common'
 local pallette = require 'tokyonight.colors.storm'
 
 local opts = { style = 'storm' }

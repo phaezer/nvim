@@ -2,7 +2,6 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 -- lspkind.nvim provides icons for lsp completion items
 add { source = 'onsails/lspkind.nvim' }
-require 'config.plugins.lspkind'
 
 -- treesitter syntax highlighting
 add {
@@ -14,7 +13,6 @@ add {
     post_checkout = function() vim.cmd 'TSUpdate' end,
   },
 }
-require 'config.plugins.treesitter'
 
 -- lsp configuration
 add {
@@ -26,11 +24,9 @@ add {
     'saghen/blink.cmp',
   },
 }
-require 'config.plugins.lspconfig'
 
 -- snacks.nvim provides a dashboard, file explorer, and other UI features
 add { source = 'folke/snacks.nvim' }
-require 'config.plugins.snacks'
 
 -- noice - a noice UI for neovim
 add {
@@ -41,18 +37,18 @@ add {
   },
 }
 
--- vim.api.nvim_create_autocmd('VimEnter', {
---   group = vim.api.nvim_create_augroup('NoiceStart', { clear = true }),
---   -- pattern = 'VeryLazy',
---   callback = function() require 'config.plugins.noice' end,
--- })
-
-later(function() require 'config.plugins.noice' end)
--- require 'config.plugins.noice'
-
 -- Otter.nvim provides lsp features and a code completion source for code embedded in other documents
 add {
   source = 'jmbuhr/otter.nvim',
   depends = { 'nvim-treesitter/nvim-treesitter' },
 }
--- later(function() require 'config.plugins.otter' end)
+
+require 'config.plugins.lspkind'
+require 'config.plugins.treesitter'
+require 'config.plugins.lspconfig'
+require 'config.plugins.snacks'
+
+later(function()
+  require 'config.plugins.noice'
+  require 'config.plugins.otter'
+end)

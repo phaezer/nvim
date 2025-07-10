@@ -1,4 +1,4 @@
-local hl = require 'config.highlights'
+local hl = require 'phaezer.config.highlights'
 
 require('kanagawa').setup {
   compile = false, -- enable compiling the colorscheme

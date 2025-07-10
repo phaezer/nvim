@@ -1,4 +1,4 @@
-local keymap = require 'core.keymap'
+local keymap = require 'lua.phaezer.keymap'
 
 -- SRC: https://github.com/folke/snacks.nvim/blob/bc0630e43be5699bb94dadc302c0d21615421d93/lua/snacks/picker/config/sources.lua#L39
 local opts = {

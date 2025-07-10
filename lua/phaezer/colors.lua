@@ -1,4 +1,4 @@
-local hsluv = require 'lua.core.lib.hsluv'
+local hsluv = require 'phaezer.lib.hsluv'
 
 local M = {}
 

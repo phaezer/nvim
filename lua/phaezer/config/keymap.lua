@@ -1,4 +1,4 @@
-local map = require('core.keymap').set
+local map = require('phaezer.keymap').set
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '

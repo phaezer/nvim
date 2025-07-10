@@ -62,7 +62,7 @@ o.listchars = {
 }
 
 -- fillchars
-o.fillchars = 'eob:' .. ',fold:' .. ',foldsep:│' .. ',foldopen:󰘖' .. ',foldclose:󰘕'
+o.fillchars = 'eob: ' .. ',fold:' .. ',foldsep:│' .. ',foldopen:󰘖' .. ',foldclose:󰘕'
 
 -- Preview substitutions
 o.inccommand = 'split'

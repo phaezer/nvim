@@ -1,6 +1,5 @@
 local api = vim.api
 local add = MiniDeps.add
-local hl_util = require 'config.highlights'
 
 -- the selected theme to load on startup
 local selected = 'tokyonight-storm'
@@ -17,10 +16,10 @@ add { source = 'rebelot/kanagawa.nvim' }
 -- add { source = 'catppuccin/nvim', name = 'catppuccin' }
 
 local theme_setup = {
-  ['tokyonight-moon'] = function() require 'config.themes.tokyonight.moon' end,
-  ['tokyonight-storm'] = function() require 'config.themes.tokyonight.storm' end,
-  ['kanagawa-wave'] = function() require 'config.themes.klanagawa.wave' end,
-  ['kanagawa-dragon'] = function() require 'config.themes.klanagawa.dragon' end,
+  ['tokyonight-moon'] = function() require 'phaezer.config.themes.tokyonight.moon' end,
+  ['tokyonight-storm'] = function() require 'phaezer.config.themes.tokyonight.storm' end,
+  ['kanagawa-wave'] = function() require 'phaezer.config.themes.klanagawa.wave' end,
+  ['kanagawa-dragon'] = function() require 'phaezer.config.themes.klanagawa.dragon' end,
   -- TODO: additional theme configurations (catppuccin, etc.)
   -- ['catppuccin-macchiato'] = function()
   --   require('catppuccin').setup {

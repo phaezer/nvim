@@ -21,10 +21,10 @@ if not vim.loop.fs_stat(mini_path) then
 end
 
 require('mini.deps').setup { path = { package = path_package } }
-require 'themes'
-require 'plugins'
-require 'config.opt'
-require 'config.keymap'
+require 'phaezer.themes'
+require 'phaezer.plugins'
+require 'phaezer.config.opt'
+require 'phaezer.config.keymap'
 
 -- Put this at the top of 'init.lua'
 

@@ -1,4 +1,4 @@
-local colors = require 'core.colors'
+local colors = require 'phaezer.colors'
 
 local M = {}
 

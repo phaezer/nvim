@@ -1,23 +1,38 @@
 local lua_dir = vim.fn.stdpath 'config' .. '/lua/'
 
----@module 'core.util'
+---@alias os_name 'win' | 'linux' | 'mac' | 'bsd' | 'any'
+
 local M = {}
 
--- TODO: set global variables for the OS instead
--- Check if the OS is Windows
----@return boolean true if the OS is Windows
-function M.is_win()
-  return vim.uv.os_uname().sysname:find 'Windows' ~= nil
+-- Execute a function if the OS is Windows
+---@param f function The function to execute if the OS is Windows
+---@return any the result of the function if vscode else nil
+function M.if_vscode(f)
+  if vim.g.vscode then return f() end
 end
 
--- Check if the OS is Mac
----@return boolean true if the OS is Mac
-function M.is_mac()
-  return vim.uv.os_uname().sysname:find 'Darwin' ~= nil
+local os_map = {
+  win = function() return vim.g.is_mac end,
+  linux = function() return vim.g.is_linux end,
+  mac = function() return vim.g.is_mac end,
+  bsd = function() return vim.g.is_bsd end,
+  any = function() return true end,
+}
+
+--- Check if the OS is Windows
+---@param os os_name | os_name[] the os(s) to check
+---@return boolean true if the OS matches, false otherwise
+function M.is_os(os)
+  if type(os) == 'string' then return os_map[os]() or false end
+
+  return vim.iter(os):any(function(v) return os_map[v]() end)
 end
 
-function M.is_vs_code()
-  return vim.g.vscode ~= nil
+-- Execute a function if the OS matches
+---@param os os_name | os_name[] the os(s) to check
+---@param f function the function to execute if the OS matches
+function M.if_os(os, f)
+  if M.is_os(os) then return f() end
 end
 
 -- require all Lua files in a directory
@@ -31,11 +46,7 @@ function M.require_all(dir)
   local base_dir = lua_dir .. dir
   local fd = vim.loop.fs_scandir(base_dir)
 
-  for file_name in
-    function()
-      return vim.loop.fs_scandir_next(fd)
-    end
-  do
+  for file_name in function() return vim.loop.fs_scandir_next(fd) end do
     local path = base_dir .. '/' .. file_name
     if file_name:sub(-4) == '.lua' then
       local path_no_ext = path:sub(#lua_dir + 1):sub(0, -5) -- remove the .lua extension
@@ -45,9 +56,7 @@ function M.require_all(dir)
       end
 
       local out = require(table.concat(dir_parts, '.'))
-      if out then
-        table.insert(output, out)
-      end
+      if out then table.insert(output, out) end
     end
   end
 

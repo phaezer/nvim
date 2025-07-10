@@ -1,5 +1,3 @@
-local colors = require 'core.colors'
-
 local M = {}
 
 M.opts = {

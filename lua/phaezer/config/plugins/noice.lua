@@ -29,8 +29,8 @@ require('noice').setup {
     lsp_doc_border = true, -- add a border to hover docs and signature help
   },
   cmdline = {
-    enabled = true, -- enable the Noice cmdline UI
-    view = 'cmdline_popup', -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+    enabled = true,
+    view = 'cmdline_popup',
     -- opts = {}, -- global options for the cmdline. See section on views
     format = {
       cmdline = { pattern = '^:', icon = '', lang = 'vim' },
@@ -85,4 +85,48 @@ require('noice').setup {
       filter = {},
     },
   },
+  -- SEE: https://github.com/folke/noice.nvim/blob/main/lua/noice/config/views.lua
+  -- for styling elements refer to NUI docs:
+  --   popup: https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup
+  --   split: shttps://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/split
+  -- views = {
+  --   popupmenu = {
+  --     relative = 'editor',
+  --     border = {
+  --       style = 'none',
+  --       padding = { 1, 2 },
+  --     },
+  --     position = {
+  --       row = 8,
+  --       col = '50%',
+  --     },
+  --     size = {
+  --       width = 60,
+  --       height = 10,
+  --     },
+  --     win_options = {
+  --       winhighlight = {
+  --         Normal = 'NormalFloat', -- change to NormalFloat dto make it look like other floats
+  --         FloatBorder = 'FloatBorder', -- border highlight
+  --         CursorLine = 'NoicePopupmenuSelected', -- used for highlighting the selected item
+  --         PmenuMatch = 'NoicePopupmenuMatch', -- used to highlight the part of the item that matches the input
+  --       },
+  --     },
+  --   },
+  --   cmdline_popup = {
+
+  --     border = {
+  --       style = 'none',
+  --       padding = { 1, 2 },
+  --     },
+  --     win_options = {
+  --       winhighlight = {
+  --         Normal = 'NormalFloat',
+  --         FloatBorder = 'FloatBorder',
+  --         CursorLine = 'NoicePopupmenuSelected',
+  --         PmenuMatch = 'NoicePopupmenuMatch',
+  --       },
+  --     },
+  --   },
+  -- },
 }
