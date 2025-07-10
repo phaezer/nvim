@@ -9,7 +9,7 @@ return {
     on_attach = function(bufnr)
       local gitsigns = require 'gitsigns'
 
-      require('lua.phaezer.keymap').set {
+      require('lua.phaezer.lib.keymap').set {
         {
           ']c',
           function()

@@ -1,3 +1,3 @@
-local colors = require 'lua.phaezer.colors'
+local colors = require 'lua.phaezer.lib.colors'
 
 return

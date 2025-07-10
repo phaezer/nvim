@@ -1,4 +1,4 @@
-local colors = require 'phaezer.colors'
+local colors = require 'lua.phaezer.lib.colors'
 
 local M = {}
 

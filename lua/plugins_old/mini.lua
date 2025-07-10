@@ -1,4 +1,4 @@
-local util = require 'lua.phaezer.util'
+local util = require 'lua.phaezer.lib.util'
 -- mini - Collection of various small independent plugins/modules
 -- see: https://github.com/echasnovski/mini.nvim
 

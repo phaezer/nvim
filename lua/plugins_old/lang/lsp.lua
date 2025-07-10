@@ -1,4 +1,4 @@
-local keymap = require 'lua.phaezer.keymap'
+local keymap = require 'lua.phaezer.lib.keymap'
 
 return {
   -- https://github.com/neovim/nvim-lspconfig

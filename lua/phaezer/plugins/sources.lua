@@ -27,7 +27,7 @@ add {
 }
 
 -- ========================================================================
--- Treesitter and related plugins
+-- language parsing
 -- ------------------------------------------------------------------------
 
 add {
@@ -37,6 +37,17 @@ add {
   monitor = 'main',
   -- Perform action after every checkout
   hooks = { post_checkout = function() vim.cmd 'TSUpdate' end },
+}
+
+add {
+  -- ansible support
+  source = 'pearofducks/ansible-vim',
+}
+
+add {
+  -- curl quotes support for text objects
+  source = 'preservim/vim-textobj-quote',
+  depends = { 'kana/vim-textobj-user' },
 }
 
 -- ========================================================================
@@ -49,8 +60,8 @@ add {
 }
 
 add {
-  -- UI Component Library for Neovim.
-  source = 'MunifTanjim/nui.nvim',
+  -- which key, a keybinding helper for Neovim
+  source = 'folke/which-key.nvim',
 }
 
 add {
@@ -61,3 +72,7 @@ add {
     'rcarriga/nvim-notify',
   },
 }
+
+-- ========================================================================
+-- UI plugins
+-- ------------------------------------------------------------------------
