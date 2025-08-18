@@ -1,4 +1,4 @@
--- [[ options ]]
+--- neovim options
 local o = vim.opt
 
 -- colors
@@ -43,26 +43,27 @@ o.splitbelow = true
 
 o.list = true
 
--- local fillchars  = {
---   eob = '',
---   fold = '',
---   foldsep = '│',
---   foldopen = '󰘖',
---   foldclose = '󰘕',
--- }
-
 o.listchars = {
   eol = '',
   tab = ' ',
-  trail = '',
+  trail = '',
   extends = '',
   precedes = '',
-  space = '',
+  space = '',
   nbsp = '␣',
 }
 
+-- do not show listchars by default
+-- o.nolist = true
+
 -- fillchars
-o.fillchars = 'eob: ' .. ',fold:' .. ',foldsep:│' .. ',foldopen:󰘖' .. ',foldclose:󰘕'
+o.fillchars = {
+  eob = ' ',
+  fold = '',
+  foldsep = '│',
+  foldopen = '󰡏',
+  foldclose = '󰡍',
+}
 
 -- Preview substitutions
 o.inccommand = 'split'

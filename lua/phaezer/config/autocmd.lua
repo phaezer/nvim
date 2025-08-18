@@ -1,7 +1,9 @@
--- see: https://neovim.io/doc/user/autocmd.html
+--- AutoCommands for Neovim
+-- DOCS: https://neovim.io/doc/user/autocmd.html
 
 local api = vim.api
 
+-- highlight on yank
 api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   callback = function()
@@ -9,20 +11,81 @@ api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-api.nvim_create_autocmd("BufEnter", {
-  desc = "Disable New Line Comment",
+-- disable auto commenting on new lines
+api.nvim_create_autocmd('BufEnter', {
+  desc = 'Disable New Line Comment',
   callback = function()
-    vim.opt.formatoptions:remove({ "c", "r", "o" })
+    vim.opt.formatoptions:remove { 'c', 'r', 'o' }
   end,
 })
 
-api.nvim_create_autocmd("BufReadPost", {
-  desc = "go to last loc when opening a buffer",
+-- remember last loc when opening a buffer
+api.nvim_create_autocmd('BufReadPost', {
+  desc = 'go to last loc when opening a buffer',
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lcount = vim.api.nvim_buf_line_count(0)
     if mark[1] > 0 and mark[1] <= lcount then
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
+-- LSP Attach Autocmd for setting up buffer local keymaps, autocommands, etc.
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
+  callback = function(event)
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if not client then
+      return
+    end
+    if not client.server_capabilities then
+      return
+    end
+
+    if
+      client
+      and client:supports_method(
+        client,
+        vim.lsp.protocol.Methods.textDocument_documentHighlight,
+        event.buf
+      )
+    then
+      -- Highlighting for LSP diagnostics
+      local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
+      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      -- Clear highlights on cursor move
+      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.clear_references,
+      })
+
+      local keys = require 'phaezer.core.keys'
+
+      -- Set keymaps for LSP
+      keys.set {
+        '<leader>th',
+        function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+        end,
+        desc = 'Toggle Inlay Hints',
+        buffer = event.buf,
+      }
+      -- clear lsb buffer and highlights on LSP detach
+      vim.api.nvim_create_autocmd('LspDetach', {
+        group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
+        callback = function(_event)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = _event.buf }
+          keys.unset { '<leader>th', buffer = _event.buf }
+        end,
+      })
     end
   end,
 })

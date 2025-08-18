@@ -1,4 +1,4 @@
-local colors = require 'lua.phaezer.lib.colors'
+local colors = require 'phaezer.core.colors'
 
 local M = {}
 
@@ -43,12 +43,12 @@ end
 function M.set_rainbow_indents(dim_colors, bright_colors)
   -- clear the 0th group, 0th group should be empty / transparent
   rainbow_highlight_groups['indent'] = {
-    dim = { rainbow_group_prefix .. 'Dm' },
-    bright = { rainbow_group_prefix .. 'Br' },
+    dim = { rainbow_group_prefix .. 'Dm0' },
+    bright = { rainbow_group_prefix .. 'Br0' },
   }
 
-  vim.api.nvim_set_hl(0, rainbow_highlight_groups.indent.dim[1] .. '0', { force = true })
-  vim.api.nvim_set_hl(0, rainbow_highlight_groups.indent.bright[1] .. '0', { force = true })
+  vim.api.nvim_set_hl(0, rainbow_highlight_groups.indent.dim[1], { force = true })
+  vim.api.nvim_set_hl(0, rainbow_highlight_groups.indent.bright[1], { force = true })
 
   if dim_colors then
     for i, v in ipairs(dim_colors) do
@@ -82,6 +82,8 @@ function M.set_blended_rainbow_indents(rainbow_colors, bg, fg, bg_alpha, fg_alph
   M.set_rainbow_indents(rb_dm, rb_br)
 end
 
+-- M.set_blended_rainbow_indents(M.std_rainbow_colors, '#000000', '#ffffff', 0.5, 0.5)
+
 -- function M.set_blended_rainbow_indent(bg, bg_alpha, fg, fg_alpha)
 --   assert(#rainbow_colors > 0, 'rainbow_colors must not be empty')
 --   -- clear the 0th group, 0th group should be empty / transparent
@@ -102,5 +104,24 @@ end
 --     vim.api.nvim_set_hl(0, prefixes.rainbow_indent.bright .. i, { fg = colors.blend(v, fg_alpha, fg), force = true })
 --   end
 -- end
+
+function M.auto_rainbow_highlights()
+  local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal' })
+  local bg = normal_hl.bg -- default to black if not set, as is the case when using "transparent" themes
+  if bg == nil or bg == 'NONE' then
+    bg = vim.g.default_background_color or '#000000'
+  end
+  vim.notify('Normal HL: ' .. vim.inspect(normal_hl), vim.log.levels.WARN)
+  M.set_blended_rainbow_indents(M.std_rainbow_colors, '#' .. normal_hl.fg, bg, 0.2, 0.5)
+end
+
+-- local rainbow_group = vim.api.nvim_create_augroup('rainbow-colors', { clear = true })
+
+-- -- set rainbow indent colors when colorscheme is loaded
+-- vim.api.nvim_create_autocmd('ColorScheme', {
+--   group = rainbow_group,
+--   desc = 'Set rainbow indent colors',
+--   callback = M.auto_rainbow_highlights,
+-- })
 
 return M

@@ -1,6 +1,0 @@
-{
-  "[lua]": {
-    "editor.formatOnSave": true
-  },
-  "cSpell.words": ["keymap", "keymode"]
-}

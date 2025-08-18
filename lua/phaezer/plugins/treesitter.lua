@@ -1,0 +1,81 @@
+return {
+  -- ==============================================================================================
+  -- TreeSitter
+  -- a parser generator for human-friendly languages
+  -- SRC: https://github.com/nvim-treesitter/nvim-treesitter
+  -- DOCS: https://tree-sitter.github.io/tree-sitter/
+  -- parsers found here: https://github.com/tree-sitter/tree-sitter/wiki/List-of-parsers
+  {
+    'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    version = 'v0.10.0',
+    opts = {
+      ensure_installed = {
+        'bash',
+        'c',
+        'css',
+        'diff',
+        'dockerfile',
+        'git_config',
+        'git_rebase',
+        'gitattributes',
+        'gitcommit',
+        'gitignore',
+        'go',
+        'gomod',
+        'gosum',
+        'gotmpl',
+        'graphql',
+        'html',
+        'javascript',
+        'jq',
+        'json',
+        'lua',
+        'luadoc',
+        'make',
+        'markdown_inline',
+        'markdown',
+        'mermaid',
+        'nginx',
+        'nix',
+        'python',
+        'query',
+        'query',
+        'regex',
+        'regex',
+        'rust',
+        'scss',
+        'sql',
+        'svelte',
+        'terraform',
+        'toml',
+        'typescript',
+        'vim',
+        'vimdoc',
+        'yaml',
+        'zig',
+      },
+      auto_install = true,
+      highlight = {
+        enable = true,
+        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+        --  If you are experiencing weird indenting issues, add the language to
+        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        additional_vim_regex_highlighting = {
+          'ruby',
+        },
+      },
+      indent = {
+        enable = true,
+        disable = { 'ruby' },
+      },
+    },
+    init = function()
+      -- enable folding with treesitter
+      vim.wo.foldmethod = 'expr'
+      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    end,
+  },
+  -- / TreeSitter
+  -- -----------------------------------------------------------------------------------------------
+}

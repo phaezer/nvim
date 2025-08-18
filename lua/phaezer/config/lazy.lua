@@ -1,4 +1,11 @@
+-- Lazy.nvim configuration
+-- SEE: https://lazy.folke.io/configuration
 return {
+  defaults = {
+    lazy = false, -- default to not lazy load plugins
+  },
+  local_spec = true,
+  checker = { enabled = true },
   ui = {
     size = { width = 1, height = 1 },
     border = 'none',
@@ -8,6 +15,8 @@ return {
       cmd = ' ',
       config = ' ',
       event = ' ',
+      favorite = ' ',
+      ft = ' ',
       init = ' ',
       imports = '󰋺 ',
       keys = ' ',
@@ -21,12 +30,16 @@ return {
       start = ' ',
       task = ' ',
       list = {
-        '●',
-        '➜',
-        '★',
-        '─',
+        '',
+        '',
+        '',
+        '',
       },
     },
+  },
+  dev = {
+    path = '~/projects/nvim',
+    patterns = { 'phaezer' },
   },
   diff = {
     -- diff command <d> can be one of:
@@ -35,7 +48,7 @@ return {
     -- * git: will run git diff and open a buffer with filetype git
     -- * terminal_git: will open a pseudo terminal with git diff
     -- * diffview.nvim: will open Diffview to show the diff
-    cmd = 'terminal_git',
+    cmd = 'diffview.nvim',
   },
   performance = {
     cache = {
@@ -44,9 +57,7 @@ return {
     reset_packpath = true, -- reset the package path to improve startup time
     rtp = {
       reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
-      ---@type string[]
       paths = {}, -- add any custom paths here that you want to includes in the rtp
-      ---@type string[] list any plugins you want to disable here
       disabled_plugins = {
         'gzip',
         'matchit',

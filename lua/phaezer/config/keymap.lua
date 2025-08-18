@@ -1,4 +1,4 @@
-local set = require('phaezer.lib.keys').set
+local set = require('phaezer.core.keys').set
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -53,7 +53,7 @@ set {
 set {
   { '<leader>bl', '<cmd>bnext<cr>', desc = 'Next buffer' },
   { '<leader>bh', '<cmd>bprevious<cr>', desc = 'Previous buffer' },
-  { '<leader>bD', '<cmd>%bd|e#|bd#<cr>', desc = 'Close all but the current buffer' },
+  { '<leader>bd', '<cmd>%bd|e#|bd#<cr>', desc = 'Close all but the current buffer' },
 }
 
 -- files management
@@ -61,20 +61,3 @@ set {
   { '<leader>fN', '<cmd>enew<cr>', desc = 'New file' },
   { '<leader>fs', '<cmd>w<cr><esc>', desc = 'Save file' },
 }
-
-
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('lsp-attach', { clear = false }),
-  callback = function(event)
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client:supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-      set {
-        '<leader>th',
-        function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end,
-        desc = 'Toggle Inlay Hints',
-        buffer = event.buf,
-      }
-    end
-  end,
-})
-

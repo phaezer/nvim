@@ -10,7 +10,9 @@ add {
   monitor = 'main',
   -- Perform action after every checkout
   hooks = {
-    post_checkout = function() vim.cmd 'TSUpdate' end,
+    post_checkout = function()
+      vim.cmd 'TSUpdate'
+    end,
   },
 }
 
