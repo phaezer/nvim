@@ -10,33 +10,29 @@ return {
     trig = 'co',
     name = 'Constant',
     dscr = 'Insert a constant',
-  }, {
-    t 'const ',
-    i(1, 'name'),
-    t ' = ',
-    i(2, 'value'),
-  }),
+  }, fmt([[const {key} = {val}]], { key = i(1, 'key'), val = i(2, 'val') })),
 
   s({
     trig = 'fpf',
     name = 'Formatted Print',
     dscr = 'Insert a formatted print statement',
-  }, {
-    t 'fmt.Printf("%#v\\n", ',
-    i(1, 'value'),
-    t ')',
-  }),
+  }, fmt([[fmt.Printf("%#v\\n", {val})]], { val = i(1, 'val') })),
 
-  s({
-    trig = 'ife',
-    name = 'If Err',
-    dscr = 'Insert a basic if err not nil statement',
-  }, {
-    t 'if err != nil {',
-    t { '' },
-    i(1, 'do'),
-    t { '', '}' },
-  }),
+  s(
+    {
+      trig = 'ife',
+      name = 'If Err',
+      dscr = 'Insert a basic if err not nil statement',
+    },
+    fmt(
+      [[
+        if err != nil {{
+          {do_this}
+        }}
+      ]],
+      { do_this = i(1, 'do') }
+    )
+  ),
 
   p(
     {

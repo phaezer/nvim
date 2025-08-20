@@ -360,7 +360,6 @@ return {
           },
 
           lualine_z = {
-
             {
               'location',
               icon = '',
@@ -409,15 +408,15 @@ return {
         show_close_icon = true,
         show_tab_indicators = true,
         indicator = {
-          style = 'icon',
+          style = 'underline',
           icon = '', -- '▎',
         },
         enforce_regular_tabs = true,
         view = 'multiwindow',
         show_buffer_close_icons = true,
         -- separator_style = 'thin',
-        separator_style = 'slant',
-        -- separator_style = 'thin',
+        separator_style = 'thin',
+        -- separator_style = 'slant',
         always_show_bufferline = true,
         persist_buffer_sort = true,
         diagnostics = false,
@@ -430,21 +429,13 @@ return {
         offsets = {
           {
             filetype = 'neo-tree',
-            text = 'File Explorer',
+            text = 'NeoTree',
             highlight = 'Directory',
             text_align = 'left',
             separator = true,
           },
         },
       },
-      -- highlights = {
-      --   fill = {
-      --     bg = {
-      --       attribute = 'bg',
-      --       highlight = 'StatusLine',
-      --     },
-      --   },
-      -- },
     },
   }, -- / BufferLine
 
