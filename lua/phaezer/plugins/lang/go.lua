@@ -3,9 +3,8 @@ return {
   -- nvim DAP for Go
   -- Go debugging with nvim DAP
   {
-    -- DAP provider for Go
-    -- SRC: https://github.com/leoluz/nvim-dap-go
     'leoluz/nvim-dap-go',
+    enabled = false, -- testing ray-x/go.nvim, may remove if not needed.
     lazy = true,
     dependencies = {
       'mfussenegger/nvim-dap',
@@ -81,5 +80,41 @@ return {
       }
     end,
   }, -- / nvim DAP for Go
-  -- ----------------------------------------------------------------------------------------------
+
+  -- ==============================================================================================
+  -- A modern go neovim plugin based on treesitter, nvim-lsp and dap debugger.
+  {
+    'ray-x/go.nvim',
+    lazy = true,
+    event = { 'CmdlineEnter' },
+    ft = { 'go', 'gomod' },
+    dependencies = { -- optional packages
+      'ray-x/guihua.lua',
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
+      'voldikss/vim-floaterm',
+    },
+    opts = {
+      icons = { breakpoint = '', currentpos = '' },
+      diagnostic = false,
+      gocoverage_sign = '󰕊',
+      run_in_floaterm = true,
+      floaterm = { -- position
+        posititon = 'auto', -- one of {`top`, `bottom`, `left`, `right`, `center`, `auto`}
+        width = 0.45, -- width of float window if not auto
+        height = 0.98, -- height of float window if not auto
+        title_colors = 'tokyo', -- default to nord, one of {'nord', 'tokyo', 'dracula', 'rainbow', 'solarized ', 'monokai'}
+      },
+    },
+    config = function(_, opts)
+      require('go').setup(opts)
+      local format_sync_grp = vim.api.nvim_create_augroup('GoFormat', {})
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        pattern = '*.go',
+        callback = function() require('go.format').goimports() end,
+        group = format_sync_grp,
+      })
+    end,
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
 }

@@ -1,22 +1,3 @@
--- local hl = require 'phaezer.config.highlights'
-local colors = require 'phaezer.core.colors'
-local rainbow_colors = colors.generate_rainbow_from_hex(7, '#0058ff')
-local rb_hl = {
-  names = { 'Rainbow0' },
-}
-
--- populate the names
-for i = 1, #rainbow_colors do
-  table.insert(rb_hl.names, 'Rainbow' .. i)
-end
-
-function rb_hl.create_rainbow_hls(base, alpha)
-  vim.api.nvim_set_hl(0, 'Rainbow0', { fg = base, bold = false, force = true }) -- 0 is transparent
-  for i, v in ipairs(rainbow_colors) do
-    vim.api.nvim_set_hl(0, 'Rainbow' .. i, { fg = colors.blend(v, alpha or 0.5, base), bold = false, force = true })
-  end
-end
-
 return {
   -- ==============================================================================================
   -- Tokyonight
@@ -25,7 +6,7 @@ return {
     lazy = false,
     priority = 1000,
     dependencies = {
-      'lukas-reineke/indent-blankline.nvim',
+      -- 'lukas-reineke/indent-blankline.nvim',
     },
     opts = {
       style = 'moon',
@@ -37,24 +18,26 @@ return {
     config = function(_, opts)
       local palette = require('tokyonight.colors.' .. opts.style)
       require('tokyonight').setup(opts)
-      vim.cmd.colorscheme 'tokyonight'
-      local function highlights()
-        rb_hl.create_rainbow_hls(palette.bg, 0.3)
-        vim.api.nvim_set_hl(0, 'IblScope', { fg = '#7dcfff', bold = false, force = true })
-      end
-      highlights()
 
-      require('ibl').setup {
-        indent = { highlight = rb_hl.names },
-        scope = { highlight = 'IblScope' }, -- use mini.indentscope instead
-      }
+      local hl = require 'phaezer.config.highlights'
+      hl.rainbow.set_hl_groups('#0058ff', palette.bg, palette.fg, 0.3, 0.5)
+      -- local function highlights()
+      --   rb_hl.create_rainbow_hls(palette.bg, 0.3)
+      --   vim.api.nvim_set_hl(0, 'IblScope', { fg = '#7dcfff', bold = false, force = true })
+      -- end
+      -- highlights()
 
-      local hooks = require 'ibl.hooks'
-      hooks.register(hooks.type.HIGHLIGHT_SETUP, highlights)
+      -- require('ibl').setup {
+      --   indent = { highlight = rb_hl.names },
+      --   scope = { highlight = 'IblScope' }, -- use mini.indentscope instead
+      -- }
+
+      -- local hooks = require 'ibl.hooks'
+      -- hooks.register(hooks.type.HIGHLIGHT_SETUP, highlights)
+      -- vim.cmd.colorscheme 'tokyonight'
     end,
   },
   -- / Tokyonight
-  -- -----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- kanagawa
@@ -104,7 +87,6 @@ return {
       require('kanagawa').setup(opts)
     end,
   }, -- / kanagawa
-  -- -----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- rose-pine
@@ -119,5 +101,4 @@ return {
       variant = 'moon',
     },
   }, -- / rose-pine
-  -- -----------------------------------------------------------------------------------------------
 }

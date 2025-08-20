@@ -40,7 +40,8 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     lazy = true,
-    -- version = 'v1.x',
+    branch = 'main',
+    -- version = 'v1.0.2',
     dependencies = {
       'tpope/vim-fugitive',
     },

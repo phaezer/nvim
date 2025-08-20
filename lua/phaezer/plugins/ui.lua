@@ -2,7 +2,6 @@ return {
   -- ==============================================================================================
   -- Snacks
   -- snacks.nvim is a Neovim plugin that provides a dashboard, picker, and various utilities
-  -- SRC: https://github.com/folke/snacks.nvim
   -- TODO: finish snacks config
   {
     'folke/snacks.nvim',
@@ -73,20 +72,20 @@ return {
         bigfile = { enabled = true },
         -- SEE: https://github.com/folke/snacks.nvim/blob/main/docs/indent.md
         indent = {
-          enabled = false,
+          enabled = true,
           indent = {
             char = '│',
             only_scope = false,
             only_current = false,
-            -- hl = hl.rainbow_indent_names 'dim',
+            hl = hl.rainbow.names.dm,
           },
           scope = {
-            enabled = false, -- enable highlighting the current scope
+            enabled = true, -- enable highlighting the current scope
             priority = 200,
             char = '│',
             underline = false, -- underline the start of the scope
             only_current = false, -- only show scope in the current window
-            -- hl = hl.rainbow_indent_names 'bright',
+            hl = hl.rainbow.names.br,
           },
           animate = { enabled = false }, -- disable animations
         },
@@ -249,12 +248,10 @@ return {
       }
     end,
   }, -- / Snacks
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- LuaLine
   -- a statusline plugin for Neovim
-  -- SRC: https://github.com/nvim-lualine/lualine.nvim
   {
     'nvim-lualine/lualine.nvim',
     lazy = false,
@@ -293,8 +290,8 @@ return {
           lualine_a = {
             {
               'mode',
-              separator = { left = '', right = '' },
-              -- padding = { left = 1, right = 1 },
+              separator = { left = '', right = '' },
+              padding = { left = 0, right = 1 },
               icon = '',
             },
           },
@@ -329,17 +326,16 @@ return {
               color = function() return { fg = Snacks.util.color 'Constant' } end,
             },
             {
-              function() return ' ' .. require('dap').status() end,
+              function() return ' ' .. require('dap').status() end,
               cond = function() return package.loaded['dap'] and require('dap').status() ~= '' end,
               color = function() return { fg = Snacks.util.color 'Debug' } end,
             },
             {
               'diff',
               symbols = {
-
                 added = ' ',
-                modified = ' ',
-                removed = ' ',
+                modified = '󰦒 ',
+                removed = ' ',
               },
               source = function()
                 local gitsigns = vim.b.gitsigns_status_dict
@@ -356,15 +352,20 @@ return {
 
           lualine_y = {
             clients_lsp,
-            { 'progress', separator = ' ', padding = { left = 1, right = 2 } },
+            {
+              'progress',
+              icon = '',
+              padding = { left = 1, right = 1 },
+            },
           },
 
           lualine_z = {
+
             {
               'location',
-              -- padding = { left = 0, right = 1 },
-              separator = { left = '', right = '' },
-              icon = '',
+              icon = '',
+              separator = { left = '', right = '' },
+              padding = { left = 0, right = 0 },
             },
           },
         },
@@ -382,68 +383,74 @@ return {
       }
     end,
   }, -- / LuaLine
-  -- ----------------------------------------------------------------------------------------------
 
+  -- ==============================================================================================
   -- BufferLine
-  -- SRC: https://github.com/akinsho/bufferline.nvim
   {
     'akinsho/bufferline.nvim',
-    lazy = false,
-    priority = 100,
+    lazy = true,
+    event = 'BufEnter',
     -- highlights = require('catppuccin.groups.integrations.bufferline').get(),
     opts = {
-      -- close_command = 'bp|sp|bn|bd! %d',
-      -- right_mouse_command = 'bp|sp|bn|bd! %d',
-      left_mouse_command = 'buffer %d',
-      buffer_close_icon = '',
-      modified_icon = ' ',
-      close_icon = ' ',
-      left_trunc_marker = ' ',
-      right_trunc_marker = ' ',
-      max_name_length = 15,
-      max_prefix_length = 13,
-      tab_size = 15,
-      show_buffer_icons = true,
-      -- show_buffer_default_icon = true,
-      show_close_icon = false,
-      show_tab_indicators = true,
-      indicator = {
-        style = 'icon',
-        icon = '', -- '▎',
-      },
-      enforce_regular_tabs = true,
-      view = 'multiwindow',
-      show_buffer_close_icons = true,
-      -- separator_style = 'thin',
-      -- separator_style = 'slant',
-      separator_style = 'thin',
-      always_show_bufferline = true,
-      persist_buffer_sort = true,
-      diagnostics = false,
-      themable = true,
-      hover = {
-        enabled = true,
-        delay = 200,
-        reveal = { 'close' },
-      },
-      offsets = {
-        {
-          filetype = 'neo-tree',
-          text = 'File Explorer',
-          -- TODO: change this highlight
-          highlight = 'Directory',
-          text_align = 'left',
-          separator = true,
+      options = {
+        -- close_command = 'bp|sp|bn|bd! %d',
+        -- right_mouse_command = 'bp|sp|bn|bd! %d',
+        left_mouse_command = 'buffer %d',
+        buffer_close_icon = '',
+        modified_icon = ' ',
+        close_icon = ' ',
+        left_trunc_marker = ' ',
+        right_trunc_marker = ' ',
+        max_name_length = 15,
+        max_prefix_length = 13,
+        tab_size = 15,
+        show_buffer_icons = true,
+        -- show_buffer_default_icon = true,
+        show_close_icon = true,
+        show_tab_indicators = true,
+        indicator = {
+          style = 'icon',
+          icon = '', -- '▎',
+        },
+        enforce_regular_tabs = true,
+        view = 'multiwindow',
+        show_buffer_close_icons = true,
+        -- separator_style = 'thin',
+        separator_style = 'slant',
+        -- separator_style = 'thin',
+        always_show_bufferline = true,
+        persist_buffer_sort = true,
+        diagnostics = false,
+        themable = true,
+        hover = {
+          enabled = true,
+          delay = 200,
+          reveal = { 'close' },
+        },
+        offsets = {
+          {
+            filetype = 'neo-tree',
+            text = 'File Explorer',
+            highlight = 'Directory',
+            text_align = 'left',
+            separator = true,
+          },
         },
       },
+      -- highlights = {
+      --   fill = {
+      --     bg = {
+      --       attribute = 'bg',
+      --       highlight = 'StatusLine',
+      --     },
+      --   },
+      -- },
     },
   }, -- / BufferLine
-  -- ----------------------------------------------------------------------------------------------
 
   -- ===============================================================================================
   -- NeoTree
   -- a file explorer plugin for Neovim
-  -- SRC: https://github.com/nvim-neo-tree/neo-tree.nvim
   {
     'nvim-neo-tree/neo-tree.nvim',
     lazy = false,
@@ -604,12 +611,10 @@ return {
       { '<leader>e', '<cmd>Neotree reveal<cr>', desc = 'File Explorer' },
     },
   }, -- / NeoTree
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- Noice
   -- notification manager for Neovim
-  -- SRC: https://github.com/folke/noice.nvim
   {
     'folke/noice.nvim',
     lazy = true,
@@ -752,12 +757,10 @@ return {
       -- },
     },
   }, -- / Noice
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================s
   -- Which Key
   -- a Neovim plugin that provides a popup menu for keybindings
-  -- SRC: https://github.com/folke/which-key.nvim
   {
     'folke/which-key.nvim',
     lazy = true,
@@ -818,139 +821,112 @@ return {
           group = 'Buffers',
           expand = function() return require('which-key.extras').expand.buf() end,
         },
-        { '<leader>d', group = 'Diffview', mode = { 'n' } },
+        { '<leader>d', group = 'Diff', mode = { 'n' } },
         { '<leader>f', group = 'Files' },
         { '<leader>g', group = 'Git' },
         { '<leader>g', 'd', group = 'Git Diff' },
-        { '<leader>h', group = 'Git Hunk', mode = { 'n' } },
+        { '<leader>g', 'h', group = 'Git Hunk', mode = { 'n' } },
         { '<leader>l', group = 'LSP' },
         { '<leader>r', group = 'Refactor' },
         { '<leader>s', group = 'Search' },
-        { '<leader>t', group = 'Otter' },
-        { '<leader>t', group = 'Toggle' },
+        { '<leader>t', group = 'Terminal' },
         { '<leader>u', group = 'UI' },
         { '<leader>w', group = 'Window' },
         { '<leader>x', group = 'Trouble' },
-        { '<leader>m', group = 'Mason' },
-        { '<leader>?', group = 'WTF' },
+        { '<leader>?', group = 'WTF?' },
       }
     end,
   }, -- / Which Key
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- Window Picker
   -- a Neovim plugin that allows you to pick a window by its number or name
-  -- SRC: https://github.com/s1n7ax/nvim-window-picker
-  -- {
-  --   's1n7ax/nvim-window-picker',
-  --   lazy = true,
-  --   name = 'window-picker',
-  --   event = 'VeryLazy',
-  --   version = '2.*',
-  --   config = function()
-  --     -- get highlight colors from theme
-  --     local search_hl = vim.api.nvim_get_hl(0, { name = 'Search' })
-  --     local folded_hl = vim.api.nvim_get_hl(0, { name = 'Folded' })
+  {
+    's1n7ax/nvim-window-picker',
+    lazy = true,
+    name = 'window-picker',
+    event = 'VeryLazy',
+    version = '2.*',
+    config = function()
+      require('window-picker').setup {
+        -- type of hints you want to get
+        -- following types are supported
+        -- 'statusline-winbar' | 'floating-big-letter' | 'floating-letter'
+        -- 'statusline-winbar' draw on 'statusline' if possible, if not 'winbar' will be
+        -- 'floating-big-letter' draw big letter on a floating window
+        -- 'floating-letter' draw letter on a floating window
+        hint = 'floating-letter',
+        -- hint = 'floating-big-letter',
+        -- This section contains picker specific configurations
+        picker_config = {
+          handle_mouse_click = true,
+          statusline_winbar_picker = {
+            -- You can change the display string in status bar.
+            -- It supports '%' printf style. Such as `return char .. ': %f'` to display
+            -- buffer file path. See :h 'stl' for details.
+            selection_display = function(char, windowid) return '%=' .. char .. '%=' end,
 
-  --     require('nvim-window-picker').setup {
-  --       -- type of hints you want to get
-  --       -- following types are supported
-  --       -- 'statusline-winbar' | 'floating-big-letter' | 'floating-letter'
-  --       -- 'statusline-winbar' draw on 'statusline' if possible, if not 'winbar' will be
-  --       -- 'floating-big-letter' draw big letter on a floating window
-  --       -- 'floating-letter' draw letter on a floating window
-  --       hint = 'statusline-winbar',
-  --       -- hint = 'floating-big-letter',
-  --       -- This section contains picker specific configurations
-  --       picker_config = {
-  --         handle_mouse_click = true,
-  --         floating_big_letter = {
-  --           -- window picker plugin provides bunch of big letter fonts
-  --           -- fonts will be lazy loaded as they are being requested
-  --           -- additionally, user can pass in a table of fonts in to font
-  --           -- property to use instead
+            -- whether you want to use winbar instead of the statusline
+            -- "always" means to always use winbar,
+            -- "never" means to never use winbar
+            -- "smart" means to use winbar if cmdheight=0 and statusline if cmdheight > 0
+            use_winbar = 'always', -- "always" | "never" | "smart"
+          },
+        },
+        filter_rules = {
+          include_current_win = false,
+          autoselect_one = true,
+          -- filter using buffer options
+          bo = {
+            -- if the file type is one of following, the window will be ignored
+            filetype = { 'neo-tree', 'neo-tree-popup', 'notify', 'snacks_notif', 'floaterm' },
+            -- if the buffer type is one of following, the window will be ignored
+            buftype = { 'terminal', 'quickfix' },
+          },
+        },
+        show_prompt = false,
+        highlights = {
+          enabled = false,
+          -- statusline = {
+          --   focused = {
+          --     fg = '##04a5e5',
+          --     bold = true,
+          --   },
+          --   unfocused = {
+          --     fg = folded_hl.fg,
+          --     bg = folded_hl.bg,
+          --     bold = true,
+          --   },
+          -- },
+          -- winbar = {
+          --   focused = {
+          --     fg = search_hl.fg,
+          --     bg = search_hl.bg,
+          --     bold = true,
+          --   },
+          --   unfocused = {
+          --     fg = folded_hl.fg,
+          --     bg = folded_hl.bg,
+          --     bold = true,
+          --   },
+          -- },
+        },
+      }
 
-  --           font = require 'phaezer.config.plugins.window-picker.fonts.rubi',
-  --         },
-  --         statusline_winbar_picker = {
-  --           -- You can change the display string in status bar.
-  --           -- It supports '%' printf style. Such as `return char .. ': %f'` to display
-  --           -- buffer file path. See :h 'stl' for details.
-  --           selection_display = function(char, windowid) return '%=' .. char .. '%=' end,
-
-  --           -- whether you want to use winbar instead of the statusline
-  --           -- "always" means to always use winbar,
-  --           -- "never" means to never use winbar
-  --           -- "smart" means to use winbar if cmdheight=0 and statusline if cmdheight > 0
-  --           use_winbar = 'always', -- "always" | "never" | "smart"
-  --         },
-  --       },
-  --       filter_rules = {
-  --         include_current_win = false,
-  --         autoselect_one = true,
-  --         -- filter using buffer options
-  --         bo = {
-  --           -- if the file type is one of following, the window will be ignored
-  --           filetype = { 'neo-tree', 'neo-tree-popup', 'notify', 'snacks_notif' },
-  --           -- if the buffer type is one of following, the window will be ignored
-  --           buftype = { 'terminal', 'quickfix' },
-  --         },
-  --       },
-  --       show_prompt = false,
-  --       highlights = {
-  --         enabled = true,
-  --         statusline = {
-  --           focused = {
-  --             fg = search_hl.fg,
-  --             bg = search_hl.bg,
-  --             bold = true,
-  --           },
-  --           unfocused = {
-  --             fg = folded_hl.fg,
-  --             bg = folded_hl.bg,
-  --             bold = true,
-  --           },
-  --         },
-  --         winbar = {
-  --           focused = {
-  --             fg = search_hl.fg,
-  --             bg = search_hl.bg,
-  --             bold = true,
-  --           },
-  --           unfocused = {
-  --             fg = folded_hl.fg,
-  --             bg = folded_hl.bg,
-  --             bold = true,
-  --           },
-  --         },
-  --       },
-  --     }
-
-  --     -- create the pick window comand and keybinding
-  --     vim.api.nvim_create_user_command('PickWindow', function()
-  --       local win_id = require('window-picker').pick_window()
-  --       vim.api.nvim_set_current_win(win_id)
-  --     end, { desc = 'Pick a window' })
-
-  --     -- reload the window-picker when a colorscheme is changed
-  --     -- so that the highlight colors are updated
-  --     vim.api.nvim_create_autocmd('ColorScheme', {
-  --       group = vim.api.nvim_create_augroup('nvim-window-picker', { clear = true }),
-  --       desc = 'reload window-picker to update highlight colors',
-  --       callback = function(ev) vim.cmd { cmd = 'Lazy', args = { 'reload', 'window-picker' } } end,
-  --     })
-  --   end,
-  --   keys = {
-  --     { '<leader>wp', '<cmd>PickWindow<cr>', desc = 'Pick a window' },
-  --   },
-  -- }, -- / Window Picker
-  -- ----------------------------------------------------------------------------------------------
+      -- create the pick window comand and keybinding
+      vim.api.nvim_create_user_command('PickWindow', function()
+        local win_id = require('window-picker').pick_window()
+        vim.api.nvim_set_current_win(win_id)
+      end, { desc = 'Pick a window' })
+    end,
+    keys = {
+      { '<leader>wp', '<cmd>PickWindow<cr>', desc = 'Pick a window' },
+    },
+  }, -- / Window Picker
 
   -- ==============================================================================================
   -- Oil
   -- a Neovim plugin that allows you to manage files and directories
-  -- SRC: https://github.com/stevearc/oil.nvim
   {
     'stevearc/oil.nvim',
     lazy = true,
@@ -960,5 +936,34 @@ return {
       { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
     },
   }, -- / Oil
-  -- ----------------------------------------------------------------------------------------------
+
+  -- ==============================================================================================
+  -- FloatTerm
+  {
+    'voldikss/vim-floaterm',
+    lazy = true,
+    cmd = {
+      'FloatermNew',
+      'FloatermPrev',
+      'FloatermNext',
+      'FloatermFirst',
+      'FloatermLast',
+      'FloatermUpdate',
+      'FloatermToggle',
+      'FloatermShow',
+      'FloatermHide',
+      'FloatermKill',
+      'FloatermSend',
+    },
+    keys = {
+      { '<leader>tn', '<cmd>FloatermNew<cr>', desc = 'New Terminal' },
+      { '<leader>th', '<cmd>FloatermPrev<cr>', desc = 'Previous Terminal' },
+      { '<leader>tl', '<cmd>FloatermNext<cr>', desc = 'Next Terminal' },
+      { '<leader>tj', '<cmd>FloatermFirst<cr>', desc = 'First Terminal' },
+      { '<leader>tk', '<cmd>FloatermLast<cr>', desc = 'Last Terminal' },
+      { '<leader>ts', '<cmd>FloatermShow<cr>', desc = 'Show Terminal' },
+      { '<leader>tx', '<cmd>FloatermKill<cr>', desc = 'Kill Terminal' },
+      { '<leader>tt', '<cmd>FloatermToggle<cr>', desc = 'Toggle Terminal' },
+    },
+  }, -- / FloatTerm
 }

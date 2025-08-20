@@ -19,7 +19,7 @@ return {
         trail = false,
       },
       list_chars = {
-        space = '',
+        space = '',
         tab = '',
         nbsp = '󱁐',
         lead = '',
@@ -56,134 +56,134 @@ return {
     cmd = { 'Outline', 'OutlineOpen' },
     keys = {
       { '<leader>o', '<cmd>Outline<CR>', desc = 'Toggle outline' },
-      opts = {
-        keymaps = {
-          show_help = '?',
-          close = { '<Esc>', 'q' },
-          -- Jump to symbol under cursor.
-          -- It can auto close the outline window when triggered, see
-          -- 'auto_close' option above.
-          goto_location = '<Cr>',
-          -- Jump to symbol under cursor but keep focus on outline window.
-          peek_location = 'o',
-          -- Visit location in code and close outline immediately
-          goto_and_close = '<S-Cr>',
-          -- Change cursor position of outline window to match current location in code.
-          -- 'Opposite' of goto/peek_location.
-          restore_location = '<C-g>',
-          -- Open LSP/provider-dependent symbol hover information
-          hover_symbol = '<C-space>',
-          -- Preview location code of the symbol under cursor
-          toggle_preview = 'K',
-          rename_symbol = 'r',
-          code_actions = 'a',
-          -- These fold actions are collapsing tree nodes, not code folding
-          fold = 'h',
-          unfold = 'l',
-          fold_toggle = '<Tab>',
-          -- Toggle folds for all nodes.
-          -- If at least one node is folded, this action will fold all nodes.
-          -- If all nodes are folded, this action will unfold all nodes.
-          fold_toggle_all = '<S-Tab>',
-          fold_all = 'W',
-          unfold_all = 'E',
-          fold_reset = 'R',
-          -- Move down/up by one line and peek_location immediately.
-          -- You can also use outline_window.auto_jump=true to do this for any
-          -- j/k/<down>/<up>.
-          down_and_jump = '<C-j>',
-          up_and_jump = '<C-k>',
-        },
+    },
+    opts = {
+      keymaps = {
+        show_help = '?',
+        close = { '<Esc>', 'q' },
+        -- Jump to symbol under cursor.
+        -- It can auto close the outline window when triggered, see
+        -- 'auto_close' option above.
+        goto_location = '<Cr>',
+        -- Jump to symbol under cursor but keep focus on outline window.
+        peek_location = 'o',
+        -- Visit location in code and close outline immediately
+        goto_and_close = '<S-Cr>',
+        -- Change cursor position of outline window to match current location in code.
+        -- 'Opposite' of goto/peek_location.
+        restore_location = '<C-g>',
+        -- Open LSP/provider-dependent symbol hover information
+        hover_symbol = '<C-space>',
+        -- Preview location code of the symbol under cursor
+        toggle_preview = 'K',
+        rename_symbol = 'r',
+        code_actions = 'a',
+        -- These fold actions are collapsing tree nodes, not code folding
+        fold = 'h',
+        unfold = 'l',
+        fold_toggle = '<Tab>',
+        -- Toggle folds for all nodes.
+        -- If at least one node is folded, this action will fold all nodes.
+        -- If all nodes are folded, this action will unfold all nodes.
+        fold_toggle_all = '<S-Tab>',
+        fold_all = 'W',
+        unfold_all = 'E',
+        fold_reset = 'R',
+        -- Move down/up by one line and peek_location immediately.
+        -- You can also use outline_window.auto_jump=true to do this for any
+        -- j/k/<down>/<up>.
+        down_and_jump = '<C-j>',
+        up_and_jump = '<C-k>',
+      },
 
-        outline_window = {
-          position = 'right',
-          width = 25,
-          relative_width = true,
-          auto_close = false,
-          focus_on_open = false, -- don't focus on the outline when opening it
-        },
+      outline_window = {
+        position = 'right',
+        width = 25,
+        relative_width = true,
+        auto_close = false,
+        focus_on_open = false, -- don't focus on the outline when opening it
+      },
 
-        guides = {
-          enabled = true,
-          markers = {
-            -- It is recommended for bottom and middle markers to use the same number
-            -- of characters to align all child nodes vertically.
-            bottom = '└',
-            middle = '├',
-            vertical = '│',
-          },
+      guides = {
+        enabled = true,
+        markers = {
+          -- It is recommended for bottom and middle markers to use the same number
+          -- of characters to align all child nodes vertically.
+          bottom = '└',
+          middle = '├',
+          vertical = '│',
         },
-        symbol_folding = {
-          -- Depth past which nodes will be folded by default. Set to false to unfold all on open.
-          autofold_depth = 1,
-          -- When to auto unfold nodes
-          auto_unfold = {
-            -- Auto unfold currently hovered symbol
-            hovered = true,
-            -- Auto fold when the root level only has this many nodes.
-            -- Set true for 1 node, false for 0.
-            only = true,
-          },
-          markers = { '', '' },
+      },
+      symbol_folding = {
+        -- Depth past which nodes will be folded by default. Set to false to unfold all on open.
+        autofold_depth = 1,
+        -- When to auto unfold nodes
+        auto_unfold = {
+          -- Auto unfold currently hovered symbol
+          hovered = true,
+          -- Auto fold when the root level only has this many nodes.
+          -- Set true for 1 node, false for 0.
+          only = true,
         },
-        symbols = {
-          -- Filter by kinds (string) for symbols in the outline.
-          -- Possible kinds are the Keys in the icons table below.
-          -- A filter list is a string[] with an optional exclude (boolean) field.
-          -- The symbols.filter option takes either a filter list or ft:filterList
-          -- key-value pairs.
-          -- Put  exclude=true  in the string list to filter by excluding the list of
-          -- kinds instead.
-          -- Include all except String and Constant:
-          --   filter = { 'String', 'Constant', exclude = true }
-          -- Only include Package, Module, and Function:
-          --   filter = { 'Package', 'Module', 'Function' }
-          -- See more examples below.
-          filter = nil,
-          icon_source = 'lspkind',
-          icons = {
-            File = { icon = '', hl = 'Identifier' },
-            Module = { icon = '󰮄', hl = 'Include' },
-            Namespace = { icon = '󱘎', hl = 'Include' },
-            Package = { icon = '󰆧', hl = 'Include' },
-            Class = { icon = '󰙅', hl = 'Type' },
-            Method = { icon = '󰡱', hl = 'Function' },
-            Property = { icon = '', hl = 'Identifier' },
-            Field = { icon = '󰽐', hl = 'Identifier' },
-            Constructor = { icon = '', hl = 'Special' },
-            Enum = { icon = '', hl = 'Type' },
-            Interface = { icon = '', hl = 'Type' },
-            Function = { icon = '󰊕', hl = 'Function' },
-            Variable = { icon = '󰫧', hl = 'Constant' },
-            Constant = { icon = '󰏿', hl = 'Constant' },
-            String = { icon = '', hl = 'String' },
-            Number = { icon = '#', hl = 'Number' },
-            Boolean = { icon = '󰨙', hl = 'Boolean' },
-            Array = { icon = '󰅪', hl = 'Constant' },
-            Object = { icon = '󰅩', hl = 'Type' },
-            Key = { icon = '', hl = 'Type' },
-            Null = { icon = '', hl = 'Type' },
-            EnumMember = { icon = '', hl = 'Identifier' },
-            Struct = { icon = '', hl = 'Structure' },
-            Event = { icon = '', hl = 'Type' },
-            Operator = { icon = '', hl = 'Identifier' },
-            TypeParameter = { icon = '󰗴', hl = 'Identifier' },
-            Component = { icon = '󰘦', hl = 'Function' },
-            Fragment = { icon = '󰘦', hl = 'Constant' },
-            TypeAlias = { icon = '󰰦', hl = 'Type' },
-            Parameter = { icon = '', hl = 'Identifier' },
-            StaticMethod = { icon = '󰡱', hl = 'Function' },
-            Macro = { icon = '', hl = 'Function' },
-          },
+        markers = { '', '' },
+      },
+      symbols = {
+        -- Filter by kinds (string) for symbols in the outline.
+        -- Possible kinds are the Keys in the icons table below.
+        -- A filter list is a string[] with an optional exclude (boolean) field.
+        -- The symbols.filter option takes either a filter list or ft:filterList
+        -- key-value pairs.
+        -- Put  exclude=true  in the string list to filter by excluding the list of
+        -- kinds instead.
+        -- Include all except String and Constant:
+        --   filter = { 'String', 'Constant', exclude = true }
+        -- Only include Package, Module, and Function:
+        --   filter = { 'Package', 'Module', 'Function' }
+        -- See more examples below.
+        filter = nil,
+        icon_source = 'lspkind',
+        icons = {
+          File = { icon = '', hl = 'Identifier' },
+          Module = { icon = '󰮄', hl = 'Include' },
+          Namespace = { icon = '󱘎', hl = 'Include' },
+          Package = { icon = '󰆧', hl = 'Include' },
+          Class = { icon = '', hl = 'Type' },
+          Method = { icon = '󰡱', hl = 'Function' },
+          Property = { icon = '', hl = 'Identifier' },
+          Field = { icon = '󰽐', hl = 'Identifier' },
+          Constructor = { icon = '', hl = 'Special' },
+          Enum = { icon = '', hl = 'Type' },
+          Interface = { icon = '', hl = 'Type' },
+          Function = { icon = '󰊕', hl = 'Function' },
+          Variable = { icon = '󰫧', hl = 'Constant' },
+          Constant = { icon = '', hl = 'Constant' },
+          String = { icon = '', hl = 'String' },
+          Number = { icon = '', hl = 'Number' },
+          Boolean = { icon = '󰨙', hl = 'Boolean' },
+          Array = { icon = '󰅪', hl = 'Constant' },
+          Object = { icon = '󰅩', hl = 'Type' },
+          Key = { icon = '', hl = 'Type' },
+          Null = { icon = '', hl = 'Type' },
+          EnumMember = { icon = '', hl = 'Identifier' },
+          Struct = { icon = '', hl = 'Structure' },
+          Event = { icon = '', hl = 'Type' },
+          Operator = { icon = '', hl = 'Identifier' },
+          TypeParameter = { icon = '󰗴', hl = 'Identifier' },
+          Component = { icon = '󰘦', hl = 'Function' },
+          Fragment = { icon = '󰘦', hl = 'Constant' },
+          TypeAlias = { icon = '󰰦', hl = 'Type' },
+          Parameter = { icon = '', hl = 'Identifier' },
+          StaticMethod = { icon = '󰡱', hl = 'Function' },
+          Macro = { icon = '', hl = 'Function' },
         },
-        providers = {
-          priority = { 'lsp', 'coc', 'markdown', 'norg', 'man' },
-          lsp = {
-            blacklist_clients = {},
-          },
-          markdown = {
-            filetypes = { 'markdown' },
-          },
+      },
+      providers = {
+        priority = { 'lsp', 'coc', 'markdown', 'norg', 'man' },
+        lsp = {
+          blacklist_clients = {},
+        },
+        markdown = {
+          filetypes = { 'markdown' },
         },
       },
     },
@@ -218,18 +218,18 @@ return {
       signs = false,
       keywords = {
         FIX = {
-          icon = ' ', -- icon used for the sign, and in search results
+          icon = ' ', -- icon used for the sign, and in search results
           color = 'error', -- can be a hex color, or a named color (see below)
           alt = { 'FIXME', 'BUG', 'FIXIT', 'ISSUE' }, -- a set of other keywords that all map to this FIX keywords
         },
-        TODO = { icon = ' ', color = 'info' },
-        HACK = { icon = ' ', color = 'warning' },
+        TODO = { icon = ' ', color = 'info' },
+        HACK = { icon = ' ', color = 'warning' },
         WARN = { icon = ' ', color = 'warning', alt = { 'WARNING', 'XXX' } },
-        PERF = { icon = ' ', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
-        NOTE = { icon = ' ', color = 'hint', alt = { 'INFO' } },
-        TEST = { icon = ' ', color = 'test', alt = { 'TESTING', 'PASSED', 'FAILED' } },
+        PERF = { icon = ' ', alt = { 'OPTIM', 'PERFORMANCE', 'OPTIMIZE' } },
+        NOTE = { icon = ' ', color = 'hint', alt = { 'INFO' } },
+        TEST = { icon = '󰙨 ', color = 'test', alt = { 'TESTING', 'PASSED', 'FAILED' } },
         DOC = {
-          icon = '󱗖 ',
+          icon = ' ',
           color = 'hint',
           alt = { 'SEE', 'DOCUMENTATION', 'DOCS', 'README', 'RTFM' },
         },
@@ -278,6 +278,21 @@ return {
     'gbprod/yanky.nvim',
     lazy = false,
     dependencies = { 'folke/snacks.nvim' },
+    keys = {
+      { '<leader>p', function() Snacks.picker.yanky() end, mode = { 'n', 'x' }, desc = 'Open Yank History' },
+      { 'y', '<Plug>(YankyYank)', desc = 'Yank (copy)', mode = { 'n', 'x' } },
+      { 'p', '<Plug>(YankyPutAfter)', desc = 'Paste after', mode = { 'n', 'x' } },
+      { 'P', '<Plug>(YankyPutBefore)', desc = 'Paste before', mode = { 'n', 'x' } },
+      { 'gp', '<Plug>(YankyGPutAfter)', desc = 'Paste after and keep cursor position', mode = { 'n', 'x' } },
+      { 'gP', '<Plug>(YankyGPutBefore)', desc = 'Paste before and keep cursor position', mode = { 'n', 'x' } },
+      { '<c-p>', '<Plug>(YankyPreviousEntry)', desc = 'Yank' },
+      { '<c-n>', '<Plug>(YankyNextEntry)', desc = 'Delete' },
+      { ']p', '<Plug>(YankyPutIndentAfterLinewise)', desc = 'Change' },
+      { '[p', '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Paste before indent linewise' },
+      { ']P', '<Plug>(YankyPutIndentAfterLinewise)', desc = 'Paste after indent linewise' },
+      { '[P', '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Paste before indent linewise' },
+      { 'iy', function() require('yanky.textobj').last_put() end, desc = 'Paste last yanked text object', mode = { 'o', 'x' } },
+    },
     opts = {
       ring = {
         history_length = 100,
@@ -313,21 +328,6 @@ return {
       textobj = {
         enabled = false,
       },
-    },
-    keys = {
-      { '<leader>p', function() Snacks.picker.yanky() end, mode = { 'n', 'x' }, desc = 'Open Yank History' },
-      { 'y', '<Plug>(YankyYank)', desc = 'Yank (copy)', mode = { 'n', 'x' } },
-      { 'p', '<Plug>(YankyPutAfter)', desc = 'Paste after', mode = { 'n', 'x' } },
-      { 'P', '<Plug>(YankyPutBefore)', desc = 'Paste before', mode = { 'n', 'x' } },
-      { 'gp', '<Plug>(YankyGPutAfter)', desc = 'Paste after and keep cursor position', mode = { 'n', 'x' } },
-      { 'gP', '<Plug>(YankyGPutBefore)', desc = 'Paste before and keep cursor position', mode = { 'n', 'x' } },
-      { '<c-p>', '<Plug>(YankyPreviousEntry)', desc = 'Yank' },
-      { '<c-n>', '<Plug>(YankyNextEntry)', desc = 'Delete' },
-      { ']p', '<Plug>(YankyPutIndentAfterLinewise)', desc = 'Change' },
-      { '[p', '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Paste before indent linewise' },
-      { ']P', '<Plug>(YankyPutIndentAfterLinewise)', desc = 'Paste after indent linewise' },
-      { '[P', '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Paste before indent linewise' },
-      { 'iy', function() require('yanky.textobj').last_put() end, desc = 'Paste last yanked text object', mode = { 'o', 'x' } },
     },
   }, -- / Yanky
 
@@ -393,27 +393,40 @@ return {
     lazy = false,
     opts = {},
   }, -- / Colorizer
-  -- ----------------------------------------------------------------------------------------------
-  {
-    url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    enent = 'LspAttach',
-    branch = 'main',
-    opt = {},
-  },
+
   -- ==============================================================================================
   -- Tiny Inline Diagnostic
   -- A Neovim plugin that display prettier diagnostic messages.
   --  Display one line diagnostic messages where the cursor is, with icons and colors.
   {
     'rachartier/tiny-inline-diagnostic.nvim',
-    enabled = false, -- replaced with lsp-lines
+    enabled = true, -- replaced with lsp-lines
     lazy = true,
     event = 'VeryLazy', -- Or `LspAttach`
     priority = 1000, -- needs to be loaded in first
     config = function()
       require('tiny-inline-diagnostic').setup {
+        signs = {
+          left = '', -- Left border character
+          right = '', -- Right border character
+          diag = '', -- Diagnostic indicator character
+          arrow = '  ', -- Arrow pointing to diagnostic
+          up_arrow = '  ', -- Upward arrow for multiline
+          vertical = ' │', -- Vertical line for multiline
+          vertical_end = ' └', -- End of vertical line for multiline
+        },
+        blend = {
+          factor = 0.2, -- Transparency factor (0.0 = transparent, 1.0 = opaque)
+        },
         options = {
           use_icons_from_diagnostic = true,
+          set_arrow_to_diag_color = false,
+          multilines = {
+            enabled = true,
+            always_show = false,
+            trim_whitespaces = false,
+            tabstop = 4,
+          },
         },
       }
       vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
@@ -453,16 +466,51 @@ return {
   }, -- / Minty
 
   -- ==============================================================================================
-  -- Menu
-  -- Menu ui for neovim ( supports nested menus )
+  -- Colorful Menu
+  -- A Neovim plugin that provides a colorful menu for LSP completion and other text
   {
-    'nvzone/menu',
-    lazy = true,
-    dependencies = {
-      'nvzone/volt',
-    },
-    keys = {
-      { '<C-t>', function() require('menu').toggle() end, desc = 'Toggle Menu' },
-    },
-  }, -- / Menu
+    'xzbdmw/colorful-menu.nvim',
+    config = function()
+      -- You don't need to set these options.
+      require('colorful-menu').setup {
+        ls = {
+          gopls = {
+            -- When true, label for field and variable will format like "foo: Foo"
+            -- instead of go's original syntax "foo Foo". If align_type_to_right is
+            -- true, this option has no effect.
+            add_colon_before_type = false,
+            -- See https://github.com/xzbdmw/colorful-menu.nvim/pull/36
+            preserve_type_when_truncate = true,
+          },
+          -- for lsp_config or typescript-tools
+          ts_ls = {
+            extra_info_hl = '@comment',
+          },
+          ['rust-analyzer'] = {
+            extra_info_hl = '@comment',
+            -- See https://github.com/xzbdmw/colorful-menu.nvim/pull/36
+            preserve_type_when_truncate = true,
+          },
+          clangd = {
+            extra_info_hl = '@comment',
+            import_dot_hl = '@comment',
+            preserve_type_when_truncate = true,
+          },
+          -- The same applies to pyright/pylance
+          basedpyright = {
+            extra_info_hl = '@comment',
+          },
+          pylsp = {
+            extra_info_hl = '@comment',
+          },
+          fallback = true,
+          fallback_extra_info_hl = '@comment',
+        },
+        -- If the built-in logic fails to find a suitable highlight group for a label,
+        -- this highlight is applied to the label.
+        fallback_highlight = '@variable',
+        max_width = 80,
+      }
+    end,
+  },
 }

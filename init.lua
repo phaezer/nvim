@@ -34,4 +34,5 @@ lazy_config.spec = {
 
 require('lazy').setup(lazy_config)
 
+vim.cmd 'set nolist'
 vim.cmd('colorscheme ' .. colorscheme)

@@ -1,5 +1,4 @@
 local g = vim.g
-
 -- os flags
 g.is_mac = vim.uv.os_uname().sysname:find 'Darwin' ~= nil
 g.is_win = vim.uv.os_uname().sysname:find 'Windows' ~= nil

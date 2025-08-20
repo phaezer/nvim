@@ -1,8 +1,8 @@
 --- neovim options
 local o = vim.opt
 
--- colors
-vim.g.termguicolors = true
+-- term colors
+o.termguicolors = true
 
 -- line numbers
 o.number = true
