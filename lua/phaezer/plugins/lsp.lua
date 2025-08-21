@@ -2,7 +2,6 @@ return {
   -- ==============================================================================================
   -- Mason
   -- Mason manages external tooling
-  -- SRC: https://github.com/williamboman/mason.nvim
   -- registry: https://mason-registry.dev/registry/list
   {
     'mason-org/mason.nvim',
@@ -30,7 +29,6 @@ return {
   -- ==============================================================================================
   -- Mason LSPConfig
   -- mason-lspconfig bridges mason.nvim with the lspconfig plugin
-  -- SRC: https://github.com/williamboman/mason-lspconfig.nvim
   {
     'mason-org/mason-lspconfig.nvim',
     lazy = false,
@@ -64,7 +62,6 @@ return {
       'onsails/lspkind.nvim',
     },
   }, -- / LSP Config
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- LSPKind

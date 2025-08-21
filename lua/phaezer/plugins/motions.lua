@@ -2,7 +2,6 @@ return {
   -- ==============================================================================================
   -- Flash
   -- lets you navigate your code with search labels, enhanced character motions, and Treesitter integration.
-  -- SRC: https://github.com/folke/flash.nvim
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
@@ -49,5 +48,4 @@ return {
       },
     },
   }, -- / Flash
-  -- ----------------------------------------------------------------------------------------------
 }

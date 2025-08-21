@@ -3,18 +3,15 @@ return {
   -- ==============================================================================================
   -- Fugitive
   -- provides the :Git command
-  -- SRC: https://github.com/tpope/vim-fugitive
   {
     'tpope/vim-fugitive',
     lazy = true,
     cmd = { 'Git' },
   }, -- / Fugitive
-  -- ----------------------------------------------------------------------------------------------
 
   -- =================================================================================
   -- LazyGit
   -- a simple terminal UI for git commands, written in Go with the gocui library
-  -- SRC: https://github.com/jesseduffield/lazygit
   {
     'kdheepak/lazygit.nvim',
     lazy = true,
@@ -116,12 +113,10 @@ return {
       end,
     },
   }, -- / Git signs
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- Diffview
   -- a git diff viewer for Neovim
-  -- SRC: https://github.com/sindrets/diffview.nvim
   {
     'sindrets/diffview.nvim',
     lazy = true,
@@ -166,5 +161,4 @@ return {
       { '<leader>gds', '<cmd>DiffviewToggleStageEntry<cr>', desc = 'Toggle Stage Entry' },
     },
   }, -- / Diffview
-  -- ----------------------------------------------------------------------------------------------
 }

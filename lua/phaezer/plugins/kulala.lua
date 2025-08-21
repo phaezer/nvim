@@ -1,20 +1,19 @@
 -- kulala.nvim - A plugin for sending HTTP requests
--- SRC: https://github.com/mistweaverco/kulala.nvim
 -- DOCS: https://neovim.getkulala.net/
 
-local M = {
+local Kulala = {
   'mistweaverco/kulala.nvim',
   lazy = true,
   ft = { 'http', 'rest' },
 }
 
-M.keys = {
+Kulala.keys = {
   { '<leader>Rs', desc = 'Send request' },
   { '<leader>Ra', desc = 'Send all requests' },
   { '<leader>Rb', desc = 'Open scratchpad' },
 }
 
-M.opts = {
+Kulala.opts = {
   global_keymaps = false,
   global_keymaps_prefix = '<leader>R',
   kulala_keymaps_prefix = '',
@@ -60,4 +59,4 @@ M.opts = {
   },
 }
 
-return M
+return Kulala

@@ -2,7 +2,6 @@ return {
   -- ==============================================================================================
   -- nvim DAP
   -- Debug Adapter Protocol
-  -- SRC: https://github.com/mfussenegger/nvim-dap
   {
     'mfussenegger/nvim-dap',
     lazy = true,
@@ -81,11 +80,9 @@ return {
       { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: See last session result.' },
     },
   }, -- / nvim DAP
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- Debugger adapter installation
-  -- SRC: https://github.com/jay-babu/mason-nvim-dap.nvim
   {
     'jay-babu/mason-nvim-dap.nvim',
     opts = {
@@ -93,5 +90,4 @@ return {
       ensure_installed = { 'stylua', 'jq' },
     },
   }, -- / Debugger adapter installation
-  -- ----------------------------------------------------------------------------------------------
 }

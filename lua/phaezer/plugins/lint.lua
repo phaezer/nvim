@@ -2,7 +2,6 @@ return {
   -- ==============================================================================================
   -- conform.nvim
   -- A formatter for Neovim
-  -- SRC: https://github.com/stevearc/conform.nvim
   {
     'stevearc/conform.nvim',
     lazy = true,
@@ -50,5 +49,4 @@ return {
       },
     },
   }, -- / conform
-  -- ----------------------------------------------------------------------------------------------
 }

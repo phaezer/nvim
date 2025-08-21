@@ -192,7 +192,7 @@ return {
   }, -- / Outline
 
   -- ==============================================================================================
-  --
+  -- Trouble
   -- TODO: finish trouble config
   {
     'folke/trouble.nvim',
@@ -242,6 +242,7 @@ return {
     },
   }, -- / TODO Comments
 
+  -- Vim Text Objects
   -- vim-textobj-quote
   -- Typographic quotes
   {

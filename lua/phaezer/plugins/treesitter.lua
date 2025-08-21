@@ -2,7 +2,6 @@ return {
   -- ==============================================================================================
   -- TreeSitter
   -- a parser generator for human-friendly languages
-  -- SRC: https://github.com/nvim-treesitter/nvim-treesitter
   -- DOCS: https://tree-sitter.github.io/tree-sitter/
   -- parsers found here: https://github.com/tree-sitter/tree-sitter/wiki/List-of-parsers
   {
@@ -77,5 +76,15 @@ return {
     end,
   },
   -- / TreeSitter
-  -- -----------------------------------------------------------------------------------------------
+
+  -- ==============================================================================================
+  -- TreeSitter Context
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    lazy = false,
+    opts = {
+      enable = true,
+      max_lines = 5, -- Keep this 0 to disable max_lines
+    },
+  }, -- / TreeSitter Context
 }

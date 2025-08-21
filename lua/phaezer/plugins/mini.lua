@@ -1,6 +1,5 @@
--- mini - Collection of various small independent plugins/modules
--- SRC: https://github.com/echasnovski/mini.nvim
-
+-- mini
+-- Collection of various small independent QoL plugins/modules
 return {
   'echasnovski/mini.nvim',
   lazy = false,
