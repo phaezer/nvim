@@ -64,7 +64,7 @@ return {
       { '<leader>f', group = 'Files' },
       { '<leader>g', group = 'Git' },
       { '<leader>g', 'd', group = 'Git Diff' },
-      { '<leader>g', 'h', group = 'Git Hunk', mode = { 'n' } },
+      { '<leader>h', group = 'Git Hunk', mode = { 'n' } },
       { '<leader>l', group = 'LSP' },
       { '<leader>r', group = 'Refactor' },
       { '<leader>s', group = 'Search' },
