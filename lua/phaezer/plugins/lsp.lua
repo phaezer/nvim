@@ -26,7 +26,6 @@ return {
       { '<leader>ml', '<cmd>MasonLog<cr>', desc = 'Mason Log' },
     },
   }, -- / Mason
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- Mason LSPConfig
@@ -52,12 +51,10 @@ return {
       },
     },
   }, -- / Mason LSPConfig
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- LSP Config
   -- enables LSP servers
-  -- SRC: https://github.com/neovim/nvim-lspconfig
   {
     'neovim/nvim-lspconfig',
     lazy = false,
@@ -72,7 +69,6 @@ return {
   -- ==============================================================================================
   -- LSPKind
   -- LSPKind.nvim provides vscode-like pictograms for neovim lsp completion items
-  -- SRC: https://github.com/onsails/lspkind.nvim
   {
     'onsails/lspkind.nvim',
     lazy = false,
@@ -165,12 +161,10 @@ return {
       },
     },
   }, -- / LSPKind
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- Otter
   -- Otter.nvim provides lsp features and a code completion source for code embedded in other documents
-  -- SRC: https://github.com/jmbuhr/otter.nvim
   {
     'jmbuhr/otter.nvim',
     dependencies = {
@@ -233,5 +227,52 @@ return {
       },
     },
   }, -- / Otter
-  -- ----------------------------------------------------------------------------------------------
+
+  -- ==============================================================================================
+  -- Trouble
+  -- TODO: finish trouble config
+  {
+    'folke/trouble.nvim',
+    cmd = { 'Trouble', 'TroubleToggle', 'TroubleRefresh' },
+    opts = {},
+  }, -- / Trouble
+
+  -- ==============================================================================================
+  -- Tiny Inline Diagnostic
+  -- A Neovim plugin that display prettier diagnostic messages.
+  --  Display one line diagnostic messages where the cursor is, with icons and colors.
+  {
+    'rachartier/tiny-inline-diagnostic.nvim',
+    enabled = true, -- replaced with lsp-lines
+    lazy = true,
+    event = 'VeryLazy', -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
+    config = function()
+      require('tiny-inline-diagnostic').setup {
+        signs = {
+          left = '', -- Left border character
+          right = '', -- Right border character
+          diag = '', -- Diagnostic indicator character
+          arrow = '  ', -- Arrow pointing to diagnostic
+          up_arrow = '  ', -- Upward arrow for multiline
+          vertical = ' │', -- Vertical line for multiline
+          vertical_end = ' └', -- End of vertical line for multiline
+        },
+        blend = {
+          factor = 0.2, -- Transparency factor (0.0 = transparent, 1.0 = opaque)
+        },
+        options = {
+          use_icons_from_diagnostic = true,
+          set_arrow_to_diag_color = false,
+          multilines = {
+            enabled = true,
+            always_show = false,
+            trim_whitespaces = false,
+            tabstop = 4,
+          },
+        },
+      }
+      vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
+    end,
+  }, -- / Tiny Inline Diagnostic
 }

@@ -34,6 +34,8 @@ return {
         filetypes = {
           'neo-tree',
           'snacks_dashboard',
+          'Outline',
+          'oil',
         },
         buftypes = {},
       },
@@ -189,6 +191,8 @@ return {
     },
   }, -- / Outline
 
+  -- ==============================================================================================
+  --
   -- TODO: finish trouble config
   {
     'folke/trouble.nvim',
@@ -272,83 +276,6 @@ return {
   }, -- / vim-textobj-quote
 
   -- ==============================================================================================
-  -- Yanky
-  -- Yank wrapper providing persistent history
-  {
-    'gbprod/yanky.nvim',
-    lazy = false,
-    dependencies = { 'folke/snacks.nvim' },
-    keys = {
-      { '<leader>p', function() Snacks.picker.yanky() end, mode = { 'n', 'x' }, desc = 'Open Yank History' },
-      { 'y', '<Plug>(YankyYank)', desc = 'Yank (copy)', mode = { 'n', 'x' } },
-      { 'p', '<Plug>(YankyPutAfter)', desc = 'Paste after', mode = { 'n', 'x' } },
-      { 'P', '<Plug>(YankyPutBefore)', desc = 'Paste before', mode = { 'n', 'x' } },
-      { 'gp', '<Plug>(YankyGPutAfter)', desc = 'Paste after and keep cursor position', mode = { 'n', 'x' } },
-      { 'gP', '<Plug>(YankyGPutBefore)', desc = 'Paste before and keep cursor position', mode = { 'n', 'x' } },
-      { '<c-p>', '<Plug>(YankyPreviousEntry)', desc = 'Yank' },
-      { '<c-n>', '<Plug>(YankyNextEntry)', desc = 'Delete' },
-      { ']p', '<Plug>(YankyPutIndentAfterLinewise)', desc = 'Change' },
-      { '[p', '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Paste before indent linewise' },
-      { ']P', '<Plug>(YankyPutIndentAfterLinewise)', desc = 'Paste after indent linewise' },
-      { '[P', '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Paste before indent linewise' },
-      { 'iy', function() require('yanky.textobj').last_put() end, desc = 'Paste last yanked text object', mode = { 'o', 'x' } },
-    },
-    opts = {
-      ring = {
-        history_length = 100,
-        storage = 'shada',
-        storage_path = vim.fn.stdpath 'data' .. '/databases/yanky.db', -- Only for sqlite storage
-        sync_with_numbered_registers = true,
-        cancel_event = 'update',
-        ignore_registers = { '_' },
-        update_register_on_cycle = false,
-        permanent_wrapper = nil,
-      },
-      picker = {
-        select = {
-          action = nil, -- nil to use default put action
-        },
-        telescope = {
-          use_default_mappings = true, -- if default mappings should be used
-          mappings = nil, -- nil to use default mappings or no mappings (see `use_default_mappings`)
-        },
-      },
-      system_clipboard = {
-        sync_with_ring = true,
-        clipboard_register = nil,
-      },
-      highlight = {
-        on_put = true,
-        on_yank = true,
-        timer = 500,
-      },
-      preserve_cursor_position = {
-        enabled = true,
-      },
-      textobj = {
-        enabled = false,
-      },
-    },
-  }, -- / Yanky
-
-  -- ==============================================================================================
-  -- Image Clip
-  -- A plugin for inserting images from system clipboard
-  {
-    'HakonHarnes/img-clip.nvim',
-    opts = {
-      filetypes = {
-        -- enable for codecompanion
-        codecompanion = {
-          prompt_for_file_name = false,
-          template = '[Image]($FILE_PATH)',
-          use_absolute_path = true,
-        },
-      },
-    },
-  }, -- / Image Clip
-
-  -- ==============================================================================================
   -- Illuminate
   --  highlights other uses of the word under the cursor
   {
@@ -383,7 +310,6 @@ return {
       { 'gs', function() require('substitute').visual() end, desc = 'Substitute visual selection' },
     },
   }, -- / Substitute
-  -- ----------------------------------------------------------------------------------------------
 
   -- ==============================================================================================
   -- Colorizer
@@ -393,45 +319,6 @@ return {
     lazy = false,
     opts = {},
   }, -- / Colorizer
-
-  -- ==============================================================================================
-  -- Tiny Inline Diagnostic
-  -- A Neovim plugin that display prettier diagnostic messages.
-  --  Display one line diagnostic messages where the cursor is, with icons and colors.
-  {
-    'rachartier/tiny-inline-diagnostic.nvim',
-    enabled = true, -- replaced with lsp-lines
-    lazy = true,
-    event = 'VeryLazy', -- Or `LspAttach`
-    priority = 1000, -- needs to be loaded in first
-    config = function()
-      require('tiny-inline-diagnostic').setup {
-        signs = {
-          left = '', -- Left border character
-          right = '', -- Right border character
-          diag = '', -- Diagnostic indicator character
-          arrow = '  ', -- Arrow pointing to diagnostic
-          up_arrow = '  ', -- Upward arrow for multiline
-          vertical = ' │', -- Vertical line for multiline
-          vertical_end = ' └', -- End of vertical line for multiline
-        },
-        blend = {
-          factor = 0.2, -- Transparency factor (0.0 = transparent, 1.0 = opaque)
-        },
-        options = {
-          use_icons_from_diagnostic = true,
-          set_arrow_to_diag_color = false,
-          multilines = {
-            enabled = true,
-            always_show = false,
-            trim_whitespaces = false,
-            tabstop = 4,
-          },
-        },
-      }
-      vim.diagnostic.config { virtual_text = false } -- Only if needed in your configuration, if you already have native LSP diagnostics
-    end,
-  }, -- / Tiny Inline Diagnostic
 
   -- ==============================================================================================
   -- Tiny Code Action
@@ -446,12 +333,8 @@ return {
     opts = {},
   },
   keys = {
-    { '<leader>ca', function() require('tiny-code-action').code_action() end, desc = 'Code Action' },
+    { '<leader>la', function() require('tiny-code-action').code_action() end, desc = 'Code Action' },
   }, -- / Tiny Code Action
-
-  -- ==============================================================================================
-  -- used by Minty and Menu
-  { 'nvzone/volt', lazy = true },
 
   -- ==============================================================================================
   -- Minty
@@ -461,7 +344,7 @@ return {
     lazy = true,
     cmd = { 'Shades', 'Huefy' },
     dependencies = {
-      'nvzone/volt',
+      { 'nvzone/volt', lazy = true },
     },
   }, -- / Minty
 

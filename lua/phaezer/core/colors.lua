@@ -127,7 +127,7 @@ M.generate_rainbow = function(count, H, S, L, reverse)
   local colors = {
     [1] = hsluv.hsluv_to_hex { H, S, L },
   }
-  local step_dir = reverse and -1 or 1
+  local step_dir = reverse and 1 or -1
   for i = 2, count do
     local hue = (H + (i * hue_step * step_dir)) % 360
     local color = hsluv.hsluv_to_hex { hue, S, L }

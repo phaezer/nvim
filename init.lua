@@ -29,6 +29,7 @@ local lazy_config = require 'phaezer.config.lazy'
 
 lazy_config.spec = {
   { import = 'phaezer.plugins' },
+  { import = 'phaezer.plugins.ui' },
   { import = 'phaezer.plugins.lang' },
 }
 

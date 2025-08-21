@@ -1,3 +1,13 @@
+-- local api = vim.api
+local hl = require 'phaezer.config.highlights'
+-- local rb = hl.rainbow
+-- local function colorscheme_cmd(pattern, callback)
+--   api.nvim_create_autocmd('ColorScheme', {
+--     pattern = pattern,
+--     callback = callback,
+--   })
+-- end
+
 return {
   -- ==============================================================================================
   -- Tokyonight
@@ -5,9 +15,6 @@ return {
     'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
-    dependencies = {
-      -- 'lukas-reineke/indent-blankline.nvim',
-    },
     opts = {
       style = 'moon',
       styles = {
@@ -15,40 +22,45 @@ return {
         functions = { italic = false },
       },
     },
-    config = function(_, opts)
-      local palette = require('tokyonight.colors.' .. opts.style)
-      require('tokyonight').setup(opts)
-
-      local hl = require 'phaezer.config.highlights'
-      hl.rainbow.set_hl_groups('#0058ff', palette.bg, palette.fg, 0.3, 0.5)
-      -- local function highlights()
-      --   rb_hl.create_rainbow_hls(palette.bg, 0.3)
-      --   vim.api.nvim_set_hl(0, 'IblScope', { fg = '#7dcfff', bold = false, force = true })
-      -- end
-      -- highlights()
-
-      -- require('ibl').setup {
-      --   indent = { highlight = rb_hl.names },
-      --   scope = { highlight = 'IblScope' }, -- use mini.indentscope instead
-      -- }
-
-      -- local hooks = require 'ibl.hooks'
-      -- hooks.register(hooks.type.HIGHLIGHT_SETUP, highlights)
-      -- vim.cmd.colorscheme 'tokyonight'
+    init = function()
+      local palettes = {
+        tokyonight = 'tokyonight.colors.night',
+        ['tokyonight-day'] = 'tokyonight.colors.day',
+        ['tokyonight-moon'] = 'tokyonight.colors.moon',
+        ['tokyonight-storm'] = 'tokyonight.colors.storm',
+      }
+      for name, palette in pairs(palettes) do
+        hl.patch_theme(name, function()
+          local palette = require(palette)
+          return {
+            rainbow = {
+              bg = palette.bg,
+              fg = palette.fg,
+            },
+            groups = {
+              BufferlineActive = { fg = palette.blue, bg = palette.bg_highlight, bold = true },
+              BufferlineInactive = { fg = palette.comment, bg = palette.bg },
+              -- NeoTree colors
+              NeoTreeGitAdded = { fg = palette.git.add },
+              NeoTreeGitConflict = { fg = palette.red },
+              NeoTreeGitDeleted = { fg = palette.git.delete },
+              NeoTreeGitModified = { fg = palette.git.change },
+            },
+          }
+        end)
+      end
     end,
   },
   -- / Tokyonight
 
   -- ==============================================================================================
   -- kanagawa
-  -- SRC: https://github.com/rebelot/kanagawa.nvim
   {
     'rebelot/kanagawa.nvim',
-    enabled = false,
     lazy = false,
     priority = 1000,
     opts = {
-      theme = 'dragon',
+      theme = 'wave',
       compile = false, -- enable compiling the colorscheme
       undercurl = true,
       commentStyle = { italic = true },
@@ -56,6 +68,10 @@ return {
       keywordStyle = { italic = true },
       statementStyle = { bold = true },
       typeStyle = {},
+      background = {
+        dark = 'wave',
+        light = 'lotus',
+      },
       transparent = false, -- do not set background color
       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
       terminalColors = true,
@@ -79,18 +95,31 @@ return {
         }
       end,
     },
-    config = function(_, opts)
-      opts.background = {
-        dark = opts.theme,
-        light = 'lotus',
-      }
-      require('kanagawa').setup(opts)
+    init = function()
+      hl.patch_theme('kanagawa', function()
+        local palette = require('kanagawa.colors').palette
+        return {
+          rainbow = {
+            -- base = '#0058ff',
+            bg = palette.sumiInk3,
+            fg = palette.fujiWhite,
+          },
+          groups = {
+            BufferlineActive = { fg = palette.waveRed, bg = palette.sumiInk4, bold = true },
+            BufferlineInactive = { fg = palette.fujiGray, bg = palette.sumiInk3 },
+            -- NeoTree colors
+            NeoTreeGitAdded = { fg = palette.springGreen },
+            NeoTreeGitConflict = { fg = palette.samuraiRed },
+            NeoTreeGitDeleted = { fg = palette.waveRed },
+            NeoTreeGitModified = { fg = palette.crystalBlue },
+          },
+        }
+      end)
     end,
   }, -- / kanagawa
 
   -- ==============================================================================================
   -- rose-pine
-  -- SRC: https://github.com/rose-pine/neovim
   {
     'rose-pine/neovim',
     enabled = false,
