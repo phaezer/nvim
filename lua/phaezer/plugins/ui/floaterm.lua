@@ -1,0 +1,27 @@
+return {
+  'voldikss/vim-floaterm',
+  lazy = true,
+  cmd = {
+    'FloatermNew',
+    'FloatermPrev',
+    'FloatermNext',
+    'FloatermFirst',
+    'FloatermLast',
+    'FloatermUpdate',
+    'FloatermToggle',
+    'FloatermShow',
+    'FloatermHide',
+    'FloatermKill',
+    'FloatermSend',
+  },
+  keys = {
+    { '<leader>tn', '<cmd>FloatermNew<cr>', desc = 'New Terminal' },
+    { '<leader>th', '<cmd>FloatermPrev<cr>', desc = 'Previous Terminal' },
+    { '<leader>tl', '<cmd>FloatermNext<cr>', desc = 'Next Terminal' },
+    { '<leader>tj', '<cmd>FloatermFirst<cr>', desc = 'First Terminal' },
+    { '<leader>tk', '<cmd>FloatermLast<cr>', desc = 'Last Terminal' },
+    { '<leader>ts', '<cmd>FloatermShow<cr>', desc = 'Show Terminal' },
+    { '<leader>tx', '<cmd>FloatermKill<cr>', desc = 'Kill Terminal' },
+    { '<leader>tt', '<cmd>FloatermToggle<cr>', desc = 'Toggle Terminal' },
+  },
+}
