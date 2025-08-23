@@ -9,7 +9,7 @@ local LuaLine = {
 }
 
 LuaLine.config = function()
-  local has_lsp = function() return next(vim.lsp.get_clients()) ~= nil end
+  -- local has_lsp = function() return next(vim.lsp.get_clients()) ~= nil end
   local buffer_not_empty = function() return vim.fn.empty(vim.fn.expand '%:t') ~= 1 end
 
   require('lualine').setup {
@@ -25,7 +25,7 @@ LuaLine.config = function()
           'Outline',
         },
       },
-      component_separators = '|',
+      component_separators = ' ',
       section_separators = { left = '', right = '' },
     },
     sections = {
@@ -34,17 +34,15 @@ LuaLine.config = function()
         {
           'mode',
           color = { gui = 'bold' },
-          fmt = function(str) return str:sub(1, 1) end,
-          separator = { left = '', right = '' },
-          padding = { left = 0, right = 1 },
-          icon = '',
+          separator = { left = ' ', right = '' },
+          padding = { left = 0, right = 0 },
+          icon = '',
         },
       },
-      lualine_b = {
-        { 'branch', icon = '', separator = { left = '', right = '' } },
-      },
+      lualine_b = {},
       lualine_c = {
-        { 'pretty_path' },
+        { 'branch', icon = '', padding = { left = 1, right = 0 } },
+        { 'pretty_path', padding = { left = 1, right = 0 } },
         { 'filesize', cond = buffer_not_empty },
         {
           'diagnostics',
@@ -77,9 +75,9 @@ LuaLine.config = function()
         {
           'diff',
           symbols = {
-            added = '',
-            modified = '󰦒',
-            removed = '',
+            added = '+',
+            modified = '󱓉',
+            removed = '-',
           },
           source = function()
             local gs = vim.b.gitsigns_status_dict
@@ -92,30 +90,10 @@ LuaLine.config = function()
             end
           end,
         },
-
-        -- {
-        --   -- Lsp server name .
-        --   function()
-        --     local c = {}
-        --     local clients = vim.lsp.get_clients()
-        --     if next(clients) == nil then return 'No LSP' end
-        --     for i, client in ipairs(clients) do
-        --       table.insert(c, client.name)
-        --       if i > 2 then -- only show first 2 clients
-        --         table.insert(c, '󰶻')
-        --         break
-        --       end
-        --     end
-        --     return table.concat(c, '  ')
-        --   end,
-        --   separator = { left = '', right = '' },
-        -- },
-      },
-      lualine_y = {
         {
           'lsp_status',
           icon = '',
-          separator = { left = '', right = '' },
+          -- separator = { left = '', right = '' },
           symbols = {
             -- Standard unicode symbols to cycle through for LSP progress:
             spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
@@ -125,26 +103,26 @@ LuaLine.config = function()
             separator = '  ',
           },
         },
-      },
-      lualine_z = {
         {
           'progress',
           icon = '',
-          separator = { left = '', right = '' },
-          padding = { left = 1, right = 1 },
+          -- separator = { left = '', right = '' },
+          padding = { left = 1, right = 0 },
         },
         {
           'location',
-          separator = { left = '', right = '' },
-          padding = { left = 0, right = 0 },
+          separator = { left = '', right = ' ' },
+          padding = { left = 0, right = 1 },
         },
       },
+      lualine_y = {},
+      lualine_z = {},
     },
     tabline = {
       lualine_a = {
         {
           'buffers',
-          separator = { left = '', right = '' },
+          -- separator = { left = '', right = '' },
           color = 'BufferlineInactive',
           -- 0: Shows buffer name
           -- 1: Shows buffer index
@@ -165,9 +143,9 @@ LuaLine.config = function()
             inactive = 'BufferlineInactive', -- Color for inactive buffer.
           },
           symbols = {
-            modified = '', -- Text to show when the buffer is modified
+            modified = ' ', -- Text to show when the buffer is modified
             alternate_file = '', -- Text to show to identify the alternate file
-            directory = '', -- Text to show when the buffer is a directory
+            directory = ' ', -- Text to show when the buffer is a directory
           },
         },
       },

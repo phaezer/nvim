@@ -61,3 +61,9 @@ set {
   { '<leader>fN', '<cmd>enew<cr>', desc = 'New file' },
   { '<leader>fs', '<cmd>w<cr><esc>', desc = 'Save file' },
 }
+
+-- lsp actions
+set {
+  { '<C-_>', 'gcc', desc = 'Comment line', mode = { 'v', 'n' } },
+  { '<M-_>', 'gcc', desc = 'Comment line', mode = { 'v', 'n' } },
+}

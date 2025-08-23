@@ -12,9 +12,9 @@ return {
       -- this setting is independent of vim.o.timeoutlen
       delay = 100,
       icons = {
-        breadcrumb = '', -- symbol used in the command line area that shows your active key combo
-        separator = '', -- symbol used between a key and it's label
-        group = ' ', -- symbol prepended to a group
+        breadcrumb = '', -- symbol used in the command line area that shows your active key combo
+        separator = '', -- symbol used between a key and it's label
+        group = '󰶼', -- symbol prepended to a group
         ellipsis = '󰇘',
         colors = false, -- use which-key colors
         mappings = true,
@@ -60,6 +60,7 @@ return {
         group = 'Buffers',
         expand = function() return require('which-key.extras').expand.buf() end,
       },
+      { '<leader>e', group = 'Edit' },
       { '<leader>d', group = 'Diff', mode = { 'n' } },
       { '<leader>f', group = 'Files' },
       { '<leader>g', group = 'Git' },

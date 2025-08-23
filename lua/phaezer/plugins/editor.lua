@@ -32,6 +32,7 @@ return {
       },
       ignore = {
         filetypes = {
+          'dashboard',
           'neo-tree',
           'snacks_dashboard',
           'Outline',
@@ -235,9 +236,8 @@ return {
         DOC = {
           icon = ' ',
           color = 'hint',
-          alt = { 'SEE', 'DOCUMENTATION', 'DOCS', 'README', 'RTFM' },
+          alt = { 'SRC', 'SEE', 'DOCUMENTATION', 'DOCS', 'README', 'RTFM' },
         },
-        SRC = { icon = ' ', color = 'hint', alt = { 'SOURCE' } },
       },
     },
   }, -- / TODO Comments

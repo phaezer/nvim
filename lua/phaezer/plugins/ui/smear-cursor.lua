@@ -4,12 +4,12 @@ return {
   'sphamba/smear-cursor.nvim',
   lazy = false,
   opts = {
-    stiffness = 0.8,
-    trailing_stiffness = 0.6,
+    stiffness = 0.5,
+    trailing_stiffness = 0.5,
     stiffness_insert_mode = 0.7,
-    trailing_stiffness_insert_mode = 0.7,
-    damping = 0.95,
-    damping_insert_mode = 0.95,
+    trailing_stiffness_insert_mode = 0.6,
+    damping = 0.9,
+    damping_insert_mode = 0.9,
     distance_stop_animating = 0.5,
     never_draw_over_target = true,
     hide_target_hack = true,
@@ -25,6 +25,6 @@ return {
     legacy_computing_symbols_support = false,
     -- Smear cursor in insert mode.
     -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
-    smear_insert_mode = true,
+    smear_insert_mode = false,
   },
 }

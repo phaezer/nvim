@@ -6,7 +6,6 @@ return {
 
   -- ==============================================================================================
   -- CoPilot
-  -- SRC: https://github.com/github/copilot.vim
   -- Setup with `:Copilot setup`
   {
     'github/copilot.vim',
@@ -27,7 +26,6 @@ return {
 
   -- ==============================================================================================
   -- VectorCode
-  -- SRC: https://github.com/Davidyz/VectorCode
   -- DOCS: https://github.com/Davidyz/VectorCode/blob/main/docs/cli.md
   {
     'Davidyz/VectorCode',
@@ -245,7 +243,6 @@ return {
   -- ==============================================================================================
   -- WTF
   -- wtf.nvim A Neovim plugin to help you work out what the fudge that diagnostic means and how to fix it!
-  -- SRC: https://github.com/piersolenski/wtf.nvim
   {
     'piersolenski/wtf.nvim',
     dependencies = {
@@ -285,4 +282,34 @@ return {
       },
     },
   }, -- / WTF
+
+  -- ==============================================================================================
+  -- Magenta
+  -- An ai plugin that provides edit prediction
+  {
+    'dlants/magenta.nvim',
+    lazy = false, -- you could also bind to <leader>mt
+    build = 'npm install --frozen-lockfile',
+    opts = {
+      picker = 'snacks',
+      profiles = {
+        {
+          name = 'copilot-claude',
+          provider = 'copilot',
+          model = 'claude-3.7-sonnet',
+          fastModel = 'claude-3-5-haiku-latest', -- optional, defaults provided
+        },
+      },
+      -- <S-C-l> (Shift+Ctrl+L) in both insert and normal mode triggers the edit prediction feature.
+      -- This analyzes your recent changes and current cursor context to suggest what you're likely to type next.
+      editPrediction = {
+        changeTrackerMaxChanges = 20,
+        recentChangeTokenBudget = 1500,
+        -- Customize the system prompt (optional)
+        -- systemPrompt = "Your custom prediction system prompt here...",
+        -- Add instructions to the default system prompt (optional)
+        systemPromptAppend = 'Focus on completing function calls and variable declarations.',
+      },
+    },
+  }, -- Magenta
 }
