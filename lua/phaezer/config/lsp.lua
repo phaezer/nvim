@@ -1,3 +1,5 @@
+local icons = require 'phaezer.core.icons'
+
 --- get all lua filenames in the lsp config directory except init.lua and return as a table
 local function get_lua_filenames_without_extension()
   local filenames = vim.split(vim.fn.glob(vim.fn.stdpath 'config' .. '/lsp/*.lua'), '\n')
@@ -30,10 +32,10 @@ vim.diagnostic.config {
   },
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = ' ',
-      [vim.diagnostic.severity.WARN] = ' ',
-      [vim.diagnostic.severity.INFO] = ' ',
-      [vim.diagnostic.severity.HINT] = ' ',
+      [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error .. ' ',
+      [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn .. ' ',
+      [vim.diagnostic.severity.INFO] = icons.diagnostics.Info .. ' ',
+      [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint .. ' ',
     },
   },
 }

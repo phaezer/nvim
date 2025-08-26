@@ -2,9 +2,10 @@
 -- DOCS: https://neovim.io/doc/user/autocmd.html
 
 local api = vim.api
+local autocmd = api.nvim_create_autocmd
 
 -- highlight on yank
-api.nvim_create_autocmd('TextYankPost', {
+autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   callback = function()
     vim.hl.on_yank()
@@ -12,7 +13,7 @@ api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- disable auto commenting on new lines
-api.nvim_create_autocmd('BufEnter', {
+autocmd('BufEnter', {
   desc = 'Disable New Line Comment',
   callback = function()
     vim.opt.formatoptions:remove { 'c', 'r', 'o' }
@@ -20,7 +21,7 @@ api.nvim_create_autocmd('BufEnter', {
 })
 
 -- remember last loc when opening a buffer
-api.nvim_create_autocmd('BufReadPost', {
+autocmd('BufReadPost', {
   desc = 'go to last loc when opening a buffer',
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
@@ -32,7 +33,7 @@ api.nvim_create_autocmd('BufReadPost', {
 })
 
 -- LSP Attach Autocmd for setting up buffer local keymaps, autocommands, etc.
-vim.api.nvim_create_autocmd('LspAttach', {
+autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -83,7 +84,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         callback = function(_event)
           vim.lsp.buf.clear_references()
           vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = _event.buf }
-          keys.unset { '<leader>th', buffer = _event.buf }
+          keys.unset { '<leader>lh', buffer = _event.buf }
         end,
       })
     end

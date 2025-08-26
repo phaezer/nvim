@@ -3,39 +3,50 @@ local keys = require 'phaezer.core.keys'
 -- todo: finish config
 return {
   'akinsho/toggleterm.nvim',
-  lazy = false,
+  lazy = true,
+  cmd = {
+    'ToggleTerm',
+    'TermNew',
+    'TermSelect',
+    'ToggleTermToggleAll',
+    'ToggleTermSendCurrentLine',
+    'ToggleTermSendVisualLines',
+    'ToggleTermSendVisualSelection',
+  },
   version = '*',
-  config = function()
-    require('toggleterm').setup {
-      size = function(term)
-        if term.direction == 'horizontal' then
-          return 15
-        elseif term.direction == 'vertical' then
-          return vim.o.columns * 0.4
-        end
-      end,
-      open_mapping = [[<c-\>]],
-    }
-
-    local Terminal = require('toggleterm.terminal').Terminal
-
-    -- lazygit
-    local lazygit = Terminal:new {
-      cmd = 'lazygit',
-      dir = 'git_dir',
-      direction = 'float',
-      float_opts = {
-        border = 'double',
+  opts = {
+    size = function(term)
+      if term.direction == 'horizontal' then
+        return 15
+      elseif term.direction == 'vertical' then
+        return vim.o.columns * 0.4
+      end
+    end,
+    open_mapping = [[<c-\>]],
+    hide_numbers = true,
+    shade_terminals = false,
+    insert_mappings = true,
+    persist_size = true,
+    direction = 'float',
+    close_on_exit = true,
+    highlights = {
+      NormalFloat = {
+        link = 'Normal',
       },
-      -- function to run on opening the terminal
-      on_open = function(term)
-        vim.cmd 'startinsert!'
-        vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
-      end,
-      -- function to run on closing the terminal
-      on_close = function(term) vim.cmd 'startinsert!' end,
-    }
-
-    keys.set { '<leader>g', function() lazygit:toggle() end }
-  end,
+      FloatBorder = {
+        link = 'FloatBorder',
+      },
+    },
+    float_opts = {
+      border = 'rounded',
+      height = math.ceil(vim.o.lines * 1.0 - 4),
+      width = math.ceil(vim.o.columns * 1.0),
+      winblend = 0,
+    },
+  },
+  keys = {
+    { '<leader>tf', '<cmd>ToggleTerm direction=float<cr>', desc = 'Toggle floating terminal' },
+    { '<leader>tg', '<cmd>ToggleTerm direction=vertical<cr>', desc = 'Toggle horizontal Terminal' },
+    { '<leader>tv', '<cmd>ToggleTerm direction=vertical<cr>', desc = 'Toggle Vertical Terminal' },
+  },
 }

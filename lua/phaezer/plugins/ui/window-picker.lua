@@ -52,8 +52,8 @@ return {
     -- create the pick window comand and keybinding
     vim.api.nvim_create_user_command('PickWindow', function()
       local win_id = require('window-picker').pick_window()
-      vim.api.nvim_set_current_win(win_id)
-    end, { desc = 'Pick a window' })
+      if win_id then vim.api.nvim_set_current_win(win_id) end
+    end, { desc = 'pick a window' })
   end,
   keys = {
     { '<leader>wp', '<cmd>PickWindow<cr>', desc = 'Pick a window' },

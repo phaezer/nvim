@@ -1,6 +1,6 @@
 vim.uv = vim.uv or vim.loop
 
-local colorscheme = 'tokyonight'
+local colorscheme = 'nightfox'
 
 require 'phaezer.config'
 
@@ -28,9 +28,16 @@ vim.opt.rtp:prepend(lazypath)
 local lazy_config = require 'phaezer.config.lazy'
 
 lazy_config.spec = {
+  { import = 'phaezer.plugins.themes' },
   { import = 'phaezer.plugins' },
+  { import = 'phaezer.plugins.ai' },
+  { import = 'phaezer.plugins.editor' },
+  { import = 'phaezer.plugins.git' },
+  { import = 'phaezer.plugins.langs' },
+  { import = 'phaezer.plugins.lsp' },
+  { import = 'phaezer.plugins.text' },
+  { import = 'phaezer.plugins.tools' },
   { import = 'phaezer.plugins.ui' },
-  { import = 'phaezer.plugins.lang' },
 }
 
 require('lazy').setup(lazy_config)

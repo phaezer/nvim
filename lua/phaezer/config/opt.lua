@@ -59,10 +59,10 @@ o.listchars = {
 -- fillchars
 o.fillchars = {
   eob = ' ',
-  fold = '',
+  fold = '󱑼',
   foldsep = '│',
-  foldopen = '󰡏',
-  foldclose = '󰡍',
+  foldopen = '󰘖',
+  foldclose = '󰘕',
 }
 
 -- Preview substitutions

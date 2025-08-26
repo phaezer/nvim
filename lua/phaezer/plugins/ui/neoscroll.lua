@@ -1,3 +1,5 @@
+-- NeoScroll
+-- NOTE: Provides smooth scrolling animations
 return {
   'karb94/neoscroll.nvim',
   lazy = false,
@@ -9,8 +11,8 @@ return {
       '<C-f>',
       '<C-y>',
       '<C-e>',
-      'zt',
       'zz',
+      'zt',
       'zb',
     },
     hide_cursor = false,

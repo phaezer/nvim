@@ -10,11 +10,11 @@ return {
     wk.setup {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
-      delay = 100,
+      delay = 250,
       icons = {
         breadcrumb = '', -- symbol used in the command line area that shows your active key combo
         separator = '', -- symbol used between a key and it's label
-        group = '󰶼', -- symbol prepended to a group
+        group = ' ', -- symbol prepended to a group
         ellipsis = '󰇘',
         colors = false, -- use which-key colors
         mappings = true,
@@ -60,16 +60,16 @@ return {
         group = 'Buffers',
         expand = function() return require('which-key.extras').expand.buf() end,
       },
-      { '<leader>e', group = 'Edit' },
       { '<leader>d', group = 'Diff', mode = { 'n' } },
-      { '<leader>f', group = 'Files' },
+      { '<leader>t', group = 'Terminal' },
       { '<leader>g', group = 'Git' },
       { '<leader>g', 'd', group = 'Git Diff' },
       { '<leader>h', group = 'Git Hunk', mode = { 'n' } },
       { '<leader>l', group = 'LSP' },
       { '<leader>r', group = 'Refactor' },
-      { '<leader>s', group = 'Search' },
-      { '<leader>t', group = 'Terminal' },
+      { '<leader>f', group = 'Find | GrugFar' },
+      { '<leader>s', group = 'Search | Snacks' },
+      { '<leader>t', group = 'Toggle' },
       { '<leader>u', group = 'UI' },
       { '<leader>w', group = 'Window' },
       { '<leader>x', group = 'Trouble' },

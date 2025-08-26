@@ -1,5 +1,7 @@
+local icons = require 'phaezer.core.icons'
+
 -- NeoTree
--- a file explorer plugin for Neovim
+-- NOTE: a file explorer plugin for Neovim
 return {
   'nvim-neo-tree/neo-tree.nvim',
   lazy = false,
@@ -37,9 +39,9 @@ return {
         expander_highlight = 'NeoTreeExpander',
       },
       icon = {
-        folder_closed = '',
-        folder_open = '',
-        folder_empty = '',
+        folder_closed = icons.kind.FolderClosed,
+        folder_open = icons.kind.FolderOpen,
+        folder_empty = icons.kind.FolderEmpty,
         provider = function(icon, node, state) -- default icon provider utilizes nvim-web-devicons if available
           if node.type == 'file' or node.type == 'terminal' then
             local ok, web_devicons = pcall(require, 'nvim-web-devicons')
@@ -57,7 +59,7 @@ return {
         highlight = 'NeoTreeFileIcon',
       },
       modified = {
-        symbol = '',
+        symbol = '',
         highlight = 'NeoTreeModified',
       },
       name = {
@@ -70,14 +72,14 @@ return {
           -- Change type
           added = '', -- or "✚", but this is redundant info if you use git_status_colors on the name
           modified = '', -- or "", but this is redundant info if you use git_status_colors on the name
-          deleted = '', -- this can only be used in the git_status source
-          renamed = '', -- this can only be used in the git_status source
+          deleted = icons.git.Removed, -- this can only be used in the git_status source
+          renamed = icons.git.Renamed, -- this can only be used in the git_status source
           -- Status type
-          untracked = '',
-          ignored = '',
-          unstaged = '',
-          staged = '󰱒',
-          conflict = '',
+          untracked = icons.git.Untracked,
+          ignored = icons.git.Ignored,
+          unstaged = icons.git.Unstaged,
+          staged = icons.git.Staged,
+          conflict = icons.git.Confict,
         },
       },
       -- If you don't want to use these columns, you can set `enabled = false` for each of them individually

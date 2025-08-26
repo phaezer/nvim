@@ -124,4 +124,19 @@ M.read_file = function(path)
   return content
 end
 
+--- get a hl color (SRC: https://github.com/folke/snacks.nvim/blob/main/lua/snacks/util/init.lua)
+---@param group string|string[] hl group to get color from
+---@param prop? string property to get. Defaults to "fg"
+function M.color(group, prop)
+  prop = prop or 'fg'
+  group = type(group) == 'table' and group or { group }
+  ---@cast group string[]
+  for _, g in ipairs(group) do
+    local hl = vim.api.nvim_get_hl(0, { name = g, link = false })
+    if hl[prop] then
+      return string.format('#%06x', hl[prop])
+    end
+  end
+end
+
 return M

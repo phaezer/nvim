@@ -1,5 +1,8 @@
+local util = require 'phaezer.core.util'
+local icons = require 'phaezer.core.icons'
+
 -- LuaLine
--- a statusline plugin for Neovim
+-- NOTE: a statusline plugin for Neovim
 local LuaLine = {
   'nvim-lualine/lualine.nvim',
   lazy = false,
@@ -8,11 +11,18 @@ local LuaLine = {
   },
 }
 
-LuaLine.config = function()
+LuaLine.opts = function(_, opts)
   -- local has_lsp = function() return next(vim.lsp.get_clients()) ~= nil end
   local buffer_not_empty = function() return vim.fn.empty(vim.fn.expand '%:t') ~= 1 end
+  -- local mode = require 'lualine.utils.mode'
+  local highlight = require 'lualine.highlight'
 
-  require('lualine').setup {
+  local function get_mode_hl(prop)
+    local suffix = highlight.get_mode_suffix()
+    return util.color('lualine_a_' .. suffix, prop)
+  end
+
+  return vim.tbl_deep_extend('force', opts or {}, {
     options = {
       theme = 'auto',
       globalstatus = true,
@@ -36,48 +46,42 @@ LuaLine.config = function()
           color = { gui = 'bold' },
           separator = { left = ' ', right = '' },
           padding = { left = 0, right = 0 },
-          icon = '',
+          icon = icons.gui.Neovim,
         },
       },
       lualine_b = {},
       lualine_c = {
-        { 'branch', icon = '', padding = { left = 1, right = 0 } },
+        { 'branch', icon = icons.gui.Branch, padding = { left = 1, right = 0 } },
         { 'pretty_path', padding = { left = 1, right = 0 } },
         { 'filesize', cond = buffer_not_empty },
         {
           'diagnostics',
-          symbols = {
-            error = '',
-            warn = '',
-            info = '',
-            hint = '',
+          symbols = icons.diagnostics,
+          {
+            function() return require('noice').api.status.command.get() end,
+            cond = function() return package.loaded['noice'] and require('noice').api.status.command.has() end,
+            color = function() return { fg = util.color 'Statement' } end,
           },
-          update_in_insert = true,
+          {
+            function() return require('noice').api.status.mode.get() end,
+            cond = function() return package.loaded['noice'] and require('noice').api.status.mode.has() end,
+            color = function() return { fg = util.color 'Constant' } end,
+          },
+          {
+            function() return ' ' .. require('dap').status() end,
+            cond = function() return package.loaded['dap'] and require('dap').status() ~= '' end,
+            color = function() return { fg = util.color 'Debug' } end,
+          },
         },
       },
-      -- right side
       lualine_x = {
         {
-          function() return require('noice').api.status.command.get() end,
-          cond = function() return package.loaded['noice'] and require('noice').api.status.command.has() end,
-          color = function() return { fg = Snacks.util.color 'Statement' } end,
-        },
-        {
-          function() return require('noice').api.status.mode.get() end,
-          cond = function() return package.loaded['noice'] and require('noice').api.status.mode.has() end,
-          color = function() return { fg = Snacks.util.color 'Constant' } end,
-        },
-        {
-          function() return ' ' .. require('dap').status() end,
-          cond = function() return package.loaded['dap'] and require('dap').status() ~= '' end,
-          color = function() return { fg = Snacks.util.color 'Debug' } end,
-        },
-        {
           'diff',
+          icon = '',
           symbols = {
-            added = '+',
-            modified = '󱓉',
-            removed = '-',
+            added = icons.git.Added,
+            modified = icons.git.Modified,
+            removed = icons.git.Removed,
           },
           source = function()
             local gs = vim.b.gitsigns_status_dict
@@ -92,67 +96,30 @@ LuaLine.config = function()
         },
         {
           'lsp_status',
-          icon = '',
+          icon = icons.gui.Server,
           -- separator = { left = '', right = '' },
           symbols = {
             -- Standard unicode symbols to cycle through for LSP progress:
-            spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
+            spinner = icons.spinners.circle,
             -- Standard unicode symbol for when LSP is done:
             done = '',
             -- Delimiter inserted between LSP names:
-            separator = '  ',
+            separator = ', ',
           },
         },
         {
           'progress',
           icon = '',
-          -- separator = { left = '', right = '' },
           padding = { left = 1, right = 0 },
         },
         {
           'location',
           separator = { left = '', right = ' ' },
           padding = { left = 0, right = 1 },
+          color = function() return { fg = get_mode_hl 'fg', gui = 'bold' } end,
         },
       },
       lualine_y = {},
-      lualine_z = {},
-    },
-    tabline = {
-      lualine_a = {
-        {
-          'buffers',
-          -- separator = { left = '', right = '' },
-          color = 'BufferlineInactive',
-          -- 0: Shows buffer name
-          -- 1: Shows buffer index
-          -- 2: Shows buffer name + buffer index
-          -- 3: Shows buffer number
-          -- 4: Shows buffer name + buffer number
-          mode = 0,
-          filetype_names = {
-            dashboard = 'Dashboard',
-            fzf = 'FZF',
-            alpha = 'Alpha',
-            ['neo-tree'] = 'Explorer',
-            Oil = 'Oil',
-          },
-          buffers_color = {
-            -- Same values as the general color option can be used here.
-            active = 'BufferlineActive', -- Color for active buffer.
-            inactive = 'BufferlineInactive', -- Color for inactive buffer.
-          },
-          symbols = {
-            modified = ' ', -- Text to show when the buffer is modified
-            alternate_file = '', -- Text to show to identify the alternate file
-            directory = ' ', -- Text to show when the buffer is a directory
-          },
-        },
-      },
-      lualine_b = {},
-      lualine_c = {},
-      lualine_x = {},
-      lualine_y = { 'tabs' },
       lualine_z = {},
     },
     inactive_sections = {
@@ -164,7 +131,7 @@ LuaLine.config = function()
       lualine_z = { 'location' },
     },
     extensions = { 'neo-tree', 'lazy', 'fzf', 'trouble' },
-  }
+  })
 end
 
 return LuaLine

@@ -1,83 +1,97 @@
 local colors = require 'phaezer.core.colors'
+local util = require 'phaezer.core.util'
 
 local M = {}
 
--- local hl = require 'phaezer.config.highlights'
 M.rainbow = {
   count = vim.g.hl_rainbow_count or 6,
   names = {
-    dm = {},
-    br = {},
+    indent = {},
+    delimiters = {},
+    headlines = {},
+    org_ts_headlines = {},
+  },
+  prefix = {
+    indent = 'RainbowIndent',
+    delimiter = 'RainbowDelimiter',
+    headline = 'Healine',
+    org_ts_headlines = '@OrgTSHeadlineLevel',
   },
 }
 
+local rb = M.rainbow
+
 -- populate the names
 for i = 1, M.rainbow.count do
-  table.insert(M.rainbow.names.dm, 'RainbowDim' .. i)
-  table.insert(M.rainbow.names.br, 'RainbowBright' .. i)
+  table.insert(rb.names.indent, rb.prefix.indent .. i)
+  table.insert(rb.names.delimiters, rb.prefix.delimiter .. i)
+  table.insert(rb.names.headlines, rb.prefix.headline .. i)
+  table.insert(rb.names.headlines, rb.prefix.org_ts_headlines .. i)
 end
 
+---@alias rainbowHighlightOpts {base: string | nil, bg: string | nil, fg: string | nil, bg_alpha: number | nil, fg_alpha: number | nil}
+
+---sets rainbow highlight groups for indents, delimiters, headlines, etc.
+---@param opts rainbowHighlightOpts
 function M.rainbow.set_hl_groups(opts)
   local _opts = vim.tbl_deep_extend('force', {
     base = '#0058ff',
     bg = '#000000',
     fg = '#ffffff',
-    bg_alpha = 0.5,
-    fg_alpha = 0.5,
-    dim = nil,
-    br = nil,
+    bg_alpha = 0.2,
+    fg_alpha = 0.2,
   }, opts, vim.g.hl_rainbow or {})
-
-  if _opts.dim ~= nil then
-    for i, v in ipairs(_opts.dim) do
-      vim.api.nvim_set_hl(0, 'RainbowDim' .. i, { fg = v })
-    end
-  end
-
-  if _opts.br ~= nil then
-    for i, v in ipairs(_opts.br) do
-      vim.api.nvim_set_hl(0, 'RainbowBright' .. i, { fg = v })
-    end
-  end
-
-  if _opts.dim == nil and _opts.bg == nil then
-    return
-  end
 
   local rb_colors = colors.generate_rainbow_from_hex(M.rainbow.count, _opts.base)
 
-  if _opts.dim == nil then
-    for i, v in ipairs(rb_colors) do
-      vim.api.nvim_set_hl(
-        0,
-        'RainbowDim' .. i,
-        { fg = colors.blend(v, _opts.bg_alpha or 0.3, _opts.bg), bold = false }
-      )
-    end
+  for i, v in ipairs(rb_colors) do
+    vim.api.nvim_set_hl(
+      0,
+      rb.prefix.indent .. i,
+      { fg = colors.blend(v, _opts.bg_alpha, _opts.bg), bold = false }
+    )
   end
-  if _opts.br == nil then
-    for i, v in ipairs(rb_colors) do
-      vim.api.nvim_set_hl(
-        0,
-        'RainbowBright' .. i,
-        { fg = colors.blend(v, _opts.fg_alpha or 0.5, _opts.fg), bold = false }
-      )
-    end
+  for i, v in ipairs(rb_colors) do
+    vim.api.nvim_set_hl(
+      0,
+      rb.prefix.delimiter .. i,
+      { fg = colors.blend(v, _opts.fg_alpha, _opts.fg), bold = false }
+    )
+  end
+
+  -- set hl for headlines
+  for i = 1, M.rainbow.count do
+    local dm = rb.prefix.indent .. i
+    local br = rb.prefix.delimiter .. i
+    vim.api.nvim_set_hl(0, rb.prefix.headline .. i, { fg = util.color(br), bg = util.color(dm) })
+    vim.api.nvim_set_hl(
+      0,
+      rb.prefix.org_ts_headlines .. i,
+      { fg = util.color(br), bg = util.color(dm) }
+    )
   end
 end
 
+---sets a highlight group only if value isn't nil
+---@param group string
+---@param v table | nil
 local function maybe_set_hl(group, v)
   if v ~= nil then
     vim.api.nvim_set_hl(0, group, v)
   end
 end
 
+---sets a list of hightlight groups only if values are not nil
+---@param groups table
 local function maybe_set_hls(groups)
   for group, value in pairs(groups) do
     maybe_set_hl(group, value)
   end
 end
 
+---patch a theme to include additional highlight groups
+---@param pattern string | string[]
+---@param opts {rainbow: rainbowHighlightOpts, groups: table} | function
 function M.patch_theme(pattern, opts)
   vim.api.nvim_create_autocmd('ColorScheme', {
     pattern = pattern,

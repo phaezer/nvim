@@ -4,6 +4,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 set { 'jk', '<esc>', desc = 'Exit insert mode', mode = 'i' }
+set { 'kj', '<esc>', desc = 'Exit insert mode', mode = 'i' }
 
 -- Remap for dealing with visual line wraps
 set {
@@ -51,19 +52,14 @@ set {
 
 -- buffer management
 set {
+  { '<C-s>', '<cmd>w<cr>', desc = 'Write Buffer' },
   { '<leader>bl', '<cmd>bnext<cr>', desc = 'Next buffer' },
   { '<leader>bh', '<cmd>bprevious<cr>', desc = 'Previous buffer' },
   { '<leader>bd', '<cmd>%bd|e#|bd#<cr>', desc = 'Close all but the current buffer' },
-}
-
--- files management
-set {
-  { '<leader>fN', '<cmd>enew<cr>', desc = 'New file' },
-  { '<leader>fs', '<cmd>w<cr><esc>', desc = 'Save file' },
+  { '<leader>bN', '<cmd>enew<cr>', desc = 'New buffer' },
 }
 
 -- lsp actions
 set {
-  { '<C-_>', 'gcc', desc = 'Comment line', mode = { 'v', 'n' } },
-  { '<M-_>', 'gcc', desc = 'Comment line', mode = { 'v', 'n' } },
+  { '<C-;>', 'gcc', desc = 'Comment line', mode = { 'v', 'n' } },
 }

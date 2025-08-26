@@ -1,0 +1,175 @@
+-- Blink
+-- NOTE: Autocompletion provider
+-- DOCS: https://cmp.saghen.dev/
+return {
+  'saghen/blink.cmp',
+  lazy = true,
+  event = 'VimEnter',
+  version = '1.*',
+  dependencies = {
+    -- copilot
+    'fang2hou/blink-copilot',
+    'L3MON4D3/LuaSnip',
+    -- 'rafamadriz/friendly-snippets',
+    'L3MON4D3/LuaSnip',
+    'folke/lazydev.nvim',
+    'xzbdmw/colorful-menu.nvim',
+    'jmbuhr/otter.nvim',
+    'mikavilpas/blink-ripgrep.nvim',
+    'olimorris/codecompanion.nvim',
+    {
+      'Kaiser-Yang/blink-cmp-dictionary',
+      dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+  },
+
+  opts = {
+    keymap = {
+      -- 'default' (recommended) for mappings similar to built-in completions
+      --   <c-y> to accept ([y]es) the completion.
+      --    This will auto-import if your LSP supports it.
+      --    This will expand snippets if the LSP sent a snippet.
+      -- 'super-tab' for tab to accept
+      -- 'enter' for enter to accept
+      -- 'none' for no mappings
+      --
+      -- For an understanding of why the 'default' preset is recommended,
+      -- you will need to read `:help ins-completion`
+      --
+      -- All presets have the following mappings:
+      -- <tab>/<s-tab>: move to right/left of your snippet expansion
+      -- <c-space>: Open menu or open docs if already open
+      -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
+      -- <c-e>: Hide menu
+      -- <c-k>: Toggle signature help
+      --
+      -- See :h blink-cmp-config-keymap for defining your own keymap
+      preset = 'super-tab',
+      -- integration with copilot-lsp nes edits
+      -- SRC: https://github.com/copilotlsp-nvim/copilot-lsp#blink-integration
+      ['<Tab>'] = {
+        function(cmp)
+          if vim.b[vim.api.nvim_get_current_buf()].nes_state then
+            cmp.hide()
+            return (require('copilot-lsp.nes').apply_pending_nes() and require('copilot-lsp.nes').walk_cursor_end_edit())
+          end
+          if cmp.snippet_active() then
+            return cmp.accept()
+          else
+            return cmp.select_and_accept()
+          end
+        end,
+        'snippet_forward',
+        'fallback',
+      },
+      ['<c-,>'] = {
+        function() require('blink-cmp').show { providers = { 'path', 'ripgrep' } } end,
+      },
+      ['<c-.>'] = {
+        function() require('blink-cmp').show { providers = { 'lsp', 'buffer', 'snippets', 'copilot' } } end,
+      },
+    },
+
+    appearance = {
+      nerd_font_variant = 'mono',
+    },
+
+    completion = {
+      accept = {
+        auto_brackets = { enabled = true }, -- auto insert brackets
+      },
+      -- show the documentation after a delay
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 1000,
+        treesitter_highlighting = true,
+      },
+      ghost_text = { enabled = true }, -- show the ghost text
+      list = { -- DOCS: https://cmp.saghen.dev/configuration/completion.html#list
+        selection = {
+          auto_insert = true,
+        },
+      },
+      menu = {
+        -- use colorful menu
+        draw = {
+          columns = { { 'kind_icon' }, { 'label', gap = 1 } },
+          components = {
+            label = {
+              text = function(ctx) return require('colorful-menu').blink_components_text(ctx) end,
+              highlight = function(ctx) return require('colorful-menu').blink_components_highlight(ctx) end,
+            },
+          },
+        },
+      },
+    },
+
+    -- DOCS: https://cmp.saghen.dev/configuration/sources.html
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'ripgrep' },
+      per_filetype = {
+        sql = { 'dadbod' },
+        lua = { inherit_defaults = true, 'lazydev' },
+        markdown = { inherit_defaults = true, 'dictionary' },
+        text = { inherit_defaults = true, 'dictionary' },
+        norg = { inherit_defaults = true, 'dictionary' },
+      },
+      providers = {
+        -- copilot
+        copilot = {
+          name = 'copilot',
+          module = 'blink-copilot',
+          score_offset = 100,
+          async = true,
+          opts = {
+            max_completions = 5,
+            max_attempts = 5,
+            kind_name = 'Copilot',
+            -- kind_hl = false,
+            debounce = 200,
+            auto_refresh = {
+              backward = true,
+              forward = true,
+            },
+          },
+        },
+        ripgrep = {
+          module = 'blink-ripgrep',
+          name = 'Ripgrep',
+          ---@module "blink-ripgrep"
+          ---@type blink-ripgrep.Options
+          opts = {
+            project_root_marker = { '.git', 'package.json', '.root', 'go.mod' },
+          },
+        },
+        dictionary = {
+          module = 'blink-cmp-dictionary',
+          name = 'dictionary',
+          min_keyword_length = 3,
+          opts = {
+            dictionary_directories = {
+              vim.fn.stdpath 'config' .. '/dictionaries',
+              vim.fn.stdpath 'config' .. '/spell',
+            },
+          },
+        },
+        dadbod = { module = 'vim_dadbod_completion.blink' },
+        lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+      },
+    },
+
+    snippets = { preset = 'luasnip' },
+
+    -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
+    -- which automatically downloads a prebuilt binary when enabled.
+    --
+    -- By default, we use the Lua implementation instead, but you may enable
+    -- the rust implementation via `'prefer_rust_with_warning'`
+    --
+    -- See :h blink-cmp-config-fuzzy for more information
+    fuzzy = { implementation = 'prefer_rust_with_warning' },
+
+    -- Shows a signature help window while you type arguments for a function
+    signature = { enabled = true },
+  },
+}

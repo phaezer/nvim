@@ -1,7 +1,7 @@
 return {
   -- ==============================================================================================
   -- TreeSitter
-  -- a parser generator for human-friendly languages
+  -- NOTE: a parser generator for human-friendly languages
   -- DOCS: https://tree-sitter.github.io/tree-sitter/
   -- parsers found here: https://github.com/tree-sitter/tree-sitter/wiki/List-of-parsers
   {
