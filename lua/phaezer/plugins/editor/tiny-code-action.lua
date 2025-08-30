@@ -7,8 +7,27 @@ return {
   dependencies = {
     'folke/snacks.nvim',
   },
-  opts = {},
+  opts = {
+    picker = 'snacks',
+    signs = {
+      -- TODO: use icons from core
+      quickfix = { '', { link = 'DiagnosticWarning' } },
+      others = { '', { link = 'DiagnosticWarning' } },
+      refactor = { '', { link = 'DiagnosticInfo' } },
+      ['refactor.move'] = { '󰪹', { link = 'DiagnosticInfo' } },
+      ['refactor.extract'] = { '', { link = 'DiagnosticError' } },
+      ['source.organizeImports'] = { '', { link = 'DiagnosticWarning' } },
+      ['source.fixAll'] = { '󰃢', { link = 'DiagnosticError' } },
+      ['source'] = { '', { link = 'DiagnosticError' } },
+      ['rename'] = { '󰑕', { link = 'DiagnosticWarning' } },
+      ['codeAction'] = { '', { link = 'DiagnosticWarning' } },
+    },
+  },
   keys = {
-    { '<leader>la', function() require('tiny-code-action').code_action() end, desc = 'Code Action' },
+    {
+      '<A-.>',
+      function() require('tiny-code-action').code_action() end,
+      desc = 'Code Action',
+    },
   },
 }

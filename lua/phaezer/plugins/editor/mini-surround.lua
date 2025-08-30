@@ -1,7 +1,7 @@
 return {
   'echasnovski/mini.surround',
   lazy = false,
-  version = '*',
+  version = false,
   opts = {
     -- Add custom surroundings to be used on top of builtin ones. For more
     -- information with examples, see `:h MiniSurround.config`.
@@ -14,13 +14,13 @@ return {
     mappings = {
       add = 'sa', -- Add surrounding in Normal and Visual modes
       delete = 'sd', -- Delete surrounding
-      find = 'sf', -- Find surrounding (to the right)
+      find = 'sf', -- Find surrounding
       find_left = 'sF', -- Find surrounding (to the left)
       highlight = 'sh', -- Highlight surrounding
       replace = 'sr', -- Replace surrounding
       update_n_lines = 'sn', -- Update `n_lines`
 
-      suffix_last = 'l', -- Suffix to search with "prev" method
+      suffix_last = 'l', -- Suffix to search with  method
       suffix_next = 'n', -- Suffix to search with "next" method
     },
 

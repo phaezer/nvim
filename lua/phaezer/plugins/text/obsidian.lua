@@ -20,8 +20,7 @@ return {
   cmd = 'Obsidian',
   event = events,
   keys = {
-    { '<leader>so', '<cmd>Obsidian search<CR>', desc = 'Obsidian search' },
-    { '<leader>to', '<cmd>Obsidian search<CR>', desc = 'Obsidian search' },
+    { '<leader>fo', '<cmd>Obsidian search<CR>', desc = 'Obsidian search' },
     { '<leader>tn', '<cmd>Obsidian new<CR>', desc = 'Obsidian new' },
   },
   opts = {

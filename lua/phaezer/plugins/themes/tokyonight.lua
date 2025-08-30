@@ -4,7 +4,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      style = 'night',
+      style = 'storm',
       styles = {
         comments = { italic = false },
         functions = { italic = false },
@@ -26,10 +26,15 @@ return {
               base = palette.blue,
               bg = palette.bg,
               fg = palette.fg,
+              fg_alpha = 0.9,
             },
             groups = {
-              BufferlineActive = { fg = palette.blue, bg = palette.bg_highlight, bold = true },
-              BufferlineInactive = { fg = palette.comment, bg = palette.bg },
+              -- diagnostics
+              DiagnosticVirtualTextHint = { fg = '#1ABC9C' },
+              DiagnosticVirtualTextWarn = { fg = '#E0AF68' },
+              DiagnosticVirtualTextError = { fg = '#DB4B4B' },
+              DiagnosticVirtualTextInfo = { fg = '#0DB9D7' },
+
               -- NeoTree colors
               NeoTreeGitAdded = { fg = palette.git.add },
               NeoTreeGitConflict = { fg = palette.red },
@@ -46,11 +51,15 @@ return {
               DartCurrent = { bg = palette.bg_highlight },
               DartCurrentModified = { bg = palette.bg_highlight, italic = true },
               DartCurrentLabel = { fg = palette.blue, bg = palette.bg_highlight, bold = true },
-              DartCurrentLabelModified = { fg = palette.git.change, bg = palette.bg2, bold = true },
+              DartCurrentLabelModified = {
+                fg = palette.orange,
+                bg = palette.bg_highlight,
+                bold = true,
+              },
               DartVisible = { fg = palette.comment, bg = palette.bg },
               DartVisibleModified = { fg = palette.comment, bg = palette.bg, italic = true },
               DartVisibleLabel = { fg = palette.blue, bg = palette.bg },
-              DartVisibleLabelModified = { fg = palette.git.change, bg = palette.bg, bold = true },
+              DartVisibleLabelModified = { fg = palette.orange, bg = palette.bg, bold = true },
             },
           }
         end)

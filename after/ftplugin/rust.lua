@@ -9,7 +9,7 @@ vim.opt.softtabstop = 2
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
-keymap.set {
+keymap.map {
   {
     '<leader>a',
     function()

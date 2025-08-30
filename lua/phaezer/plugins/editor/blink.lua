@@ -51,7 +51,10 @@ return {
         function(cmp)
           if vim.b[vim.api.nvim_get_current_buf()].nes_state then
             cmp.hide()
-            return (require('copilot-lsp.nes').apply_pending_nes() and require('copilot-lsp.nes').walk_cursor_end_edit())
+            return (
+              require('copilot-lsp.nes').apply_pending_nes()
+              and require('copilot-lsp.nes').walk_cursor_end_edit()
+            )
           end
           if cmp.snippet_active() then
             return cmp.accept()
@@ -66,7 +69,9 @@ return {
         function() require('blink-cmp').show { providers = { 'path', 'ripgrep' } } end,
       },
       ['<c-.>'] = {
-        function() require('blink-cmp').show { providers = { 'lsp', 'buffer', 'snippets', 'copilot' } } end,
+        function()
+          require('blink-cmp').show { providers = { 'lsp', 'buffer', 'snippets', 'copilot' } }
+        end,
       },
     },
 
@@ -81,7 +86,7 @@ return {
       -- show the documentation after a delay
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 1000,
+        auto_show_delay_ms = 200,
         treesitter_highlighting = true,
       },
       ghost_text = { enabled = true }, -- show the ghost text
@@ -96,8 +101,26 @@ return {
           columns = { { 'kind_icon' }, { 'label', gap = 1 } },
           components = {
             label = {
-              text = function(ctx) return require('colorful-menu').blink_components_text(ctx) end,
-              highlight = function(ctx) return require('colorful-menu').blink_components_highlight(ctx) end,
+              width = { fill = true, max = 80 },
+              text = function(ctx)
+                local highlights_info = require('colorful-menu').blink_highlights(ctx)
+                if highlights_info ~= nil then
+                  -- Or you want to add more item to label
+                  return highlights_info.label
+                else
+                  return ctx.label
+                end
+              end,
+              highlight = function(ctx)
+                local highlights = {}
+                local highlights_info = require('colorful-menu').blink_highlights(ctx)
+                if highlights_info ~= nil then highlights = highlights_info.highlights end
+                for _, idx in ipairs(ctx.label_matched_indices) do
+                  table.insert(highlights, { idx, idx + 1, group = 'BlinkCmpLabelMatch' })
+                end
+                -- Do something else
+                return highlights
+              end,
             },
           },
         },
@@ -119,7 +142,7 @@ return {
         copilot = {
           name = 'copilot',
           module = 'blink-copilot',
-          score_offset = 100,
+          score_offset = 0,
           async = true,
           opts = {
             max_completions = 5,

@@ -8,6 +8,14 @@ o.termguicolors = true
 o.number = true
 o.relativenumber = true
 
+o.guicursor = {
+  'n-c-sm:block',
+  'i-ci-ve:ver25',
+  'v-r-cr-o:hor20',
+  't:block-blinkon500-blinkoff500-TermCursor',
+  'a:SmearCursorHideable',
+}
+
 -- enable mouse mode https://neovim.io/doc/user/options.html#'mouse'
 o.mouse = 'a'
 o.showmode = false
@@ -41,7 +49,7 @@ o.timeoutlen = 300
 o.splitright = true
 o.splitbelow = true
 
-o.list = true
+o.list = false
 
 o.listchars = {
   eol = '',

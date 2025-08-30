@@ -26,9 +26,14 @@ return {
       float = {
         -- Padding around the floating window
         padding = 2,
-        max_width = 0,
-        max_height = 0,
+        max_width = 0.6,
+        max_height = 0.6,
         border = 'rounded',
+        preview_win = {
+          win_options = {
+            wrap = false,
+          },
+        },
         win_options = {
           winblend = 0,
         },
@@ -93,6 +98,18 @@ return {
     },
     keys = {
       { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+      {
+        '<leader>-',
+        function()
+          local oil = require 'oil'
+          if vim.w.is_oil_win then
+            oil.close()
+          else
+            oil.open_float(nil, { preview = { vertical = true } })
+          end
+        end,
+        desc = 'Toggle Oil (float)',
+      },
     },
     init = function() vim.g.oil_show_detail = false end,
   },

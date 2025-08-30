@@ -106,6 +106,20 @@ function M.patch_theme(pattern, opts)
   })
 end
 
+-- remove bg from all diagnostic virtual text
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    for _, v in pairs {
+      'DiagnosticVirtualTextHint',
+      'DiagnosticVirtualTextWarn',
+      'DiagnosticVirtualTextError',
+      'DiagnosticVirtualTextInfo',
+    } do
+      vim.api.nvim_set_hl(0, v, { fg = util.color(v), bg = 'NONE' })
+    end
+  end,
+})
+
 -- create default HL group
 -- M.rainbow.set_hl_groups('#0058ff', '#000000', '#ffffff', 0.25, 0.5)
 

@@ -70,21 +70,24 @@ autocmd('LspAttach', {
       local keys = require 'phaezer.core.keys'
 
       -- Set keymaps for LSP
-      keys.set {
-        '<leader>lh',
-        function()
-          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-        end,
-        desc = 'Toggle Inlay Hints',
-        buffer = event.buf,
+      keys.map {
+        {
+          '<leader>lh',
+          function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+          end,
+          desc = 'Toggle Inlay Hints',
+          buffer = event.buf,
+        },
       }
+
       -- clear lsb buffer and highlights on LSP detach
       vim.api.nvim_create_autocmd('LspDetach', {
         group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
         callback = function(_event)
           vim.lsp.buf.clear_references()
           vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = _event.buf }
-          keys.unset { '<leader>lh', buffer = _event.buf }
+          keys.unmap { { '<leader>lh', buffer = _event.buf } }
         end,
       })
     end

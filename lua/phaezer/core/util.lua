@@ -72,11 +72,8 @@ end
 ---@param tbl table The table to check
 ---@return boolean true if the table is like a list, false otherwise
 function M.is_list(tbl)
-  assert(tbl ~= nil, 'Table cannot be nil')
-  assert(type(tbl) == 'table', 'Expected a table, got ' .. type(tbl))
-
-  if #tbl == 0 then
-    return false -- empty table is not considered a list
+  if tbl == nil or type(tbl) ~= 'table' or #tbl == 0 then
+    return false
   end
 
   for i = 1, #tbl do
@@ -91,8 +88,9 @@ end
 ---@param tbl table The table to check
 ---@return boolean true if the table is like a dictionary, false otherwise
 function M.dict_like(tbl)
-  assert(tbl ~= nil, 'Table cannot be nil')
-  assert(type(tbl) == 'table', 'Expected a table, got ' .. type(tbl))
+  if tbl == nil or type(tbl) ~= 'table' or #tbl == 0 then
+    return false
+  end
 
   for k, _ in pairs(tbl) do
     if type(k) ~= 'number' then
@@ -101,6 +99,29 @@ function M.dict_like(tbl)
   end
 
   return false
+end
+
+---Extract key-value pairs from a table based on a list of keys or a comparison function
+---@param tbl table The table to extract from
+---@param cmp table | function The list of keys to extract or function that returns boolean given a key and value
+---@return table, table field extracted key-value pairs and the remaining key-value pairs
+function M.tbl_extract(tbl, cmp)
+  local extracted = {}
+  local remains = {}
+  local cmp_fn = type(cmp) == 'function' and cmp
+    or function(key, _)
+      local keys = cmp --[[@as table]]
+      return vim.tbl_contains(keys, key)
+    end
+
+  for key, v in pairs(tbl) do
+    if cmp_fn(key, v) then
+      extracted[key] = v
+    else
+      remains[key] = v
+    end
+  end
+  return extracted, remains
 end
 
 -- Normalize a file path

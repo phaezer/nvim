@@ -12,22 +12,27 @@ local function get_lua_filenames_without_extension()
   return result
 end
 
+local diag_icon_map = {
+  [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+  [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+  [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+  [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+}
+
 -- LSP Settings
 vim.diagnostic.config {
   severity_sort = true,
   float = { border = 'rounded', source = 'if_many' },
-  underline = { severity = vim.diagnostic.severity.ERROR },
+  underline = {
+    severity = { min = vim.diagnostic.severity.INFO },
+  },
   virtual_text = {
     source = 'if_many',
-    spacing = 2,
+    prefix = '',
+    current_line = true,
+    severity = { vim.diagnostic.severity.HINT, vim.diagnostic.severity.INFO },
     format = function(diag)
-      local diagnostic_message = {
-        [vim.diagnostic.severity.ERROR] = diag.message,
-        [vim.diagnostic.severity.WARN] = diag.message,
-        [vim.diagnostic.severity.INFO] = diag.message,
-        [vim.diagnostic.severity.HINT] = diag.message,
-      }
-      return diagnostic_message[diag.severity]
+      return diag_icon_map[diag.severity] .. ' ' .. diag.message .. ' '
     end,
   },
   signs = {
@@ -37,6 +42,13 @@ vim.diagnostic.config {
       [vim.diagnostic.severity.INFO] = icons.diagnostics.Info .. ' ',
       [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint .. ' ',
     },
+    format = function() end,
+  },
+  virtual_lines = {
+    severity = { min = vim.diagnostic.severity.WARN },
+    format = function(diag)
+      return diag_icon_map[diag.severity] .. ' ' .. diag.message
+    end,
   },
 }
 

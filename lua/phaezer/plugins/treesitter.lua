@@ -7,7 +7,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
-    version = 'v0.10.0',
+    version = '*',
     opts = {
       ensure_installed = {
         'bash',
@@ -79,9 +79,11 @@ return {
 
   -- ==============================================================================================
   -- TreeSitter Context
+  -- NOTE: provides a contect window (similar to vscode)
   {
     'nvim-treesitter/nvim-treesitter-context',
     lazy = false,
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = {
       enable = true,
       max_lines = 5, -- Keep this 0 to disable max_lines

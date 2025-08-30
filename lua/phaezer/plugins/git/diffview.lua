@@ -1,3 +1,4 @@
+local icons = require 'phaezer.core.icons'
 -- Diffview
 -- NOTE: a git diff viewer for Neovim
 return {
@@ -16,8 +17,8 @@ return {
     enhanced_diff_hl = true, -- Enable enhanced highlighting for diffs
     use_icons = true, -- Use icons in the diff view
     icons = { -- Only applies when use_icons is true.
-      folder_closed = '',
-      folder_open = '',
+      folder_closed = icons.gui.FolderClosed,
+      folder_open = icons.gui.FolderOpen,
     },
     signs = {
       fold_closed = '',
@@ -41,7 +42,9 @@ return {
     local keys = require 'phaezer.core.keys'
     -- Set keymaps for Diffview
     for i = 1, 9 do
-      keys.set { '<leader>gdh' .. i, '<cmd>DiffviewOpen HEAD~' .. i .. '<cr>', desc = 'Diff Head~' .. i }
+      keys.map {
+        { '<leader>gdh' .. i, '<cmd>DiffviewOpen HEAD~' .. i .. '<cr>', desc = 'Diff Head~' .. i },
+      }
     end
   end,
   keys = {

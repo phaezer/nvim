@@ -1,6 +1,6 @@
 local hl = require 'phaezer.config.highlights'
 
-local variant = 'mocha'
+local variant = 'frappe'
 
 return {
   'catppuccin/nvim',
@@ -10,7 +10,7 @@ return {
   opts = {
     flavour = variant,
     styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-      comments = { 'italic' }, -- Change the style of comments
+      -- comments = {}, -- Change the style of comments
       conditionals = { 'italic' },
       -- loops = {},
       functions = { 'bold' },
@@ -22,6 +22,13 @@ return {
       -- properties = {},
       types = { 'bold' },
       -- operators = {},
+    },
+    highlight_overrides = {
+      all = function(colors)
+        return {
+          ['@property'] = { fg = colors.sapphire },
+        }
+      end,
     },
     integrations = {
       cmp = true,
@@ -46,42 +53,81 @@ return {
     },
   },
   init = function()
-    local palette = require('catppuccin.palettes.' .. variant)
-    hl.patch_theme('catppuccin', function()
-      return {
-        rainbow = {
-          base = palette.blue,
-          bg = palette.base,
-          fg = palette.text,
-          bg_alpha = 0.2,
-          fg_alpha = 0.75,
-        },
-        groups = {
-          BufferlineActive = { fg = palette.sky, bg = palette.surface0, bold = true },
-          BufferlineInactive = { fg = palette.subtext1, bg = palette.base },
-          -- NeoTree colors
-          NeoTreeGitAdded = { fg = palette.green },
-          NeoTreeGitConflict = { fg = palette.mauve },
-          NeoTreeGitDeleted = { fg = palette.red },
-          NeoTreeGitModified = { fg = palette.blue },
-          -- Oil git colors
-          OilGitAdded = { fg = palette.green },
-          OilGitModified = { fg = palette.blue },
-          OilGitRenamed = { fg = palette.blue },
-          OilGitUntracked = { fg = palette.subtext1 },
-          OilGitIgnored = { fg = palette.subtext1 },
-          -- Dart
-          DartPickLabel = { fg = palette.sky, bold = true },
-          DartCurrent = { bg = palette.surface0 },
-          DartCurrentLabel = { fg = palette.sky, bg = palette.surface0, bold = true },
-          DartVisible = { fg = palette.subtext1, bg = palette.bg },
-          DartVisibleLabel = { fg = palette.muave, bg = palette.bg },
-          DartCurrentModified = { bg = palette.surface0, italic = true },
-          DartVisibleModified = { fg = palette.subtext1, bg = palette.base, italic = true },
-          DartCurrentLabelModified = { fg = palette.muave, bg = palette.base, bold = true },
-          DartVisibleLabelModified = { fg = palette.muave, bg = palette.base, bold = true },
-        },
-      }
-    end)
+    local palettes = {
+      catppuccin = function() return require('catppuccin.palettes.' .. variant) end,
+      ['catppuccin-frappe'] = function() return require 'catppuccin.palettes.frappe' end,
+      ['catppuccin-latte'] = function() return require 'catppuccin.palettes.latte' end,
+      ['catppuccin-macchiato'] = function() return require 'catppuccin.palettes.macchiato' end,
+      ['catppuccin-mocha'] = function() return require 'catppuccin.palettes.mocha' end,
+    }
+
+    for theme, pallete_fn in pairs(palettes) do
+      hl.patch_theme(theme, function()
+        local palette = pallete_fn()
+
+        local git = {
+          added = { fg = palette.green },
+          confict = { fg = palette.muave },
+          deleted = { fg = palette.red },
+          modified = { fg = palette.blue },
+          ignored = { fg = palette.subtext1 },
+          untracked = { fg = palette.subtext0 },
+        }
+
+        local tabline = {
+          active = { fg = palette.text, bg = palette.surface0 },
+          innactive = { fg = palette.subtext1, bg = palette.base },
+          label = { fg = palette.blue },
+          label_modified = { fg = palette.peach },
+        }
+
+        return {
+          rainbow = {
+            base = palette.blue,
+            bg = palette.base,
+            fg = palette.text,
+            bg_alpha = 0.2,
+            fg_alpha = 0.75,
+          },
+          groups = {
+            BufferlineActive = { fg = palette.sky, bg = palette.surface0, bold = true },
+            BufferlineInactive = { fg = palette.subtext1, bg = palette.base },
+            -- NeoTree colors
+            NeoTreeGitAdded = git.added,
+            NeoTreeGitConflict = git.confict,
+            NeoTreeGitDeleted = git.deleted,
+            NeoTreeGitModified = git.modified,
+            -- Oil git colors
+            OilGitAdded = git.added,
+            OilGitModified = git.modified,
+            OilGitRenamed = git.renamed,
+            OilGitUntracked = git.untracked,
+            OilGitIgnored = git.ignored,
+            -- Dart
+            DartPickLabel = { fg = tabline.label.fg, bg = tabline.active.bg, bold = true },
+            DartCurrentLabel = { fg = tabline.label.fg, bg = tabline.active.bg, bold = true },
+            DartVisibleLabel = { fg = tabline.label.fg, bg = tabline.innactive.bg },
+            DartCurrentLabelModified = {
+              fg = tabline.label_modified.fg,
+              bg = tabline.active.bg,
+              bold = true,
+            },
+            DartVisibleLabelModified = {
+              fg = tabline.label_modified.fg,
+              bg = tabline.innactive.bg,
+              bold = true,
+            },
+            DartCurrent = tabline.active,
+            DartVisible = tabline.innactive,
+            DartCurrentModified = { fg = tabline.active.fg, bg = tabline.active.bg, italic = true },
+            DartVisibleModified = {
+              fg = tabline.innactive.fg,
+              bg = tabline.innactive.bg,
+              italic = true,
+            },
+          },
+        }
+      end)
+    end
   end,
 }

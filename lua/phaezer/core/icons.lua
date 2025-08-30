@@ -38,6 +38,7 @@ icons.gui = {
   Lazy = '󰒲',
   Branch = '',
   Neovim = '',
+  Server = '󰒋',
 }
 
 icons.kind = {

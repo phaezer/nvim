@@ -3,7 +3,7 @@
 return {
   'onsails/lspkind.nvim',
   lazy = false,
-  priority = 1000, -- high priority to xensure icons are loaded early
+  priority = 1000, -- high priority to ensure icons are loaded early
   opts = {
     symbol_map = {
       Array = '󰅪',

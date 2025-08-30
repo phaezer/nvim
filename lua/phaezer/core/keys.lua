@@ -13,10 +13,10 @@ local M = {}
 -- t: terminal mode
 ---@alias keymode 'n' | 'v' | 's' | 'o' | 'i' | 'x' | 'c' | 't'
 
--- key tables
----@alias key_table {[1]: string, [2]: string | function, ['mode']?: keymode, ['desc']?: string, ['vs_code']?: boolean, ['os']?: os_name | os_name[], [string]: any}
+---key tables
+---@alias KeyTable {[1]: string, [2]: string | function, ['mode']?: keymode, ['desc']?: string, ['vs_code']?: boolean, ['os']?: os_name | os_name[], [string]: any}
 
--- set keymap
+---set keymap
 ---@param mode keymode
 ---@param lhs string
 ---@param rhs string | function
@@ -37,58 +37,50 @@ local function set_keymap(mode, lhs, rhs, opts)
       opts.vs_code = nil
     end
   end
-
-  vim.keymap.set(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts or { noremap = true, silent = true })
 end
 
-local function parse_opts(opts, default_mode, default_opts)
-  local _opts, _mode = default_opts or {}, default_mode or 'n'
-  for k, v in pairs(opts) do
-    -- if k is not a number, add it to the options
-    if type(k) ~= 'number' then
-      if k == 'mode' then
-        _mode = v
-      else
-        _opts[k] = v
-      end
-    end
-  end
-  return _opts, _mode
-end
+---Map a key
+---@param val {keys: KeyTable[], opts: table? } | {[number]: KeyTable, opts: table?} | KeyTable[]
+M.map = function(val)
+  local key_tbls, common_opts = util.tbl_extract(val, function(k, _)
+    return type(k) == 'number' or k == 'keys'
+  end)
 
--- Map a key with
----@param keys key_table | key_table[]
-M.set = function(keys)
-  if not util.is_list(keys) or type(keys[1]) ~= 'table' then
-    keys = { keys }
-  end
+  local prefix = common_opts and common_opts.prefix or ''
+  common_opts['prefix'] = nil
 
-  for _, key in ipairs(keys) do
-    -- parse options
-    local _opts, _mode = parse_opts(key, 'n', { noremap = true, silent = true })
+  local default_mode = common_opts.mode or 'n'
+  common_opts['mode'] = nil
 
-    local _lhs = key[1]
-    assert(_lhs, 'lhs is required')
-
-    local _rhs = key[2]
-    assert(_rhs, 'rhs is required')
-
-    set_keymap(_mode, _lhs, _rhs, _opts)
+  for _, key_tbl in ipairs(key_tbls) do
+    local key_opts = util.tbl_extract(key_tbl, function(k, _)
+      return type(k) ~= 'number' and k ~= 'mode'
+    end)
+    local opts = vim.tbl_deep_extend('force', common_opts or {}, key_opts or {})
+    local lhs = prefix .. key_tbl[1] -- add prefix if exists
+    assert(lhs, 'lhs is required')
+    local rhs = key_tbl[2]
+    assert(rhs, 'rhs is required')
+    set_keymap(key_tbl.mode or default_mode, lhs, rhs, opts)
   end
 end
 
--- Unset a keymap, if it fails, notify the user
----@param keys key_table | key_table[]
+---Unset a keymap, if it fails, notify the user
+---@param keys KeyTable[]
 ---@return nil
-M.unset = function(keys)
-  if not util.is_list(keys) or type(keys[1]) ~= 'table' then
-    keys = { keys }
-  end
+M.unmap = function(keys)
   for _, key in ipairs(keys) do
-    local opts, mode = parse_opts(key, 'n')
+    local mode = key.mode or 'n'
+
+    local opts = util.tbl_extract(key, function(k, _)
+      return type(k) ~= 'number' and k ~= 'mode'
+    end)
+
     local ok, err = pcall(function()
       vim.keymap.del(mode, key[1], opts)
     end)
+
     if not ok then
       vim.notify(
         string.format('Failed to unset keymap %s: %s', key[1], err),

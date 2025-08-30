@@ -43,7 +43,7 @@ return {
     on_attach = function(bufnr)
       local gs = require 'gitsigns'
 
-      require('phaezer.core.keys').set {
+      require('phaezer.core.keys').map {
         {
           ']c',
           function()

@@ -12,6 +12,7 @@ return {
         'dirvish',
         'fugitive',
         'Outline',
+        'Oil',
         'neo-tree',
         'snacks_dashboard',
       },

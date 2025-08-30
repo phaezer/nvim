@@ -11,7 +11,7 @@ return {
     'nvim-neotest/nvim-nio',
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-    'nvim-tree/nvim-web-devicons', -- icons
+    'nvim-tree/nvim-web-devicons',
   },
   opts = {
     close_if_last_window = true,
@@ -20,6 +20,16 @@ return {
     enable_diagnostics = true,
     sort_case_insensitive = true,
     sort_function = nil, -- use the default sort function
+    window = {
+      ['P'] = {
+        'toggle_preview',
+        config = {
+          use_float = false,
+          use_snacks_image = true,
+          title = 'Preview',
+        },
+      },
+    },
     default_component_configs = {
       container = {
         enable_character_fade = true,
@@ -147,7 +157,6 @@ return {
       -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
       use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
     },
-
     buffers = {
       follow_current_file = {
         enabled = true, -- This will find and focus the file in the active buffer every time
@@ -157,8 +166,29 @@ return {
       group_empty_dirs = true, -- when true, empty folders will be grouped together
       show_unloaded = true,
     },
+    sources = {
+      'filesystem',
+      'buffers',
+      'git_status',
+      'document_symbols',
+    },
   },
   keys = {
-    { '<leader>e', '<cmd>Neotree reveal<cr>', desc = 'File Explorer' },
+    { '<leader>E', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer | Neo-tree' },
+    { '<leader>ee', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer | Neo-tree' },
+    { '<leader>eh', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree left' },
+    { '<leader>el', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree right' },
+    { '<leader>ef', '<cmd>Neotree reveal float<cr>', desc = 'Neo-tree float' },
+    { '<leader>eb', '<cmd>Neotree buffers reveal<cr>', desc = 'Buffer Explorer | Neo-tree' },
+    {
+      '<leader>es',
+      '<cmd>Neotree document_symbols reveal<cr>',
+      desc = 'Symbol Explorer | Neo-tree',
+    },
+    {
+      '<leader>eg',
+      '<cmd>Neotree git_status reveal<cr>',
+      desc = 'Git Status Explorer | Neo-tree',
+    },
   },
 }

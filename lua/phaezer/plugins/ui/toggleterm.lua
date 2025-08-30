@@ -6,8 +6,6 @@ return {
   lazy = true,
   cmd = {
     'ToggleTerm',
-    'TermNew',
-    'TermSelect',
     'ToggleTermToggleAll',
     'ToggleTermSendCurrentLine',
     'ToggleTermSendVisualLines',
@@ -22,7 +20,7 @@ return {
         return vim.o.columns * 0.4
       end
     end,
-    open_mapping = [[<c-\>]],
+    open_mapping = [[<c-`>]], -- same as vscode default
     hide_numbers = true,
     shade_terminals = false,
     insert_mappings = true,
@@ -45,8 +43,22 @@ return {
     },
   },
   keys = {
-    { '<leader>tf', '<cmd>ToggleTerm direction=float<cr>', desc = 'Toggle floating terminal' },
-    { '<leader>tg', '<cmd>ToggleTerm direction=vertical<cr>', desc = 'Toggle horizontal Terminal' },
-    { '<leader>tv', '<cmd>ToggleTerm direction=vertical<cr>', desc = 'Toggle Vertical Terminal' },
+    {
+      '<leader>tf',
+      '<cmd>ToggleTerm direction=float<cr>',
+      desc = 'Toggle floating terminal',
+      mode = 'n',
+    },
+    {
+      '<leader>th',
+      '<cmd>ToggleTerm direction=horizontal<cr>',
+      desc = 'Toggle horizontal Terminal',
+    },
+    {
+      '<leader>tv',
+      '<cmd>ToggleTerm direction=vertical<cr>',
+      desc = 'Toggle Vertical Terminal',
+      mode = 'n',
+    },
   },
 }

@@ -1,6 +1,6 @@
 vim.uv = vim.uv or vim.loop
 
-local colorscheme = 'nightfox'
+local colorscheme = 'tokyonight'
 
 require 'phaezer.config'
 
@@ -37,6 +37,7 @@ lazy_config.spec = {
   { import = 'phaezer.plugins.lsp' },
   { import = 'phaezer.plugins.text' },
   { import = 'phaezer.plugins.tools' },
+  { import = 'phaezer.plugins.util' },
   { import = 'phaezer.plugins.ui' },
 }
 

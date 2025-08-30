@@ -59,12 +59,16 @@ LuaLine.opts = function(_, opts)
           symbols = icons.diagnostics,
           {
             function() return require('noice').api.status.command.get() end,
-            cond = function() return package.loaded['noice'] and require('noice').api.status.command.has() end,
+            cond = function()
+              return package.loaded['noice'] and require('noice').api.status.command.has()
+            end,
             color = function() return { fg = util.color 'Statement' } end,
           },
           {
             function() return require('noice').api.status.mode.get() end,
-            cond = function() return package.loaded['noice'] and require('noice').api.status.mode.has() end,
+            cond = function()
+              return package.loaded['noice'] and require('noice').api.status.mode.has()
+            end,
             color = function() return { fg = util.color 'Constant' } end,
           },
           {
@@ -104,7 +108,10 @@ LuaLine.opts = function(_, opts)
             -- Standard unicode symbol for when LSP is done:
             done = '',
             -- Delimiter inserted between LSP names:
-            separator = ', ',
+            separator = '/',
+          },
+          ignore_lsp = {
+            'null-ls',
           },
         },
         {
