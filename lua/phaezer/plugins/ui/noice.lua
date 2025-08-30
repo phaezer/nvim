@@ -29,7 +29,7 @@ return {
     },
     -- you can enable a preset for easier configuration
     presets = {
-      bottom_search = false,
+      bottom_search = true,
       command_palette = true, -- position the cmdline and popupmenu together
       long_message_to_split = true, -- long messages will be sent to a split
       inc_rename = false, -- enables an input dialog for inc-rename.nvim
@@ -100,30 +100,15 @@ return {
     -- for styling elements refer to NUI docs:
     --   popup: https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup
     --   split: shttps://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/split
-    -- views = {
-    --   popupmenu = {
-    --     relative = 'editor',
-    --     border = {
-    --       style = 'none',
-    --       padding = { 1, 2 },
-    --     },
-    --     position = {
-    --       row = 8,
-    --       col = '50%',
-    --     },
-    --     size = {
-    --       width = 60,
-    --       height = 10,
-    --     },
-    --     win_options = {
-    --       winhighlight = {
-    --         Normal = 'NormalFloat', -- change to NormalFloat dto make it look like other floats
-    --         FloatBorder = 'FloatBorder', -- border highlight
-    --         CursorLine = 'NoicePopupmenuSelected', -- used for highlighting the selected item
-    --         PmenuMatch = 'NoicePopupmenuMatch', -- used to highlight the part of the item that matches the input
-    --       },
-    --     },
-    --   },
+    views = {
+      cmdline_popup = {
+        relative = 'editor',
+        position = {
+          row = '50%',
+          col = '50%',
+        },
+      },
+    },
     --   cmdline_popup = {
 
     --     border = {
