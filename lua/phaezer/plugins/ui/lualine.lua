@@ -33,6 +33,7 @@ LuaLine.opts = function(_, opts)
           'ministarter',
           'snacks_dashboard',
           'Outline',
+          'neo-tree',
         },
       },
       component_separators = ' ',
@@ -137,7 +138,7 @@ LuaLine.opts = function(_, opts)
       lualine_y = {},
       lualine_z = { 'location' },
     },
-    extensions = { 'neo-tree', 'lazy', 'fzf', 'trouble' },
+    extensions = { 'lazy', 'fzf', 'trouble' },
   })
 end
 

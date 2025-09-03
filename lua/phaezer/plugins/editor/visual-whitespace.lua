@@ -15,10 +15,10 @@ return {
       trail = true,
     },
     list_chars = {
-      space = '',
+      space = '',
       tab = '',
-      nbsp = '󱁐',
-      lead = '',
+      nbsp = '',
+      lead = '',
       trail = '',
     },
     fileformat_chars = {
@@ -41,9 +41,9 @@ return {
   },
   keys = {
     {
-      '<leader>u.',
+      '<leader>v.',
       function() require('visual-whitespace').toggle() end,
-      desc = 'Toggle Visual Whitespace',
+      desc = 'toggle visual whitespace',
     },
   },
 }

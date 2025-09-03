@@ -145,9 +145,10 @@ M.read_file = function(path)
   return content
 end
 
---- get a hl color (SRC: https://github.com/folke/snacks.nvim/blob/main/lua/snacks/util/init.lua)
----@param group string|string[] hl group to get color from
----@param prop? string property to get. Defaults to "fg"
+--- get a hl color
+--- SRC: https://github.com/folke/snacks.nvim/blob/main/lua/snacks/util/init.lua)
+--- @param group string|string[] hl group to get color from
+--- @param prop? string property to get. Defaults to "fg"
 function M.color(group, prop)
   prop = prop or 'fg'
   group = type(group) == 'table' and group or { group }
@@ -158,6 +159,14 @@ function M.color(group, prop)
       return string.format('#%06x', hl[prop])
     end
   end
+end
+
+--- Find the first truthy value in a table
+--- @param tbl table The table to search
+function M.first_truthy(tbl)
+  vim.iter(tbl):find(function(v)
+    return v and v ~= '' and v ~= 0
+  end)
 end
 
 return M

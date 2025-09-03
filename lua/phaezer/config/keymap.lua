@@ -34,9 +34,10 @@ map {
   { '<A-l>', '<Right>', desc = 'Move right' },
 }
 
--- move lines up and down
+-- alt key bindings in normal mode
 map { -- normal mode move current line
   mode = 'n',
+  -- move lines up and down
   { '<A-j>', '<cmd> m+ <CR>', desc = 'Move current line down' },
   { '<A-k>', '<cmd> m-- <CR>', desc = 'Move current line up' },
 }
@@ -65,47 +66,53 @@ map {
 map {
   mode = 'n',
   prefix = '<leader>w',
-  { 's', '<CMD>split<CR>', desc = 'Horizontal split' },
-  { 'v', '<CMD>vsplit<CR>', desc = 'Vertical split' },
-  { 'c', '<CMD>close<CR>', desc = 'Close window' },
-  { 'T', '<CMD>wincmd T<CR>', desc = 'Move window to new tab' },
-  { 'r', '<CMD>wincmd r<CR>', desc = 'Rotate window down/right' },
-  { 'R', '<CMD>wincmd R<CR>', desc = 'Rotate window up/left' },
-  { 'H', '<CMD>wincmd H<CR>', desc = 'Move window left' },
-  { 'J', '<CMD>wincmd J<CR>', desc = 'Move window down' },
-  { 'K', '<CMD>wincmd K<CR>', desc = 'Move window up' },
-  { 'L', '<CMD>wincmd L<CR>', desc = 'Move window right' },
-  { 'k', '<CMD>resize +5<CR>', desc = 'Increase window height' },
-  { 'j', '<CMD>resize -5<CR>', desc = 'Decrease window height' },
-  { 'h', '<CMD>vertical resize +5<CR>', desc = 'Increase window width' },
-  { 'l', '<CMD>vertical resize -3<CR>', desc = 'Decrease window width' },
-  { '=', '<CMD>wincmd =<CR>', desc = 'Windows Equalize size' },
+  { 's', '<CMD>split<CR>', desc = ' split ' },
+  { 'v', '<CMD>vsplit<CR>', desc = ' split |' },
+  { 'c', '<CMD>close<CR>', desc = '󱎘 ' },
+  { 'T', '<CMD>wincmd T<CR>', desc = ' 󰜴 new tab' },
+  { 'r', '<CMD>wincmd r<CR>', desc = ' ' },
+  { 'R', '<CMD>wincmd R<CR>', desc = ' ' },
+  { 'H', '<CMD>wincmd H<CR>', desc = 'move  󰜱' },
+  { 'J', '<CMD>wincmd J<CR>', desc = 'move  󰜮' },
+  { 'K', '<CMD>wincmd K<CR>', desc = 'move  󰜷' },
+  { 'L', '<CMD>wincmd L<CR>', desc = 'move  󰜴' },
+  { 'k', '<CMD>resize +5<CR>', desc = '  height' },
+  { 'j', '<CMD>resize -5<CR>', desc = '  height' },
+  { 'h', '<CMD>vertical resize +5<CR>', desc = '  width' },
+  { 'l', '<CMD>vertical resize -3<CR>', desc = '  width' },
+  { '=', '<CMD>wincmd =<CR>', desc = ' width' },
 }
 
 -- remap window switching keys
 map {
   mode = 'n',
-  { '<C-h>', '<CMD>wincmd h<CR>', desc = 'GoTo to window left' },
-  { '<C-j>', '<CMD>wincmd j<CR>', desc = 'GoTo to window down' },
-  { '<C-k>', '<CMD>wincmd k<CR>', desc = 'GoTo to window up' },
-  { '<C-l>', '<CMD>wincmd l<CR>', desc = 'GoTo to window right' },
+  -- switch windows
+  { '<C-h>', '<cmd>wincmd h<cr>', desc = ' 󰜱' },
+  { '<C-j>', '<cmd>wincmd j<cr>', desc = ' 󰜮' },
+  { '<C-k>', '<cmd>wincmd k<cr>', desc = ' 󰜷' },
+  { '<C-l>', '<cmd>wincmd l<cr>', desc = ' 󰜴' },
+  -- move windows
+  { '<A-S-h>', '<cmd>wincmd h<cr>', desc = 'move  󰜱' },
+  { '<A-S-j>', '<cmd>wincmd h<cr>', desc = 'move  󰜮' },
+  { '<A-S-k>', '<cmd>wincmd h<cr>', desc = 'move  󰜷' },
+  { '<A-S-l>', '<cmd>wincmd h<cr>', desc = 'move  󰜴' },
 }
 
 -- buffer management
 map {
   mode = 'n',
   prefix = '<leader>b',
-  { 'l', '<CMD>bnext<CR>', desc = 'Next buffer' },
-  { 'h', '<CMD>bprevious<CR>', desc = 'Previous buffer' },
-  { 'd', '<CMD>%bd|e#|bd#<CR>', desc = 'Close all but the current buffer' },
-  { 'N', '<CMD>enew<CR>', desc = 'New buffer' },
+  { 'l', '<cmd>bnext<cr>', desc = 'next buffer' },
+  { 'h', '<cmd>bprevious<cr>', desc = 'previous buffer' },
+  { 'd', '<cmd>%bd|e#|bd#<cr>', desc = 'Close all but the current buffer' },
+  { 'n', '<cmd>enew<cr>', desc = 'new buffer' },
 }
 
 -- file ops
 map {
   mode = 'n',
   prefix = '<leader>f',
-  { 'r', vim.cmd.checktime, desc = 'Refresh files' },
+  { 'r', vim.cmd.checktime, desc = 'refresh files' },
 }
 
 -- terminal
@@ -114,7 +121,7 @@ map {
   {
     '<C-q>',
     vim.api.nvim_replace_termcodes('<C-\\><C-N>', true, true, true),
-    desc = 'Exit terminal mode',
+    desc = 'exit terminal mode',
   },
 }
 
@@ -122,13 +129,13 @@ local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
 
 -- comments
 map {
-  prefix = '<A-/>',
+  prefix = '<c-/>',
   {
     '',
     function()
       require('Comment.api').toggle.linewise.current()
     end,
-    desc = 'Comment line',
+    desc = 'comment line  Comment',
     mode = { 'i', 'n' },
   },
   {
@@ -137,10 +144,11 @@ map {
       vim.api.nvim_feedkeys(esc, 'nx', false)
       require('Comment.api').locked 'toggle.linewise'(vim.fn.visualmode())
     end,
-    desc = 'Comment line',
+    desc = 'comment line  Comment',
     mode = 'x',
   },
 }
+
 map {
   prefix = 'ic',
   { '', require('vim._comment').textobject, desc = 'Uncomment commented lines', mode = 'o' },
@@ -150,17 +158,83 @@ map {
       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<esc>', true, true, true), 'nx', false)
       require('vim._comment').textobject()
     end,
-    desc = 'Select commented lines',
+    desc = 'select commented lines',
     mode = 'x',
   },
 }
 
--- UI management
+-- visuals
+-- map {
+--   mode = 'n',
+--   prefix = '<leader>v',
+--   {
+--     'u',
+--     function()
+--       if vim.opt.cursorline._value == true then
+--         vim.opt.cursorline = false
+--       else
+--         vim.opt.cursorline = true
+--       end
+--     end,
+--     desc = 'toggle cursorline',
+--   },
+--   {
+--     'U',
+--     function()
+--       if vim.opt.cursorcolumn._value == true then
+--         vim.opt.cursorcolumn = false
+--       else
+--         vim.opt.cursorcolumn = true
+--       end
+--     end,
+--     desc = 'toggle cursorcolumn',
+--   },
+--   {
+--     'i',
+--     function()
+--       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+--     end,
+--     desc = 'toggle lsp inlay hints',
+--   },
+--   { 't', '<CMD>TSToggle highlight<CR>', desc = 'toggle TS highlights' },
+--   { 'm', '<CMD>Markview toggle<CR>', desc = 'toggle preview of buffer  Markview' },
+--   {
+--     'i',
+--     function()
+--       vim.lsp.inlay_hint.endable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
+--     end,
+--     desc = 'toggle inlay hints',
+--   },
+--   {
+--     'd',
+--     function()
+--       vim.diagnostic.enabled(not vim.diagnosic.is_enabled())
+--     end,
+--     desc = 'toggle diagnostics',
+--   },
+-- }
+
+map {
+  mode = { 'n', 'i' },
+  { 'a-w', '<cmd>write<cr>', desc = 'write buffer' },
+  { 'a-q', '<cmd>quit<cr>', desc = 'quit window' },
+  { 'a-d', '<cmd><cr>', desc = 'delete buffer' },
+}
+-- actions / leader k
 map {
   mode = 'n',
-  prefix = '<leader>u',
+  prefix = '<leader>k',
+  { 'w', '<cmd>write<cr>', desc = 'write buffer' },
+  { 'q', '<cmd>quit<cr>', desc = 'quit window' },
   {
-    'u',
+    '/',
+    function()
+      require('Comment.api').toggle.linewise.current()
+    end,
+    desc = 'comment line  Comment',
+  },
+  {
+    'c',
     function()
       if vim.opt.cursorline._value == true then
         vim.opt.cursorline = false
@@ -168,10 +242,10 @@ map {
         vim.opt.cursorline = true
       end
     end,
-    desc = 'Toggle CursorLine',
+    desc = 'toggle cursorline',
   },
   {
-    'U',
+    'C',
     function()
       if vim.opt.cursorcolumn._value == true then
         vim.opt.cursorcolumn = false
@@ -179,63 +253,74 @@ map {
         vim.opt.cursorcolumn = true
       end
     end,
-    desc = 'Toggle CursorColumn',
+    desc = 'toggle cursorcolumn',
   },
+  {
+    'i',
+    function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    end,
+    desc = 'toggle lsp inlay hints',
+  },
+  { 't', '<cmd>TSToggle highlight<cr>', desc = 'toggle TS highlights' },
+  { 'm', '<cmd>Markview toggle<cr>', desc = 'toggle buffer preview  Markview' },
   {
     'i',
     function()
       vim.lsp.inlay_hint.endable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
     end,
-    desc = 'Toggle LSP inlay hints',
-  },
-  { 't', '<CMD>TSToggle highlight<CR>', desc = 'Toggle TS highlights' },
-  { 'm', '<CMD>Markview toggle<CR>', desc = 'Toggle preview of buffer | Markview' },
-}
-
-map {
-  mode = 'n',
-  prefix = '<leader>l',
-  {
-    'i',
-    function()
-      vim.lsp.inlay_hint.endable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
-    end,
-    desc = 'Toggle LSP inlay hints',
+    desc = 'toggle inlay hints',
   },
   {
     'd',
     function()
       vim.diagnostic.enabled(not vim.diagnosic.is_enabled())
     end,
-    desc = 'Toggle diagnostics',
+    desc = 'toggle diagnostics',
+  },
+}
+
+-- LSP helpers
+map {
+  mode = { 'n', 'i' },
+  {
+    '<C-space>',
+    function()
+      vim.lsp.completion.get()
+    end,
+    desc = 'Trigger LSP Completins',
   },
 }
 
 -- misc. normal mode maps
 map {
   mode = 'n',
-  { 's', '<Nop>', desc = 'stop deleting characters when using surrounds' },
-  { '<esc>', '<CMD>nohlsearch<CR>', desc = 'Clear highlights on search' },
-  { '<leader>q', vim.diagnostic.setloclist, desc = 'Diagnostic Quickfix list' },
+  { '<esc>', '<CMD>nohlsearch<CR>', desc = 'clear highlights on search' },
+  { '<leader>q', vim.diagnostic.setloclist, desc = 'diagnostic Quickfix list' },
 
   -- cut/copy/paste
   { 'x', '"_x', desc = 'Single x no register' },
   { '<leader>d', '"_d', desc = 'Delete no register' },
 
   -- undo/redo
-  { '<S-u>', '<CMD>undo<CR>', desc = 'Undo' },
-  { '<M-u>', '<CMD>earlier 1f<CR>', desc = 'Undo to last saved' },
-  { '<M-r>', '<CMD>later 1f<CR>', desc = 'Undo to last saved' },
+  { '<A-u>', '<cmd>earlier 1f<cr>', desc = 'undo to last saved' },
+  { '<A-r>', '<cmd>later 1f<cr>', desc = 'undo to last saved' },
 
   -- macro key remap
-  { 'q', '<Nop>' },
-  { 'Q', 'q', desc = 'Record macro' },
-  { '<C-Q>', 'Q', desc = 'Replay macro' },
-
-  -- buffer management
-  { '<C-s>', '<CMD>w<CR>', desc = 'Write Buffer' },
+  { 'q', '<nop>', desc = 'stop spamming random macros' },
+  { 'Q', 'q', desc = 'record macro' },
+  { '<C-Q>', 'Q', desc = 'replay macro' },
 
   -- move up and down half a screen and then center
-  { '<C-u>', '<C-u>zz', desc = 'Go up half screen' },
-  { '<C-u>', '<C-u>zz', desc = 'Go up half screen' },
+  { '<C-u>', '<C-u>zz', desc = 'go up half screen' },
+}
+
+map {
+  mode = { 'n', 'v' },
+  { 's', '<nop>', desc = 'stop deleting characters when using surrounds' },
+}
+
+-- session management
+map {
+  mode = 'n',
 }

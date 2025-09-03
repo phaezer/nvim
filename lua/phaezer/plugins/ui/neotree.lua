@@ -96,7 +96,7 @@ return {
       file_size = {
         enabled = true,
         width = 12, -- width of the column
-        required_width = 64, -- min width of window required to show this column
+        required_width = 50, -- min width of window required to show this column
       },
       type = {
         enabled = true,
@@ -106,12 +106,12 @@ return {
       last_modified = {
         enabled = true,
         width = 20, -- width of the column
-        required_width = 88, -- min width of window required to show this column
+        required_width = 80, -- min width of window required to show this column
       },
       created = {
         enabled = true,
         width = 20, -- width of the column
-        required_width = 110, -- min width of window required to show this column
+        required_width = 100, -- min width of window required to show this column
       },
       symlink_target = {
         enabled = false,
@@ -145,7 +145,7 @@ return {
         },
       },
       follow_current_file = {
-        enabled = false, -- This will find and focus the file in the active buffer every time
+        enabled = true, -- This will find and focus the file in the active buffer every time
         --               -- the current file is changed while the tree is open.
         leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
       },

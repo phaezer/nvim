@@ -20,5 +20,19 @@ return {
       }
     )
     table.insert(opts.sources, cspell.code_actions)
+
+    local ns = require 'null-ls'
+    local map = require('phaezer.core.keys').map
+
+    -- toggle on and off sources
+    map {
+      prefix = '<leaader>l',
+      {
+        's',
+        function() ns.toggle { name = 'cspell' } end,
+        desc = 'toggle cspell  none-ls',
+      },
+    }
   end,
+  init = function() end,
 }

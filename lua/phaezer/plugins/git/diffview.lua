@@ -39,19 +39,24 @@ return {
   },
   config = function(opts)
     require('diffview').setup(opts)
+    -- TODO: replace with vim user input
     local keys = require 'phaezer.core.keys'
     -- Set keymaps for Diffview
     for i = 1, 9 do
       keys.map {
-        { '<leader>gdh' .. i, '<cmd>DiffviewOpen HEAD~' .. i .. '<cr>', desc = 'Diff Head~' .. i },
+        { '<leader>gdh' .. i, '<cmd>DiffviewOpen HEAD~' .. i .. '<cr>', desc = 'diff head~' .. i },
       }
     end
   end,
   keys = {
-    { '<leader>gd', '<cmd>DiffviewOpen<cr>', desc = 'Open Diffview' },
-    { '<leader>gdf', '<cmd>DiffviewFileHistory<cr>', desc = 'File History' },
-    { '<leader>gdg', '<cmd>DiffviewToggleFiles<cr>', desc = 'Toggle Files' },
-    { '<leader>gdp', '<cmd>DiffviewFocusFilesPanel<cr>', desc = 'Focus Files Panel' },
-    { '<leader>gds', '<cmd>DiffviewToggleStageEntry<cr>', desc = 'Toggle Stage Entry' },
+    { '<leader>gd', '<cmd>DiffviewOpen<cr>', desc = 'git diff  diffview' },
+    { '<leader>gdf', '<cmd>DiffviewFileHistory<cr>', desc = 'file history  diffview' },
+    { '<leader>gdg', '<cmd>DiffviewToggleFiles<cr>', desc = 'toggle files  diffview' },
+    { '<leader>gdp', '<cmd>DiffviewFocusFilesPanel<cr>', desc = 'focus files panel  diffview' },
+    {
+      '<leader>gds',
+      '<cmd>DiffviewToggleStageEntry<cr>',
+      desc = 'toggle stage entry  diffview',
+    },
   },
 }

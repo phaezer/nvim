@@ -9,11 +9,11 @@ return {
   },
   keys = {
     {
-      '<leader>tt',
+      '<leader>ft',
       function() Snacks.picker.todo_comments { keywords = { 'TODO', 'FIX', 'FIXME' } } end,
       desc = 'Todos',
     },
-    { '<leader>tT', function() Snacks.picker.todo_comments {} end, desc = 'All Todo Flags' },
+    { '<leader>fT', function() Snacks.picker.todo_comments {} end, desc = 'All Todo Flags' },
   },
   opts = {
     signs = true,

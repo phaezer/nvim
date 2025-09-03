@@ -4,9 +4,6 @@ return {
   'hedyhli/outline.nvim',
   lazy = true,
   cmd = { 'Outline', 'OutlineOpen' },
-  keys = {
-    { '<leader>o', '<cmd>Outline<CR>', desc = 'Toggle outline' },
-  },
   opts = {
     keymaps = {
       show_help = '?',
@@ -136,5 +133,8 @@ return {
         filetypes = { 'markdown' },
       },
     },
+  },
+  keys = {
+    { '<leader>eo', '<cmd>Outline<cr>', desc = 'Toggle outline' },
   },
 }

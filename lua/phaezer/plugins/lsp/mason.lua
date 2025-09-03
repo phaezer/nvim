@@ -19,7 +19,7 @@ return {
   },
   keys = {
     { '<leader>ms', '<cmd>Mason<cr>', desc = 'Mason' },
-    { '<leader>mu', '<cmd>MasonUpdate<cr>', desc = 'Mason Update' },
-    { '<leader>ml', '<cmd>MasonLog<cr>', desc = 'Mason Log' },
+    { '<leader>mu', '<cmd>MasonUpdate<cr>', desc = 'update Mason' },
+    { '<leader>ml', '<cmd>MasonLog<cr>', desc = 'Mason log' },
   },
 }

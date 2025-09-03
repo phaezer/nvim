@@ -56,13 +56,14 @@ return {
     vim.diagnostic.config({
       virtual_text = {
         format = function(diagnostic)
-          local message = diagnostic.message:gsub('\n', ' '):gsub('\t', ' '):gsub('%s+', ' '):gsub('^%s+', '')
+          local message =
+            diagnostic.message:gsub('\n', ' '):gsub('\t', ' '):gsub('%s+', ' '):gsub('^%s+', '')
           return message
         end,
       },
     }, neotest_ns)
   end,
   keys = {
-    { '<leader>tt', function() require('neotest').run.run() end, desc = 'Run Test' },
+    { '<leader>lt', function() require('neotest').run.run() end, desc = 'run test  neotest' },
   },
 }

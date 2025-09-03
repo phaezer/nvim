@@ -46,7 +46,16 @@ return {
       -- Function to format a tabline item after the path is built
       format_item = function(item)
         local icon = item.icon ~= nil and string.format('%s  ', item.icon) or ''
-        return string.format('%%#%s#%s %s%%#%s#%s%%#%s#%s %%X', item.hl, item.click, icon, item.hl_label, item.label, item.hl, item.content)
+        return string.format(
+          '%%#%s#%s %s%%#%s#%s%%#%s#%s %%X',
+          item.hl,
+          item.click,
+          icon,
+          item.hl_label,
+          item.label,
+          item.hl,
+          item.content
+        )
       end,
     },
 
@@ -70,7 +79,7 @@ return {
     mappings = {
       mark = ';;', -- Mark current buffer
       jump = ';', -- Jump to buffer marked by next character i.e `;a`
-      pick = ';p', -- Open Dart.pick
+      pick = ';<Space>', -- Open Dart.pick
       next = '<S-l>', -- Cycle right through the tabline
       prev = '<S-h>', -- Cycle left through the tabline
       unmark_all = ';u', -- Close all marked and recent buffers

@@ -37,8 +37,8 @@ return {
     },
     float_opts = {
       border = 'rounded',
-      height = math.ceil(vim.o.lines * 1.0 - 4),
-      width = math.ceil(vim.o.columns * 1.0),
+      height = math.ceil(vim.o.lines - 4),
+      width = math.ceil(vim.o.columns - 4),
       winblend = 0,
     },
   },
@@ -46,18 +46,18 @@ return {
     {
       '<leader>tf',
       '<cmd>ToggleTerm direction=float<cr>',
-      desc = 'Toggle floating terminal',
+      desc = 'Toggle floating terminal  ToggleTerm',
       mode = 'n',
     },
     {
-      '<leader>th',
+      '<leader>tt',
       '<cmd>ToggleTerm direction=horizontal<cr>',
-      desc = 'Toggle horizontal Terminal',
+      desc = 'Toggle horizontal Terminal  ToggleTerm',
     },
     {
       '<leader>tv',
       '<cmd>ToggleTerm direction=vertical<cr>',
-      desc = 'Toggle Vertical Terminal',
+      desc = 'Toggle Vertical Terminal  ToggleTerm',
       mode = 'n',
     },
   },

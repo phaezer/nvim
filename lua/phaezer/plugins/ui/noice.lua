@@ -90,7 +90,6 @@ return {
         filter_opts = { reverse = true },
       },
       all = {
-        -- options for the message history that you get with `:Noice`
         view = 'split',
         opts = { enter = true, format = 'details' },
         filter = {},
@@ -102,6 +101,13 @@ return {
     --   split: shttps://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/split
     views = {
       cmdline_popup = {
+        relative = 'editor',
+        position = {
+          row = '50%',
+          col = '50%',
+        },
+      },
+      popup = {
         relative = 'editor',
         position = {
           row = '50%',

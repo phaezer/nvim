@@ -1,5 +1,3 @@
--- =================================================================================
--- LazyGit
 -- NOTE: a simple terminal UI for git commands, written in Go with the gocui library
 return {
   'kdheepak/lazygit.nvim',
@@ -13,8 +11,5 @@ return {
   },
   dependencies = {
     'nvim-lua/plenary.nvim',
-  },
-  keys = {
-    { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
   },
 }

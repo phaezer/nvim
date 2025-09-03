@@ -17,11 +17,14 @@ end
 return {
   'obsidian-nvim/obsidian.nvim',
   version = '*', -- recommended, use latest release instead of latest commit
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+  },
   cmd = 'Obsidian',
   event = events,
   keys = {
-    { '<leader>fo', '<cmd>Obsidian search<CR>', desc = 'Obsidian search' },
-    { '<leader>tn', '<cmd>Obsidian new<CR>', desc = 'Obsidian new' },
+    { '<leader>kos', '<cmd>Obsidian search<CR>', desc = 'search  Obsidian' },
+    { '<leader>kon', '<cmd>Obsidian new<CR>', desc = 'new  Obsidian' },
   },
   opts = {
     workspaces = workspaces,

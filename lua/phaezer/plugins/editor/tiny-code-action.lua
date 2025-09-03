@@ -10,8 +10,7 @@ return {
   opts = {
     picker = 'snacks',
     signs = {
-      -- TODO: use icons from core
-      quickfix = { '', { link = 'DiagnosticWarning' } },
+      quickfix = { '', { link = 'DiagnosticWarning' } },
       others = { '', { link = 'DiagnosticWarning' } },
       refactor = { '', { link = 'DiagnosticInfo' } },
       ['refactor.move'] = { '󰪹', { link = 'DiagnosticInfo' } },
@@ -20,14 +19,19 @@ return {
       ['source.fixAll'] = { '󰃢', { link = 'DiagnosticError' } },
       ['source'] = { '', { link = 'DiagnosticError' } },
       ['rename'] = { '󰑕', { link = 'DiagnosticWarning' } },
-      ['codeAction'] = { '', { link = 'DiagnosticWarning' } },
+      ['codeAction'] = { '', { link = 'DiagnosticWarning' } },
     },
   },
   keys = {
     {
       '<A-.>',
       function() require('tiny-code-action').code_action() end,
-      desc = 'Code Action',
+      desc = 'Code Action  tiny code action',
+    },
+    {
+      '<leader>ka',
+      function() require('tiny-code-action').code_action() end,
+      desc = 'Code Action  tiny code action',
     },
   },
 }

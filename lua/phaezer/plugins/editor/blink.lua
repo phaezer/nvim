@@ -16,7 +16,7 @@ return {
     'xzbdmw/colorful-menu.nvim',
     'jmbuhr/otter.nvim',
     'mikavilpas/blink-ripgrep.nvim',
-    'olimorris/codecompanion.nvim',
+    -- 'olimorris/codecompanion.nvim',
     {
       'Kaiser-Yang/blink-cmp-dictionary',
       dependencies = { 'nvim-lua/plenary.nvim' },
@@ -65,13 +65,16 @@ return {
         'snippet_forward',
         'fallback',
       },
-      ['<c-,>'] = {
-        function() require('blink-cmp').show { providers = { 'path', 'ripgrep' } } end,
+      ['<C-k>'] = { 'select_prev', 'fallback' },
+      ['<C-j>'] = { 'select_next', 'fallback' },
+      ['<C-,>'] = {
+        function() require('blink-cmp').show { providers = { 'buffer', 'dictionary' } } end,
       },
-      ['<c-.>'] = {
-        function()
-          require('blink-cmp').show { providers = { 'lsp', 'buffer', 'snippets', 'copilot' } }
-        end,
+      ['<C-l>'] = {
+        function() require('blink-cmp').show { providers = { 'lsp', 'path', 'snippets' } } end,
+      },
+      ['<C-;>'] = {
+        function() require('blink-cmp').show { providers = { 'copilot' } } end,
       },
     },
 

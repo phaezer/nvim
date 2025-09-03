@@ -117,6 +117,18 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     } do
       vim.api.nvim_set_hl(0, v, { fg = util.color(v), bg = 'NONE' })
     end
+
+    -- make sure unnecessary / unused code is underlined but keeps sytax high
+    vim.api.nvim_set_hl(
+      0,
+      'DiagnosticUnnecessary',
+      { sp = util.color 'Comment', undercurl = true, cterm = { undercurl = true } }
+    )
+
+    -- set the gitsigns inline highlights
+    vim.api.nvim_set_hl(0, 'GitSignsDeleteInline', { bg = util.color 'DiffDelete' })
+    vim.api.nvim_set_hl(0, 'GitSignsAddInline', { bg = util.color 'DiffAdd' })
+    vim.api.nvim_set_hl(0, 'GitSignsChangeInline', { bg = util.color 'DiffChange' })
   end,
 })
 

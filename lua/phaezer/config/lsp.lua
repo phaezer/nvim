@@ -23,9 +23,7 @@ local diag_icon_map = {
 vim.diagnostic.config {
   severity_sort = true,
   float = { border = 'rounded', source = 'if_many' },
-  underline = {
-    severity = { min = vim.diagnostic.severity.INFO },
-  },
+  underline = true,
   virtual_text = {
     source = 'if_many',
     prefix = '',

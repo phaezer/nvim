@@ -39,10 +39,10 @@ return {
   },
   keys = {
     {
-      '<A-l>',
+      '<leader>kf',
       function() require('conform').format { async = true, lsp_format = 'fallback' } end,
-      mode = '',
-      desc = 'Format buffer',
+      mode = 'n',
+      desc = 'format buffer  conform',
     },
   },
 }

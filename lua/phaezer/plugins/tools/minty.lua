@@ -7,4 +7,5 @@ return {
   dependencies = {
     { 'nvzone/volt', lazy = true },
   },
+  -- TODO: keymap for minty
 }

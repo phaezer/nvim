@@ -54,11 +54,11 @@ o.list = false
 o.listchars = {
   eol = '',
   tab = ' ',
-  trail = '',
+  trail = '',
   extends = '',
-  precedes = '',
-  space = '',
-  nbsp = '␣',
+  precedes = '',
+  space = '',
+  nbsp = '',
 }
 
 -- do not show listchars by default
