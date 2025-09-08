@@ -8,11 +8,35 @@ return {
     'nvim-neotest/neotest-plenary',
     'nvim-neotest/neotest-go',
     'nvim-neotest/neotest-python',
+    'stevearc/overseer.nvim',
   },
   config = function()
     local go_env = require('config.lang.go').env
     local python_env = require('config.lang.python').env
     require('neotest').setup {
+      consumers = {
+        overseer = require 'neotest.consumers.overseer',
+      },
+      overseer = {
+        enabled = true,
+        -- When this is true (the default), it will replace all neotest.run.* commands
+        force_default = false,
+      },
+      strategies = {
+        overseer = {
+          components = function(run_spec)
+            return {
+              {
+                'dependencies',
+                task_names = {
+                  { 'shell', cmd = 'sleep 4' },
+                },
+              },
+              'default_neotest',
+            }
+          end,
+        },
+      },
       adapters = {
         require 'neotest-plenary',
         -- go

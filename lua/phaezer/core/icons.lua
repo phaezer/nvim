@@ -1,10 +1,10 @@
 local icons = {}
 
 icons.diagnostics = {
-  Error = '',
-  Warn = '',
-  Info = '',
-  Hint = '',
+  Error = '',
+  Warn = '',
+  Info = '',
+  Hint = '󰛨',
 }
 
 icons.git = {
@@ -17,32 +17,35 @@ icons.git = {
   Ignored = '',
   Confict = '',
   Untracked = '',
-  Unstaged = '',
+  Unstaged = '',
 }
 
 icons.gui = {
   Undo = '󰕍',
-  Config = '',
+  Config = '󰢻',
   Quit = '󰩈',
-  Exit = '󰿅',
-  Keyboard = '󰌌',
+  Exit = '󰈆',
+  Keyboard = '',
   Search = '',
   Grep = '󱎸',
-  Folder = '',
+  Folder = '',
   FolderOpen = '',
   FolderEmpty = '',
-  FolderClosed = '',
+  FolderClosed = '',
   File = '',
   Files = '',
-  Mason = '',
+  Mason = '󱌣',
   Lazy = '󰒲',
   Branch = '',
   Neovim = '',
   Server = '󰒋',
+  Done = '󰸞',
+  FoldOpen = '',
+  FoldClosed = '',
 }
 
 icons.kind = {
-  Folder = '',
+  Folder = '',
   FolderOpen = '',
   FolderEmpty = '',
   FolderClosed = '',
@@ -92,6 +95,7 @@ icons.kind = {
   Loading = '',
   Lock = '',
   Method = '󰊕',
+  Mention = '',
   Module = '',
   Namespace = '󰦮',
   Neovim = '',
@@ -109,6 +113,7 @@ icons.kind = {
   Reference = '',
   Require = '',
   Runtime = '',
+  Shortcut = '󰬫',
   Snippet = '󱄽',
   Source = '',
   Star = '',
@@ -152,4 +157,3 @@ icons.spinners = {
 }
 
 return icons
-

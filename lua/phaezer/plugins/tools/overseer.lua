@@ -1,5 +1,7 @@
 -- TODO: add overseer configuration
 return {
   'stevearc/overseer.nvim',
-  opts = {},
+  opts = {
+    strategy = 'toggleterm',
+  },
 }

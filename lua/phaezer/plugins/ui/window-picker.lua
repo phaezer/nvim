@@ -56,6 +56,6 @@ return {
     end, { desc = 'pick a window' })
   end,
   keys = {
-    { '<leader>wp', '<cmd>PickWindow<cr>', desc = 'Pick a window' },
+    { '<leader>wp', '<cmd>PickWindow<cr>', desc = 'pick ' },
   },
 }

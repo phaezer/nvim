@@ -2,20 +2,21 @@
 
 -- list of obsidian workspaces
 local workspaces = {
-  { 'journal', path = '~/journal' },
-  { 'writing', path = '~/writing' },
-  { 'notes', path = '~/notes' },
+  { 'journal', path = '~/obsidian/journal' },
+  { 'writing', path = '~/obsidian/writing' },
+  { 'notes', path = '~/obsidian/notes' },
 }
 
 -- build event table from workspaces
 local events = {}
 for _, ws in ipairs(workspaces) do
-  table.insert(events, 'BufReadPre ' .. vim.fn.expand(ws.path .. '/*.md'))
-  table.insert(events, 'BufNewFile ' .. vim.fn.expand(ws.path .. '/*.md'))
+  table.insert(events, 'BufReadPre ' .. vim.fn.expand(ws.path .. '/*'))
+  table.insert(events, 'BufNewFile ' .. vim.fn.expand(ws.path .. '/*'))
 end
 
 return {
   'obsidian-nvim/obsidian.nvim',
+  lazy = true,
   version = '*', -- recommended, use latest release instead of latest commit
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -23,6 +24,8 @@ return {
   cmd = 'Obsidian',
   event = events,
   keys = {
+    -- TODO: additional keymaps (see docs)
+    { '<leader>kO', '<cmd>Obsidian<CR>', desc = 'search  Obsidian' },
     { '<leader>kos', '<cmd>Obsidian search<CR>', desc = 'search  Obsidian' },
     { '<leader>kon', '<cmd>Obsidian new<CR>', desc = 'new  Obsidian' },
   },

@@ -1,3 +1,6 @@
+# nvim sessions
+.sessions/
+
 tags
 test.sh
 .luarc.json
@@ -129,3 +132,4 @@ $RECYCLE.BIN/
 .nfs*
 
 # End of https://www.toptal.com/developers/gitignore/api/linux
+

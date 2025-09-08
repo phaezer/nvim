@@ -29,7 +29,6 @@ local lazy_config = require 'phaezer.config.lazy'
 
 lazy_config.spec = {
   { import = 'phaezer.plugins.themes' },
-  { import = 'phaezer.plugins' },
   { import = 'phaezer.plugins.ai' },
   { import = 'phaezer.plugins.editor' },
   { import = 'phaezer.plugins.git' },

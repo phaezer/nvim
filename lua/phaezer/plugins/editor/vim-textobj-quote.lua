@@ -10,8 +10,8 @@ return {
     local api = vim.api
     local group = api.nvim_create_augroup('textobjquote', { clear = true })
 
-    local function setup_textobj_quote(educate, bufnr)
-      vim.cmd("textobj#quote#init({'educate':" .. educate .. '})')
+    local function setup_textobj_quote(bufnr)
+      vim.cmd 'call textobj#quote#init({"educate": 0})'
       keys.map {
         {
           '<leader>mq',
@@ -24,16 +24,9 @@ return {
 
     api.nvim_create_autocmd('FileType', {
       group = group,
-      pattern = { 'markdown', 'textile' },
+      pattern = { 'markdown', 'textile', 'text' },
       desc = 'setup textobj-quote for curl quotes',
-      callback = function(ev) setup_textobj_quote(1, ev.buf) end,
-    })
-
-    api.nvim_create_autocmd('FileType', {
-      group = group,
-      pattern = { 'text' },
-      desc = 'setup textobj-quote for curl quotes',
-      callback = function(ev) setup_textobj_quote(0, ev.buf) end,
+      callback = function(ev) setup_textobj_quote(ev.buf) end,
     })
   end,
 }

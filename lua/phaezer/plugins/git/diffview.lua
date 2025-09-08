@@ -21,9 +21,9 @@ return {
       folder_open = icons.gui.FolderOpen,
     },
     signs = {
-      fold_closed = '',
-      fold_open = '',
-      done = '✓',
+      fold_closed = icons.gui.FolderClosed,
+      fold_open = icons.gui.FoldOpen,
+      done = icons.gui.Done,
     },
     file_panel = {
       win_config = {
@@ -34,6 +34,9 @@ return {
     keymaps = {
       view = {
         ['<leader>q'] = '<cmd>DiffviewClose<cr>', -- Close the diff view with <leader>q
+        ['<leader>h'] = '<cmd>DiffviewFileHistory<cr>',
+        ['<leader>f'] = '<cmd>DiffviewToggleFiles<cr>',
+        ['<leader>s'] = '<cmd>DiffviewToggleStageEntry<cr>',
       },
     },
   },
@@ -41,7 +44,6 @@ return {
     require('diffview').setup(opts)
     -- TODO: replace with vim user input
     local keys = require 'phaezer.core.keys'
-    -- Set keymaps for Diffview
     for i = 1, 9 do
       keys.map {
         { '<leader>gdh' .. i, '<cmd>DiffviewOpen HEAD~' .. i .. '<cr>', desc = 'diff head~' .. i },
@@ -50,13 +52,5 @@ return {
   end,
   keys = {
     { '<leader>gd', '<cmd>DiffviewOpen<cr>', desc = 'git diff  diffview' },
-    { '<leader>gdf', '<cmd>DiffviewFileHistory<cr>', desc = 'file history  diffview' },
-    { '<leader>gdg', '<cmd>DiffviewToggleFiles<cr>', desc = 'toggle files  diffview' },
-    { '<leader>gdp', '<cmd>DiffviewFocusFilesPanel<cr>', desc = 'focus files panel  diffview' },
-    {
-      '<leader>gds',
-      '<cmd>DiffviewToggleStageEntry<cr>',
-      desc = 'toggle stage entry  diffview',
-    },
   },
 }

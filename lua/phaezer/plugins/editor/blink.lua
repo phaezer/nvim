@@ -21,6 +21,8 @@ return {
       'Kaiser-Yang/blink-cmp-dictionary',
       dependencies = { 'nvim-lua/plenary.nvim' },
     },
+    -- avante provider
+    'Kaiser-Yang/blink-cmp-avante',
   },
 
   opts = {
@@ -67,21 +69,10 @@ return {
       },
       ['<C-k>'] = { 'select_prev', 'fallback' },
       ['<C-j>'] = { 'select_next', 'fallback' },
-      ['<C-,>'] = {
-        function() require('blink-cmp').show { providers = { 'buffer', 'dictionary' } } end,
-      },
-      ['<C-l>'] = {
-        function() require('blink-cmp').show { providers = { 'lsp', 'path', 'snippets' } } end,
-      },
-      ['<C-;>'] = {
-        function() require('blink-cmp').show { providers = { 'copilot' } } end,
-      },
     },
-
     appearance = {
       nerd_font_variant = 'mono',
     },
-
     completion = {
       accept = {
         auto_brackets = { enabled = true }, -- auto insert brackets
@@ -103,6 +94,29 @@ return {
         draw = {
           columns = { { 'kind_icon' }, { 'label', gap = 1 } },
           components = {
+            -- todo: update kind icon
+            kind_icon = {
+              text = function(ctx)
+                local icon = ctx.kind_icon
+                if vim.tbl_contains({ 'Path' }, ctx.source_name) then
+                  local dev_icon, _ = require('nvim-web-devicons').get_icon(ctx.label)
+                  if dev_icon then icon = dev_icon end
+                else
+                  icon = require('lspkind').symbolic(ctx.kind, {
+                    mode = 'symbol',
+                  })
+                end
+                return icon .. ctx.icon_gap
+              end,
+              highlight = function(ctx)
+                local hl = ctx.kind_hl
+                if vim.tbl_contains({ 'Path' }, ctx.source_name) then
+                  local dev_icon, dev_hl = require('nvim-web-devicons').get_icon(ctx.label)
+                  if dev_icon then hl = dev_hl end
+                end
+                return hl
+              end,
+            },
             label = {
               width = { fill = true, max = 80 },
               text = function(ctx)
@@ -132,12 +146,12 @@ return {
 
     -- DOCS: https://cmp.saghen.dev/configuration/sources.html
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'ripgrep' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'avante', 'ripgrep' },
       per_filetype = {
         sql = { 'dadbod' },
         lua = { inherit_defaults = true, 'lazydev' },
         markdown = { inherit_defaults = true, 'dictionary' },
-        text = { inherit_defaults = true, 'dictionary' },
+        -- text = { inherit_defaults = true, 'dictionary' },
         norg = { inherit_defaults = true, 'dictionary' },
       },
       providers = {
@@ -145,7 +159,7 @@ return {
         copilot = {
           name = 'copilot',
           module = 'blink-copilot',
-          score_offset = 0,
+          score_offset = 10,
           async = true,
           opts = {
             max_completions = 5,
@@ -159,11 +173,24 @@ return {
             },
           },
         },
+        avante = {
+          module = 'blink-cmp-avante',
+          name = 'Avante',
+          opts = {
+            command = {
+              get_kind_name = function(_) return 'Cmd' end,
+            },
+            mention = {
+              get_kind_name = function(_) return 'Mention' end,
+            },
+            shortcut = {
+              get_kind_name = function(_) return 'Shortcut' end,
+            },
+          },
+        },
         ripgrep = {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
-          ---@module "blink-ripgrep"
-          ---@type blink-ripgrep.Options
           opts = {
             project_root_marker = { '.git', 'package.json', '.root', 'go.mod' },
           },
@@ -183,9 +210,7 @@ return {
         lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
       },
     },
-
     snippets = { preset = 'luasnip' },
-
     -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
     -- which automatically downloads a prebuilt binary when enabled.
     --
@@ -196,6 +221,34 @@ return {
     fuzzy = { implementation = 'prefer_rust_with_warning' },
 
     -- Shows a signature help window while you type arguments for a function
-    signature = { enabled = true },
+    signature = { enabled = false }, -- this is done with noice
+  },
+  keys = {
+    {
+      '<C-.>',
+      function()
+        require('blink-cmp').show { providers = { 'buffer', 'lsp', 'path', 'avante', 'copilot' } }
+      end,
+      desc = 'Blink cmp text',
+      mode = 'i',
+    },
+    {
+      '<C-,>',
+      function() require('blink-cmp').show { providers = { 'buffer', 'dictionary' } } end,
+      desc = 'Blink cmp text',
+      mode = 'i',
+    },
+    {
+      '<C-l>',
+      function() require('blink-cmp').show { providers = { 'lsp', 'path', 'snippets' } } end,
+      desc = 'Blink cmp lsp',
+      mode = 'i',
+    },
+    {
+      '<C-;>',
+      function() require('blink-cmp').show { providers = { 'avante', 'copilot' } } end,
+      desc = 'blink cmp ai',
+      mode = 'i',
+    },
   },
 }

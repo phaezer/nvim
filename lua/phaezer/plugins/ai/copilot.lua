@@ -3,6 +3,7 @@
 return {
   'github/copilot.vim',
   cmd = 'Copilot',
+  enabled = false, -- disabled in favor of copilot-lsp
   event = 'BufWinEnter',
   -- SRC: https://github.com/fang2hou/blink-copilot
   init = function() vim.g.copilot_no_maps = true end,

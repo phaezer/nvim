@@ -72,7 +72,7 @@ autocmd('LspAttach', {
       -- Set keymaps for LSP
       keys.map {
         {
-          '<leader>lh',
+          '<leader>vh',
           function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end,

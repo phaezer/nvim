@@ -103,7 +103,7 @@ return {
         { '<leader>vgn', '<cmd>Gitsigns toggle_numhl<cr>', desc = 'toggle git numhl  gitsigns' },
         {
           '<leader>vgw',
-          '<cmd>Gitsigns toggle_word_dif<cr>',
+          '<cmd>Gitsigns toggle_word_diff<cr>',
           desc = 'toggle git numhl  gitsigns',
         },
       }

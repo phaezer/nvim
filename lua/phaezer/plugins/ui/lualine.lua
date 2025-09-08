@@ -8,22 +8,36 @@ local LuaLine = {
   lazy = false,
   dependencies = {
     'bwpge/lualine-pretty-path',
+    'stevearc/overseer.nvim',
+    'folke/noice.nvim',
   },
 }
 
 LuaLine.opts = function(_, opts)
   -- local has_lsp = function() return next(vim.lsp.get_clients()) ~= nil end
   local buffer_not_empty = function() return vim.fn.empty(vim.fn.expand '%:t') ~= 1 end
-  -- local mode = require 'lualine.utils.mode'
-  local highlight = require 'lualine.highlight'
-
-  local function get_mode_hl(prop)
-    local suffix = highlight.get_mode_suffix()
-    return util.color('lualine_a_' .. suffix, prop)
-  end
-
+  local overseer = require 'overseer'
   return vim.tbl_deep_extend('force', opts or {}, {
     options = {
+      refresh = {
+        statusline = 1000,
+        tabline = 1000,
+        winbar = 1000,
+        refresh_time = 16, -- ~60fps
+        events = {
+          'WinEnter',
+          'BufEnter',
+          'BufWritePost',
+          'SessionLoadPost',
+          'FileChangedShellPost',
+          'VimResized',
+          'Filetype',
+          'CursorMoved',
+          'CursorMovedI',
+          'ModeChanged',
+          'ColorScheme',
+        },
+      },
       theme = 'auto',
       globalstatus = true,
       disabled_filetypes = {
@@ -50,36 +64,32 @@ LuaLine.opts = function(_, opts)
           icon = icons.gui.Neovim,
         },
       },
-      lualine_b = {},
+      lualine_b = {
+        {
+          'branch',
+          icon = icons.gui.Branch,
+          padding = { left = 1, right = 1 },
+          separator = { right = '' },
+        },
+      },
       lualine_c = {
-        { 'branch', icon = icons.gui.Branch, padding = { left = 1, right = 0 } },
-        { 'pretty_path', padding = { left = 1, right = 0 } },
+        { 'pretty_path' },
         { 'filesize', cond = buffer_not_empty },
         {
           'diagnostics',
-          symbols = icons.diagnostics,
-          {
-            function() return require('noice').api.status.command.get() end,
-            cond = function()
-              return package.loaded['noice'] and require('noice').api.status.command.has()
-            end,
-            color = function() return { fg = util.color 'Statement' } end,
-          },
-          {
-            function() return require('noice').api.status.mode.get() end,
-            cond = function()
-              return package.loaded['noice'] and require('noice').api.status.mode.has()
-            end,
-            color = function() return { fg = util.color 'Constant' } end,
+          icon = '',
+          symbols = {
+            error = icons.diagnostics.Error,
+            warn = icons.diagnostics.Warn,
+            info = icons.diagnostics.Info,
+            hint = icons.diagnostics.Hint,
           },
           {
             function() return ' ' .. require('dap').status() end,
-            cond = function() return package.loaded['dap'] and require('dap').status() ~= '' end,
+            cond = function() return require('dap').status() ~= '' end,
             color = function() return { fg = util.color 'Debug' } end,
           },
         },
-      },
-      lualine_x = {
         {
           'diff',
           icon = '',
@@ -99,6 +109,29 @@ LuaLine.opts = function(_, opts)
             end
           end,
         },
+      },
+      lualine_x = {
+        {
+          require('noice').api.status.search.get,
+          cond = require('noice').api.status.search.has,
+          color = function() return { fg = util.color 'Type' } end,
+        },
+        {
+          'overseer',
+          label = '', -- Prefix for task counts
+          colored = true, -- Color the task icons and counts
+          symbols = {
+            [overseer.STATUS.FAILURE] = '',
+            [overseer.STATUS.CANCELED] = '󰜺',
+            [overseer.STATUS.SUCCESS] = '',
+            [overseer.STATUS.RUNNING] = '',
+          },
+          unique = false, -- Unique-ify non-running task count by name
+          name = nil, -- List of task names to search for
+          name_not = false, -- When true, invert the name search
+          status = nil, -- List of task statuses to display
+          status_not = false, -- When true, invert the status search
+        },
         {
           'lsp_status',
           icon = icons.gui.Server,
@@ -115,6 +148,12 @@ LuaLine.opts = function(_, opts)
             'null-ls',
           },
         },
+        { 'filetype' },
+        {
+          require('noice').api.status.command.get,
+          cond = require('noice').api.status.command.has,
+          color = function() return { fg = util.color 'Constant' } end,
+        },
         {
           'progress',
           icon = '',
@@ -124,7 +163,6 @@ LuaLine.opts = function(_, opts)
           'location',
           separator = { left = '', right = ' ' },
           padding = { left = 0, right = 1 },
-          color = function() return { fg = get_mode_hl 'fg', gui = 'bold' } end,
         },
       },
       lualine_y = {},

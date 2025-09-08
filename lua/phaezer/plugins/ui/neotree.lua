@@ -14,8 +14,8 @@ return {
     'nvim-tree/nvim-web-devicons',
   },
   opts = {
-    close_if_last_window = true,
-    -- popup_border_style = ''
+    close_if_last_window = false,
+    popup_border_style = 'rounded',
     enable_git_status = true,
     enable_diagnostics = true,
     sort_case_insensitive = true,
@@ -173,22 +173,5 @@ return {
       'document_symbols',
     },
   },
-  keys = {
-    { '<leader>E', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer | Neo-tree' },
-    { '<leader>ee', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer | Neo-tree' },
-    { '<leader>eh', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree left' },
-    { '<leader>el', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree right' },
-    { '<leader>ef', '<cmd>Neotree reveal float<cr>', desc = 'Neo-tree float' },
-    { '<leader>eb', '<cmd>Neotree buffers reveal<cr>', desc = 'Buffer Explorer | Neo-tree' },
-    {
-      '<leader>es',
-      '<cmd>Neotree document_symbols reveal<cr>',
-      desc = 'Symbol Explorer | Neo-tree',
-    },
-    {
-      '<leader>eg',
-      '<cmd>Neotree git_status reveal<cr>',
-      desc = 'Git Status Explorer | Neo-tree',
-    },
-  },
+
 }

@@ -35,6 +35,7 @@ return {
       jsonc = { 'prettierd', 'prettier', stop_after_first = true },
       zig = { 'zigfmt' },
       terraform = { 'tofu_fmt' },
+      yaml = { 'yamlfmt' },
     },
   },
   keys = {
@@ -42,7 +43,7 @@ return {
       '<leader>kf',
       function() require('conform').format { async = true, lsp_format = 'fallback' } end,
       mode = 'n',
-      desc = 'format buffer  conform',
+      desc = 'format  conform',
     },
   },
 }

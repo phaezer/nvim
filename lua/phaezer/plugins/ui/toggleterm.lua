@@ -41,24 +41,5 @@ return {
       width = math.ceil(vim.o.columns - 4),
       winblend = 0,
     },
-  },
-  keys = {
-    {
-      '<leader>tf',
-      '<cmd>ToggleTerm direction=float<cr>',
-      desc = 'Toggle floating terminal  ToggleTerm',
-      mode = 'n',
-    },
-    {
-      '<leader>tt',
-      '<cmd>ToggleTerm direction=horizontal<cr>',
-      desc = 'Toggle horizontal Terminal  ToggleTerm',
-    },
-    {
-      '<leader>tv',
-      '<cmd>ToggleTerm direction=vertical<cr>',
-      desc = 'Toggle Vertical Terminal  ToggleTerm',
-      mode = 'n',
-    },
-  },
+  }
 }

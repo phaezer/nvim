@@ -14,24 +14,24 @@ map {
 map {
   mode = 'n',
   expr = true,
-  { 'k', 'v:count == 0 ? "gk" : "k"', desc = 'Move up' },
-  { 'j', 'v:count == 0 ? "gj" : "j"', desc = 'Move down' },
+  { 'k', 'v:count == 0 ? "gk" : "k"', desc = 'move up' },
+  { 'j', 'v:count == 0 ? "gj" : "j"', desc = 'move down' },
 }
 
 -- indent and keep selection
 map {
   mode = 'v',
-  { '<', '<gv', desc = 'Indent left' },
-  { '>', '>gv', desc = 'Indent right' },
+  { '<', '<gv', desc = 'indent left' },
+  { '>', '>gv', desc = 'indent right' },
 }
 
 -- use h,j,k,l to nav in insert mode
 map {
   mode = 'i',
-  { '<A-h>', '<Left>', desc = 'Move left' },
-  { '<A-j>', '<Down>', desc = 'Move down' },
-  { '<A-k>', '<Up>', desc = 'Move up' },
-  { '<A-l>', '<Right>', desc = 'Move right' },
+  { '<A-h>', '<Left>', desc = 'move left' },
+  { '<A-j>', '<Down>', desc = 'move down' },
+  { '<A-k>', '<Up>', desc = 'move up' },
+  { '<A-l>', '<Right>', desc = 'move right' },
 }
 
 -- alt key bindings in normal mode
@@ -66,20 +66,20 @@ map {
 map {
   mode = 'n',
   prefix = '<leader>w',
-  { 's', '<CMD>split<CR>', desc = ' split ' },
-  { 'v', '<CMD>vsplit<CR>', desc = ' split |' },
-  { 'c', '<CMD>close<CR>', desc = '󱎘 ' },
-  { 'T', '<CMD>wincmd T<CR>', desc = ' 󰜴 new tab' },
-  { 'r', '<CMD>wincmd r<CR>', desc = ' ' },
-  { 'R', '<CMD>wincmd R<CR>', desc = ' ' },
-  { 'H', '<CMD>wincmd H<CR>', desc = 'move  󰜱' },
-  { 'J', '<CMD>wincmd J<CR>', desc = 'move  󰜮' },
-  { 'K', '<CMD>wincmd K<CR>', desc = 'move  󰜷' },
-  { 'L', '<CMD>wincmd L<CR>', desc = 'move  󰜴' },
-  { 'k', '<CMD>resize +5<CR>', desc = '  height' },
-  { 'j', '<CMD>resize -5<CR>', desc = '  height' },
-  { 'h', '<CMD>vertical resize +5<CR>', desc = '  width' },
-  { 'l', '<CMD>vertical resize -3<CR>', desc = '  width' },
+  { 's', '<CMD>split<CR>', desc = 'split ' },
+  { 'v', '<CMD>vsplit<CR>', desc = 'split |' },
+  { 'q', '<CMD>close<CR>', desc = 'close' },
+  { 'T', '<CMD>wincmd T<CR>', desc = 'move to new tab' },
+  { 'r', '<CMD>wincmd r<CR>', desc = 'rotate ' },
+  { 'R', '<CMD>wincmd R<CR>', desc = 'rotate ' },
+  { 'H', '<CMD>wincmd H<CR>', desc = 'move 󰜱' },
+  { 'J', '<CMD>wincmd J<CR>', desc = 'move 󰜮' },
+  { 'K', '<CMD>wincmd K<CR>', desc = 'move 󰜷' },
+  { 'L', '<CMD>wincmd L<CR>', desc = 'move 󰜴' },
+  { 'k', '<CMD>resize +5<CR>', desc = ' height' },
+  { 'j', '<CMD>resize -5<CR>', desc = ' height' },
+  { 'h', '<CMD>vertical resize +5<CR>', desc = ' width' },
+  { 'l', '<CMD>vertical resize -3<CR>', desc = ' width' },
   { '=', '<CMD>wincmd =<CR>', desc = ' width' },
 }
 
@@ -93,8 +93,8 @@ map {
   { '<C-l>', '<cmd>wincmd l<cr>', desc = ' 󰜴' },
   -- move windows
   { '<A-S-h>', '<cmd>wincmd h<cr>', desc = 'move  󰜱' },
-  { '<A-S-j>', '<cmd>wincmd h<cr>', desc = 'move  󰜮' },
-  { '<A-S-k>', '<cmd>wincmd h<cr>', desc = 'move  󰜷' },
+  { '<A-S-j>', '<cmd>wincmd j<cr>', desc = 'move  󰜮' },
+  { '<A-S-k>', '<cmd>wincmd k<cr>', desc = 'move  󰜷' },
   { '<A-S-l>', '<cmd>wincmd h<cr>', desc = 'move  󰜴' },
 }
 
@@ -104,7 +104,7 @@ map {
   prefix = '<leader>b',
   { 'l', '<cmd>bnext<cr>', desc = 'next buffer' },
   { 'h', '<cmd>bprevious<cr>', desc = 'previous buffer' },
-  { 'd', '<cmd>%bd|e#|bd#<cr>', desc = 'Close all but the current buffer' },
+  { 'D', '<cmd>%bd|e#|bd#<cr>', desc = 'Close all but the current buffer' },
   { 'n', '<cmd>enew<cr>', desc = 'new buffer' },
 }
 
@@ -164,75 +164,9 @@ map {
 }
 
 -- visuals
--- map {
---   mode = 'n',
---   prefix = '<leader>v',
---   {
---     'u',
---     function()
---       if vim.opt.cursorline._value == true then
---         vim.opt.cursorline = false
---       else
---         vim.opt.cursorline = true
---       end
---     end,
---     desc = 'toggle cursorline',
---   },
---   {
---     'U',
---     function()
---       if vim.opt.cursorcolumn._value == true then
---         vim.opt.cursorcolumn = false
---       else
---         vim.opt.cursorcolumn = true
---       end
---     end,
---     desc = 'toggle cursorcolumn',
---   },
---   {
---     'i',
---     function()
---       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
---     end,
---     desc = 'toggle lsp inlay hints',
---   },
---   { 't', '<CMD>TSToggle highlight<CR>', desc = 'toggle TS highlights' },
---   { 'm', '<CMD>Markview toggle<CR>', desc = 'toggle preview of buffer  Markview' },
---   {
---     'i',
---     function()
---       vim.lsp.inlay_hint.endable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
---     end,
---     desc = 'toggle inlay hints',
---   },
---   {
---     'd',
---     function()
---       vim.diagnostic.enabled(not vim.diagnosic.is_enabled())
---     end,
---     desc = 'toggle diagnostics',
---   },
--- }
-
-map {
-  mode = { 'n', 'i' },
-  { 'a-w', '<cmd>write<cr>', desc = 'write buffer' },
-  { 'a-q', '<cmd>quit<cr>', desc = 'quit window' },
-  { 'a-d', '<cmd><cr>', desc = 'delete buffer' },
-}
--- actions / leader k
 map {
   mode = 'n',
-  prefix = '<leader>k',
-  { 'w', '<cmd>write<cr>', desc = 'write buffer' },
-  { 'q', '<cmd>quit<cr>', desc = 'quit window' },
-  {
-    '/',
-    function()
-      require('Comment.api').toggle.linewise.current()
-    end,
-    desc = 'comment line  Comment',
-  },
+  prefix = '<leader>v',
   {
     'c',
     function()
@@ -255,26 +189,41 @@ map {
     end,
     desc = 'toggle cursorcolumn',
   },
-  {
-    'i',
-    function()
-      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-    end,
-    desc = 'toggle lsp inlay hints',
-  },
   { 't', '<cmd>TSToggle highlight<cr>', desc = 'toggle TS highlights' },
-  { 'm', '<cmd>Markview toggle<cr>', desc = 'toggle buffer preview  Markview' },
   {
-    'i',
+    'h',
     function()
-      vim.lsp.inlay_hint.endable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
     end,
     desc = 'toggle inlay hints',
   },
+}
+
+map {
+  mode = { 'n', 'i' },
+  { '<A-w>', '<cmd>write<cr>', desc = 'write buffer' },
+  { '<C-s>', '<cmd>write<cr>', desc = 'write buffer' },
+}
+
+-- actions / leader k
+map {
+  mode = 'n',
+  prefix = '<leader>k',
+  { 'w', '<cmd>write<cr>', desc = 'write buffer' },
+  { 'q', '<cmd>quit<cr>', desc = 'quit window' },
+  {
+    '/',
+    function()
+      require('Comment.api').toggle.linewise.current()
+    end,
+    desc = 'comment line  Comment',
+  },
+  { 'i', '<CMD>Inspect<CR>', desc = 'Inspect' },
+  { 't', '<cmd>TSToggle highlight<cr>', desc = 'toggle TS highlights' },
   {
     'd',
     function()
-      vim.diagnostic.enabled(not vim.diagnosic.is_enabled())
+      vim.diagnostic.enabled(not vim.diagnostic.is_enabled())
     end,
     desc = 'toggle diagnostics',
   },
@@ -288,7 +237,18 @@ map {
     function()
       vim.lsp.completion.get()
     end,
-    desc = 'Trigger LSP Completins',
+    desc = 'Trigger LSP Completions',
+  },
+}
+map {
+  mode = { 'n' },
+  {
+    '<C-k>',
+    function()
+      require('lsp-signature').toggle_float_win()
+    end,
+    desc = 'toggle signature',
+    plugin = 'lsp-signature',
   },
 }
 
@@ -299,7 +259,7 @@ map {
   { '<leader>q', vim.diagnostic.setloclist, desc = 'diagnostic Quickfix list' },
 
   -- cut/copy/paste
-  { 'x', '"_x', desc = 'Single x no register' },
+  { 'x', '"_x', desc = 'single x no register' },
   { '<leader>d', '"_d', desc = 'Delete no register' },
 
   -- undo/redo
@@ -320,7 +280,166 @@ map {
   { 's', '<nop>', desc = 'stop deleting characters when using surrounds' },
 }
 
--- session management
+-- explorers
 map {
   mode = 'n',
+  prefix = '<leader>',
+  plugin = 'Neo-tree',
+  { 'E', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer' },
+  { 'ee', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer' },
+  { 'eh', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree left' },
+  { 'el', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree right' },
+  { 'ef', '<cmd>Neotree reveal float<cr>', desc = 'Neo-tree float' },
+  { 'eb', '<cmd>Neotree buffers reveal<cr>', desc = 'Buffer Explorer' },
+  {
+    'es',
+    '<cmd>Neotree document_symbols reveal<cr>',
+    desc = 'Symbol Explorer',
+  },
+  {
+    'eg',
+    '<cmd>Neotree git_status reveal<cr>',
+    desc = 'Git Status Explorer',
+  },
 }
+
+-- sessions
+-- NOTE: currently using mini.sessions
+map {
+  mode = 'n',
+  prefix = '<leader>ks',
+  {
+    'r',
+    function()
+      require('mini.sessions').select 'read'
+    end,
+    desc = 'select session',
+    plugin = 'mini.sessions',
+  },
+  {
+    'w',
+    function()
+      require('mini.sessions').write()
+    end,
+    desc = 'write session',
+    plugin = 'mini.sessions',
+  },
+  {
+    'd',
+    function()
+      require('mini.sessions').write 'delete'
+    end,
+    desc = 'delete session',
+    plugin = 'mini.sessions',
+  },
+  {
+    'n',
+    function()
+      local session_name = vim.fn.input('Session Name:', '', '')
+      require('mini.sessions').write(session_name, { verbose = true })
+    end,
+    desc = 'new sessions',
+    plugin = 'mini.sessions',
+  },
+  {
+    'b',
+    function()
+      local session_name = vim.fn.input('Buffer Session Name:', '', '')
+      require('dart').write_session(session_name)
+    end,
+    desc = 'write buffer session',
+    plugin = 'dart',
+  },
+  {
+    'b',
+    function()
+      local session_name = vim.fn.input('Buffer Session Name:', '', '')
+      require('dart').read_session(session_name)
+    end,
+    desc = 'read buffer session',
+    plugin = 'dart',
+  },
+}
+
+-- terminal
+-- NOTE: currently using toggleterm for nvim terminals
+map {
+  mode = { 'n', 'i' },
+  plugin = 'ToggleTerm',
+  {
+    '<C-`>',
+    '<cmd<ToggleTerm direction=horizontal<cr>',
+    desc = 'toggle horizontal Terminal',
+  },
+}
+
+map {
+  mode = 'n',
+  prefix = '<leader>t',
+  plugin = 'ToggleTerm',
+  {
+    '<C-\\>',
+    '<cmd<ToggleTerm direction=vertical<cr>',
+    desc = 'toggle horizontal Terminal',
+  },
+  {
+    'f',
+    '<cmd>ToggleTerm direction=float<cr>',
+    desc = 'toggle floating terminal',
+    mode = 'n',
+  },
+  {
+    't',
+    '<cmd>ToggleTerm direction=horizontal<cr>',
+    desc = 'toggle horizontal Terminal',
+  },
+  {
+    'v',
+    '<cmd>ToggleTerm direction=vertical<cr>',
+    desc = 'toggle Vertical Terminal',
+    mode = 'n',
+  },
+}
+
+-- refactoring
+map {
+  mode = 'n',
+  prefix = '<leader>r',
+  {
+    'n',
+    function()
+      return ':IncRename ' .. vim.fn.expand '<cword>'
+    end,
+    expr = true,
+    desc = 'rename identifier',
+    plugin = 'inc-rename',
+  },
+}
+
+-- ft specific key maps (leader a)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'yaml' },
+  callback = function()
+    map {
+      mode = 'n',
+      buffer = true,
+      { '<leader>ar', '<cmd>AnsibleRunFile<cr>', desc = 'Run Ansible Playbook' },
+    }
+  end,
+})
+
+-- ft specific key maps
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'http', 'rest' },
+  callback = function()
+    map {
+      mode = 'n',
+      buffer = true,
+      plugin = 'kulala',
+      prefix = '<leader>a',
+      { '<leader>s', desc = 'Send request' },
+      { '<leader>a', desc = 'Send all requests' },
+      { '<leader>b', desc = 'Open scratchpad' },
+    }
+  end,
+})

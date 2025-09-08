@@ -26,11 +26,12 @@ return {
 
     -- toggle on and off sources
     map {
-      prefix = '<leaader>l',
+      prefix = '<leader>l',
+      plugin = 'none-ls',
       {
         's',
         function() ns.toggle { name = 'cspell' } end,
-        desc = 'toggle cspell  none-ls',
+        desc = 'toggle cspell',
       },
     }
   end,

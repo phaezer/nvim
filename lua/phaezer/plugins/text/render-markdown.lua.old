@@ -3,7 +3,11 @@
 -- TODO: configure render-markdown.nvim further
 return {
   'MeanderingProgrammer/render-markdown.nvim',
-  dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim', 'nvim-tree/nvim-web-devicons' },
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+    'echasnovski/mini.nvim',
+    'nvim-tree/nvim-web-devicons',
+  },
   opts = {
     completions = {
       lsp = { enabled = true },

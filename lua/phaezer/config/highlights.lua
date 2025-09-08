@@ -106,7 +106,7 @@ function M.patch_theme(pattern, opts)
   })
 end
 
--- remove bg from all diagnostic virtual text
+-- add colorscheme tweaks
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function()
     for _, v in pairs {
@@ -129,6 +129,12 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, 'GitSignsDeleteInline', { bg = util.color 'DiffDelete' })
     vim.api.nvim_set_hl(0, 'GitSignsAddInline', { bg = util.color 'DiffAdd' })
     vim.api.nvim_set_hl(0, 'GitSignsChangeInline', { bg = util.color 'DiffChange' })
+
+    local normal_bg = util.color('Normal', 'bg') or '#000000'
+    local normal_fg = util.color('Normal', 'fg') or '#ffffff'
+
+    -- adjust the flash hl groups
+    vim.api.nvim_set_hl(0, 'FlashBackdrop', { fg = colors.blend(normal_fg, 0.7, normal_bg) })
   end,
 })
 
