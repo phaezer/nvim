@@ -229,29 +229,6 @@ map {
   },
 }
 
--- LSP helpers
-map {
-  mode = { 'n', 'i' },
-  {
-    '<C-space>',
-    function()
-      vim.lsp.completion.get()
-    end,
-    desc = 'Trigger LSP Completions',
-  },
-}
-map {
-  mode = { 'n' },
-  {
-    '<C-k>',
-    function()
-      require('lsp-signature').toggle_float_win()
-    end,
-    desc = 'toggle signature',
-    plugin = 'lsp-signature',
-  },
-}
-
 -- misc. normal mode maps
 map {
   mode = 'n',

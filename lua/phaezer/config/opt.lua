@@ -103,3 +103,14 @@ o.tabstop = 2
 o.softtabstop = 2
 o.expandtab = true
 o.smarttab = true
+
+-- popup windows
+o.pumblend = 5
+o.pumheight = 12
+o.pumwidth = 20
+
+-- ghostty
+if vim.fn.getenv 'TERM_PROGRAM' == 'ghostty' then
+  vim.opt.title = true
+  vim.opt.titlestring = "%{fnamemodify(getcwd(), ':t')}"
+end

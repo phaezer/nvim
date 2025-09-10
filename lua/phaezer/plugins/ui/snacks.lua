@@ -234,6 +234,7 @@ return {
       { ':', function() Snacks.picker.commands() end, desc = 'commands' },
       { 'R', function() Snacks.picker.resume() end, desc = 'resume' },
       { 'Z', function() Snacks.picker.lazy() end, desc = 'search for plugin Spec' },
+      { 'c', function() Snacks.picker.colorschemes() end, desc = 'grep' },
       { 'g', function() Snacks.picker.grep() end, desc = 'grep' },
       { 'h', function() Snacks.picker.help() end, desc = 'help pages' },
       { 'h', function() Snacks.picker.highlights() end, desc = 'highlights' },

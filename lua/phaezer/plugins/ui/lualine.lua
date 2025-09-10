@@ -64,15 +64,13 @@ LuaLine.opts = function(_, opts)
           icon = icons.gui.Neovim,
         },
       },
-      lualine_b = {
+      lualine_b = {},
+      lualine_c = {
         {
           'branch',
           icon = icons.gui.Branch,
           padding = { left = 1, right = 1 },
-          separator = { right = '' },
         },
-      },
-      lualine_c = {
         { 'pretty_path' },
         { 'filesize', cond = buffer_not_empty },
         {
@@ -112,6 +110,11 @@ LuaLine.opts = function(_, opts)
       },
       lualine_x = {
         {
+          require('noice').api.status.command.get,
+          cond = require('noice').api.status.command.has,
+          color = function() return { fg = util.color 'Constant' } end,
+        },
+        {
           require('noice').api.status.search.get,
           cond = require('noice').api.status.search.has,
           color = function() return { fg = util.color 'Type' } end,
@@ -132,6 +135,7 @@ LuaLine.opts = function(_, opts)
           status = nil, -- List of task statuses to display
           status_not = false, -- When true, invert the status search
         },
+        { 'filetype' },
         {
           'lsp_status',
           icon = icons.gui.Server,
@@ -142,18 +146,13 @@ LuaLine.opts = function(_, opts)
             -- Standard unicode symbol for when LSP is done:
             done = '',
             -- Delimiter inserted between LSP names:
-            separator = '/',
+            separator = ' ',
           },
           ignore_lsp = {
             'null-ls',
           },
         },
-        { 'filetype' },
-        {
-          require('noice').api.status.command.get,
-          cond = require('noice').api.status.command.has,
-          color = function() return { fg = util.color 'Constant' } end,
-        },
+
         {
           'progress',
           icon = '',
