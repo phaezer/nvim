@@ -118,6 +118,22 @@ vim.api.nvim_create_autocmd('ColorScheme', {
       vim.api.nvim_set_hl(0, v, { fg = util.color(v), bg = 'NONE' })
     end
 
+    for _, v in pairs {
+      'DiagnosticUnderlineOk',
+      'DiagnosticUnderlineHint',
+      'DiagnosticUnderlineWarn',
+      'DiagnosticUnderlineError',
+      'DiagnosticUnderlineInfo',
+    } do
+      vim.api.nvim_set_hl(0, v, {
+        fg = 'NONE',
+        bg = 'NONE',
+        sp = util.color(v, 'sp'),
+        undercurl = true,
+        cterm = { undercurl = true },
+      })
+    end
+
     -- make sure unnecessary / unused code is underlined but keeps sytax high
     vim.api.nvim_set_hl(
       0,
