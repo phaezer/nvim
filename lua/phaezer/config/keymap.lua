@@ -190,12 +190,23 @@ map {
     desc = 'toggle cursorcolumn',
   },
   { 't', '<cmd>TSToggle highlight<cr>', desc = 'toggle TS highlights' },
+}
+
+-- lsp
+map {
+  mode = 'n',
+  prefix = '<leader>l',
   {
     'h',
     function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
     end,
     desc = 'toggle inlay hints',
+  },
+  {
+    'l',
+    '<cmd>ToggleLSPSelect<cr>',
+    desc = 'Toggle on/off an LSP',
   },
 }
 

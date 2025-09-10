@@ -88,6 +88,6 @@ return {
     }, neotest_ns)
   end,
   keys = {
-    { '<leader>lt', function() require('neotest').run.run() end, desc = 'run test  neotest' },
+    { '<leader>lt', function() require('neotest').run() end, desc = 'run test  neotest' },
   },
 }

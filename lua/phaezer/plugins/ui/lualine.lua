@@ -148,11 +148,7 @@ LuaLine.opts = function(_, opts)
             -- Delimiter inserted between LSP names:
             separator = ' ',
           },
-          ignore_lsp = {
-            'null-ls',
-          },
         },
-
         {
           'progress',
           icon = '',
