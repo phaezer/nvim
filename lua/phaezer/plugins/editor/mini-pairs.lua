@@ -1,8 +1,8 @@
--- NOTE: creates open/close paris of brackets, quotes, etc.
--- DOCS: https://github.com/echasnovski/mini.nvim/blob/main/doc/mini-pairs.txt
+-- NOTE: auto creates open/close paris of brackets, quotes, etc.
 return {
   'echasnovski/mini.pairs',
   version = '*',
+  enabled = false, -- pairs have become more annoying than helpful
   opts = {
     -- In which modes mappings from this `config` should be created
     modes = { insert = true, command = false, terminal = false },
@@ -20,7 +20,7 @@ return {
       -- [')'] = { action = 'close', pair = '()', neigh_pattern = '[^\\].' },
       -- ['['] = { action = 'open', pair = '[]', neigh_pattern = '[^\\].' },
       -- [']'] = { action = 'close', pair = '[]', neigh_pattern = '[^\\].' },
-      -- ['{'] = { action = 'open', pair = '{}', neigh_pattern = '[^\\].' },
+      -- ['{'] = { action = 'open', pair = '{}', nuigh_pattern = '[^\\].' },
       -- ['}'] = { action = 'close', pair = '{}', neigh_pattern = '[^\\].' },
       -- ['<'] = { action = 'open', pair = '<>', neigh_pattern = '[^\\].' },
       -- ['>'] = { action = 'close', pair = '<>', neigh_pattern = '[^\\].' },
