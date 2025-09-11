@@ -28,8 +28,8 @@ return {
             rainbow = {
               base = plt.blue,
               bg = plt.bg,
-              fg = plt.fg,
-              fg_alpha = 0.9,
+              fg = plt.bg,
+              fg_alpha = 0.8,
             },
             groups = {
               -- NeoTree colors
@@ -57,6 +57,8 @@ return {
               DartVisibleModified = { fg = plt.comment, bg = plt.bg, italic = true },
               DartVisibleLabel = { fg = plt.blue, bg = plt.bg },
               DartVisibleLabelModified = { fg = plt.orange, bg = plt.bg, bold = true },
+              -- markview
+              -- TODO: markview palette for tokyonight
             },
           }
         end)

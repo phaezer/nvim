@@ -59,7 +59,7 @@ LuaLine.opts = function(_, opts)
         {
           'mode',
           color = { gui = 'bold' },
-          separator = { left = ' ', right = '' },
+          separator = { left = '█', right = '█' },
           padding = { left = 0, right = 0 },
           icon = icons.gui.Neovim,
         },
@@ -148,6 +148,7 @@ LuaLine.opts = function(_, opts)
             -- Delimiter inserted between LSP names:
             separator = ' ',
           },
+          ignore_lsp = { 'null-ls', 'cspell', 'cspell_ls' },
         },
         {
           'progress',
