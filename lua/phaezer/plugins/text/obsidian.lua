@@ -1,4 +1,4 @@
--- NOTE: obsidian integartion for plaintext notes
+-- NOTE: obsidian integration for plaintext notes
 
 -- list of obsidian workspaces
 local workspaces = {

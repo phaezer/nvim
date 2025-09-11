@@ -35,6 +35,7 @@ return {
           },
         },
         win_options = {
+          -- cSpell:words winblend
           winblend = 0,
         },
       },
@@ -59,6 +60,7 @@ return {
         ['gd'] = {
           desc = 'Toggle file detail view',
           callback = function()
+            ---@diagnostic disable-next-line: inject-field
             vim.g.oil_show_detail = not (vim.g.oil_show_detail or false)
             if vim.g.oil_show_detail then
               require('oil').set_columns { 'icon', 'permissions', 'size', 'mtime' }
@@ -99,7 +101,7 @@ return {
     keys = {
       { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
       {
-        '<leader>-',
+        '_',
         function()
           local oil = require 'oil'
           if vim.w.is_oil_win then
@@ -111,6 +113,7 @@ return {
         desc = 'Toggle Oil (float)',
       },
     },
+    ---@diagnostic disable-next-line: inject-field
     init = function() vim.g.oil_show_detail = false end,
   },
   {

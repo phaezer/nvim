@@ -1,6 +1,7 @@
 local util = require 'phaezer.core.util'
 local icons = require 'phaezer.core.icons'
 
+-- cSpell:words bwpge statusline lualine globalstatus ministarter filesize gitsigns
 -- LuaLine
 -- NOTE: a statusline plugin for Neovim
 local LuaLine = {

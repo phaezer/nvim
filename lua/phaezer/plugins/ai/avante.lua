@@ -1,5 +1,8 @@
+-- cSpell: words avante
 return {
+  -- cSpell: disable
   'yetone/avante.nvim',
+  -- cSpell: enable
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   -- ⚠️ must add this setting! ! !
   build = vim.fn.has 'win32' ~= 0
@@ -26,6 +29,7 @@ return {
     },
   },
   dependencies = {
+    -- cSpell: disable
     'nvim-lua/plenary.nvim',
     'MunifTanjim/nui.nvim',
     --- The below dependencies are optional,
@@ -40,6 +44,7 @@ return {
     {
       -- support for image pasting
       'HakonHarnes/img-clip.nvim',
+      -- cSpell: enable
       event = 'VeryLazy',
       opts = {
         -- recommended settings

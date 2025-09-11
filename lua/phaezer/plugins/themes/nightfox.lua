@@ -1,5 +1,6 @@
 local hl = require 'phaezer.config.highlights'
 
+-- cSpell:words nightfox Bufferline
 return {
   'EdenEast/nightfox.nvim',
   lazy = false,

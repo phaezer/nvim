@@ -2,7 +2,7 @@
 -- NOTE: adds git related signs to the gutter, as well as utilities for managing changes
 
 local icons = require 'phaezer.core.icons'
-
+-- cSpell:words gitsigns changedelete signcolumn topdelete qflist setqflist diffthis numhl
 return {
   'lewis6991/gitsigns.nvim',
   lazy = true,
@@ -19,16 +19,16 @@ return {
     signs = {
       add = { text = '┃' },
       change = { text = '┃' },
-      delete = { text = '▼' },
-      topdelete = { text = '▲' },
+      delete = { text = '󰅀' },
+      topdelete = { text = '󰅃' },
       changedelete = { text = icons.git.Modified },
       untracked = { text = '⟩' },
     },
     signs_staged = {
       add = { text = '║' },
       change = { text = '║' },
-      delete = { text = '▽' },
-      topdelete = { text = '△' },
+      delete = { text = '󰄼' },
+      topdelete = { text = '󰄿' },
       changedelete = { text = icons.git.Modified },
       untracked = { text = '⟩' },
     },
@@ -45,6 +45,7 @@ return {
       local map = require('phaezer.core.keys').map
       map {
         mode = 'n',
+        buffer = bufnr,
         {
           ']c',
           function()
@@ -67,6 +68,11 @@ return {
           end,
           desc = 'Jump to previous git change  gitsigns',
         },
+      }
+
+      map {
+        mode = { 'n', 'v' },
+        buffer = bufnr,
         {
           '<leader>hs',
           function() gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' } end,

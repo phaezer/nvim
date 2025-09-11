@@ -1,5 +1,6 @@
 -- NOTE: A formatter for Neovim
 return {
+  -- cSpell:words stevearc
   'stevearc/conform.nvim',
   lazy = true,
   event = { 'BufWritePre' },

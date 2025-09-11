@@ -1,9 +1,11 @@
 ---@diagnostic disable: inject-field
 local map = require('phaezer.core.keys').map
 
+-- cSpell:disable
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- cSpell:enable
 map {
   mode = { 'i', 'c' },
   -- alt esc chords
@@ -63,6 +65,7 @@ map {
 }
 
 -- window management
+-- cSpell:words wincmd vsplit
 map {
   mode = 'n',
   prefix = '<leader>w',
@@ -349,7 +352,7 @@ map {
 }
 
 -- terminal
--- NOTE: currently using toggleterm for nvim terminals
+-- NOTE: currently using toggle term for nvim terminals
 map {
   mode = { 'n', 'i' },
   plugin = 'ToggleTerm',

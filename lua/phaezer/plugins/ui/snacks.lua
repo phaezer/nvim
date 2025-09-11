@@ -1,13 +1,15 @@
 local hl = require 'phaezer.config.highlights'
 local icons = require 'phaezer.core.icons'
 
+-- cSpell:words startinsert oldfiles toggleterm colorschemes lazygit nowait quickfile
+-- cSpell:words qflist loclist gitbrowse bufdelete
 return {
   'folke/snacks.nvim',
   lazy = false,
   dependencies = { 'folke/trouble.nvim' },
   -- event = 'VeryLazy',
   priority = 500,
-  opts = function(_, opts)
+  opts = function(_, _)
     return {
       dashboard = {
         enabled = true,
@@ -177,7 +179,7 @@ return {
           diagnostics = icons.diagnostics,
           git = {
             commit = icons.git.Commit,
-            conflict = icons.git.Confict,
+            conflict = icons.git.Conflict,
             staged = icons.git.Staged,
             added = icons.git.Added,
             deleted = icons.git.Removed,

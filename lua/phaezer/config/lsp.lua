@@ -1,4 +1,4 @@
----@diagnostic disable: need-check-nil
+---@diagnostic disable: need-check-nil, duplicate-set-field
 local icons = require 'phaezer.core.icons'
 
 -- Store buffers attached to each LSP client
@@ -183,11 +183,12 @@ local function toggle_lsp(name)
 
     vim.notify('LSP ' .. name .. ' has been disabled')
   else -- If LSP is currently disabled, enable it
-    local new_ids = {}
-
     -- Reinitialize clients with previous configurations
-    for client_name, buffers in pairs(attached_buffers_by_client) do
+    for _, buffers in pairs(attached_buffers_by_client) do
       local client_config = client_configs[name].config -- Retrieve client config
+      -- TODO: update below to new api with vim.lsp.start
+
+      ---@diagnostic disable-next-line: deprecated sticking with old api for now;
       local new_client_id, err = vim.lsp.start_client(client_config) -- Start client with config
 
       if err then -- Notify if there was an error starting the client

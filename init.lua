@@ -5,6 +5,7 @@ local colorscheme = 'tokyonight'
 require 'phaezer.config'
 
 -- Lazy.nvim setup
+-- cSpell: words lazypath
 -- DOCS: `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 
@@ -40,6 +41,11 @@ lazy_config.spec = {
   { import = 'phaezer.plugins.ui' },
 }
 
+if vim.env.NVIM_EXPERIMENTAL then
+  table.insert(lazy_config.spec, { import = 'phaezer.plugins.experimental' })
+end
+
+---@diagnostic disable-next-line: different-requires
 require('lazy').setup(lazy_config)
 
 vim.cmd 'set nolist'

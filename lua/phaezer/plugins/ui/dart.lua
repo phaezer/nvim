@@ -1,5 +1,6 @@
 -- NOTE: minimalist tabline focused on pinning buffers for fast switching between a group of files. Pick a file and throw a single-character dart to jump to it.
 return {
+  -- cSpell:words iofq marklist buflist
   'iofq/dart.nvim',
   dependencies = {
     'echasnovski/mini.nvim',

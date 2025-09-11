@@ -10,7 +10,7 @@ return {
   opts = {
     picker = 'snacks',
     signs = {
-      quickfix = { '', { link = 'DiagnosticWarning' } },
+      quickfix = { '󱐌', { link = 'DiagnosticWarning' } },
       others = { '', { link = 'DiagnosticWarning' } },
       refactor = { '', { link = 'DiagnosticInfo' } },
       ['refactor.move'] = { '󰪹', { link = 'DiagnosticInfo' } },
@@ -18,7 +18,7 @@ return {
       ['source.organizeImports'] = { '', { link = 'DiagnosticWarning' } },
       ['source.fixAll'] = { '󰃢', { link = 'DiagnosticError' } },
       ['source'] = { '', { link = 'DiagnosticError' } },
-      ['rename'] = { '󰑕', { link = 'DiagnosticWarning' } },
+      ['rename'] = { '', { link = 'DiagnosticWarning' } },
       ['codeAction'] = { '', { link = 'DiagnosticWarning' } },
     },
   },
@@ -26,8 +26,7 @@ return {
     local open = function() require('tiny-code-action').code_action() end
     require('phaezer.core.keys').map {
       plugin = 'tiny-code-action',
-      { '<C-.>', open, desc = 'Code Action' },
-      { '<leader>ka', open, desc = 'Code Action' },
+      { '<leader>kk', open, desc = 'Code Action' },
     }
   end,
 }

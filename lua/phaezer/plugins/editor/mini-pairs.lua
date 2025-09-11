@@ -2,7 +2,7 @@
 return {
   'echasnovski/mini.pairs',
   version = '*',
-  enabled = false, -- pairs have become more annoying than helpful
+  lazy = false,
   opts = {
     -- In which modes mappings from this `config` should be created
     modes = { insert = true, command = false, terminal = false },
@@ -15,35 +15,6 @@ return {
     -- <CR>, `'` does not insert pair after a letter.
     -- Only parts of tables can be tweaked (others will use these defaults).
     mappings = {
-      -- basic pairs
-      -- ['('] = { action = 'open', pair = '()', neigh_pattern = '[^\\].' },
-      -- [')'] = { action = 'close', pair = '()', neigh_pattern = '[^\\].' },
-      -- ['['] = { action = 'open', pair = '[]', neigh_pattern = '[^\\].' },
-      -- [']'] = { action = 'close', pair = '[]', neigh_pattern = '[^\\].' },
-      -- ['{'] = { action = 'open', pair = '{}', nuigh_pattern = '[^\\].' },
-      -- ['}'] = { action = 'close', pair = '{}', neigh_pattern = '[^\\].' },
-      -- ['<'] = { action = 'open', pair = '<>', neigh_pattern = '[^\\].' },
-      -- ['>'] = { action = 'close', pair = '<>', neigh_pattern = '[^\\].' },
-      --
-      -- ['"'] = {
-      --   action = 'closeopen',
-      --   pair = '""',
-      --   neigh_pattern = '[^\\].',
-      --   register = { cr = false },
-      -- },
-      -- ["'"] = {
-      --   action = 'closeopen',
-      --   pair = "''",
-      --   neigh_pattern = '[^%a\\].',
-      --   register = { cr = false },
-      -- },
-      -- ['`'] = {
-      --   action = 'closeopen',
-      --   pair = '``',
-      --   neigh_pattern = '[^\\].',
-      --   register = { cr = false },
-      -- },
-
       -- curved quotes
       ['“'] = {
         action = 'open',
@@ -70,7 +41,7 @@ return {
         register = { cr = false },
       },
 
-      -- Guillemets
+      -- guillemets
       ['‹'] = {
         action = 'open',
         pair = '‹›',
@@ -135,4 +106,24 @@ return {
       },
     },
   },
+  init = function()
+    require('phaezer.core.keys').map {
+      plugin = 'mini.pairs',
+      prefix = '<leader>k',
+      {
+        'p',
+        function()
+          -- cSpell:words minipairs
+          ---@diagnostic disable-next-line: inject-field
+          vim.g.minipairs_disable = not (vim.g.minipairs_disable or false)
+          if vim.g.minipairs_disable then
+            vim.notify 'mini.pairs disabled'
+          else
+            vim.notify 'mini.pairs enabled'
+          end
+        end,
+        desc = 'toggle auto pairs',
+      },
+    }
+  end,
 }
