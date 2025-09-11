@@ -22,16 +22,12 @@ return {
       ['codeAction'] = { '', { link = 'DiagnosticWarning' } },
     },
   },
-  keys = {
-    {
-      '<A-.>',
-      function() require('tiny-code-action').code_action() end,
-      desc = 'Code Action  tiny code action',
-    },
-    {
-      '<leader>ka',
-      function() require('tiny-code-action').code_action() end,
-      desc = 'Code Action  tiny code action',
-    },
-  },
+  init = function()
+    local open = function() require('tiny-code-action').code_action() end
+    require('phaezer.core.keys').map {
+      plugin = 'tiny-code-action',
+      { '<C-.>', open, desc = 'Code Action' },
+      { '<leader>ka', open, desc = 'Code Action' },
+    }
+  end,
 }

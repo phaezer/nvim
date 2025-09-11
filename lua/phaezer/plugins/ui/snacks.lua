@@ -208,7 +208,7 @@ return {
       { 'z', function() Snacks.zen() end, desc = 'zen mode' },
       { 'Z', function() Snacks.zen.zoom() end, desc = 'toggle zoom' },
       { "'", function() Snacks.picker.marks() end, desc = 'search marks' },
-      { 'h', function() Snacks.dashboard() end, desc = 'home dashboard' },
+      { 'H', function() Snacks.dashboard() end, desc = 'home dashboard' },
     }
 
     -- git

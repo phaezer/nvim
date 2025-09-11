@@ -213,7 +213,7 @@ map {
 map {
   mode = { 'n', 'i' },
   { '<A-w>', '<cmd>write<cr>', desc = 'write buffer' },
-  { '<C-s>', '<cmd>write<cr>', desc = 'write buffer' },
+  { '<C-w>', '<cmd>write<cr>', desc = 'write buffer' },
 }
 
 -- actions / leader k
@@ -292,7 +292,6 @@ map {
 }
 
 -- sessions
--- NOTE: currently using mini.sessions
 map {
   mode = 'n',
   prefix = '<leader>ks',
@@ -356,7 +355,12 @@ map {
   plugin = 'ToggleTerm',
   {
     '<C-`>',
-    '<cmd<ToggleTerm direction=horizontal<cr>',
+    '<cmd>ToggleTerm direction=horizontal<cr>',
+    desc = 'toggle horizontal Terminal',
+  },
+  {
+    '<C-\\>',
+    '<cmd>ToggleTerm direction=vertical<cr>',
     desc = 'toggle horizontal Terminal',
   },
 }
@@ -365,11 +369,6 @@ map {
   mode = 'n',
   prefix = '<leader>t',
   plugin = 'ToggleTerm',
-  {
-    '<C-\\>',
-    '<cmd<ToggleTerm direction=vertical<cr>',
-    desc = 'toggle horizontal Terminal',
-  },
   {
     'f',
     '<cmd>ToggleTerm direction=float<cr>',
@@ -412,22 +411,6 @@ vim.api.nvim_create_autocmd('FileType', {
       mode = 'n',
       buffer = true,
       { '<leader>ar', '<cmd>AnsibleRunFile<cr>', desc = 'Run Ansible Playbook' },
-    }
-  end,
-})
-
--- ft specific key maps
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'http', 'rest' },
-  callback = function()
-    map {
-      mode = 'n',
-      buffer = true,
-      plugin = 'kulala',
-      prefix = '<leader>a',
-      { '<leader>s', desc = 'Send request' },
-      { '<leader>a', desc = 'Send all requests' },
-      { '<leader>b', desc = 'Open scratchpad' },
     }
   end,
 })

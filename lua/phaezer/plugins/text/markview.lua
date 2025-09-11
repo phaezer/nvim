@@ -25,17 +25,23 @@ return {
 
     -- headings module
     require('markview.extras.headings').setup()
-
-    -- extra mappings
-    local map = require('phaezer.core.keys').map
-    map {
-      prefix = '<leader>k',
-      plugin = 'Markview',
-      { 'mt', '<cmd>Markview Toggle<cr>', desc = 'toggle render' },
-      { 'my', '<cmd>Markview hybridToggle<cr>', desc = 'toggle hybrid render' },
-      { 'mc', '<cmd>Checkbox interactive<cr>', desc = 'checkbox state change' },
-      { 'mh', '<cmd>Headings increase<cr>', desc = 'heading lvl ' },
-      { 'mH', '<cmd>Headings increase<cr>', desc = 'heading lvl ' },
-    }
+  end,
+  init = function()
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { 'markdown', 'md', 'mdx' },
+      callback = function()
+        require('phaezer.core.keys').map {
+          mode = 'n',
+          buffer = true,
+          plugin = 'MarkView',
+          prefix = '<leader>;',
+          { 'r', '<cmd>Markview Toggle<cr>', desc = 'toggle render' },
+          { 'y', '<cmd>Markview hybridToggle<cr>', desc = 'toggle hybrid render' },
+          { 'c', '<cmd>Checkbox interactive<cr>', desc = 'checkbox state change' },
+          { 'h', '<cmd>Headings increase<cr>', desc = 'heading lvl ' },
+          { 'l', '<cmd>Headings increase<cr>', desc = 'heading lvl ' },
+        }
+      end,
+    })
   end,
 }

@@ -53,25 +53,27 @@ return {
 
     -- which key mappings
     wk.add {
+      { '<leader>a', group = 'Avante', icon = '󱙺' },
       { '<leader>b', group = 'Buffer' },
-      { '<leader>?', group = 'WTF?', icon = '󱜹' },
-      { '<leader>k', group = 'Actions', icon = '' },
-      { '<leader>ko', group = 'Obsidian', icon = '󰠮' },
       { '<leader>e', group = 'Explorers', icon = '󰱼' },
-      { '<leader>s', group = 'Search', icon = '' },
       { '<leader>f', group = 'Files', icon = '' },
-      { '<leader>/', group = 'GrugFar', icon = '󰛔' },
       { '<leader>g', group = 'Git', icon = '' },
       { '<leader>h', group = 'Git Hunk', icon = '' },
       { '<leader>i', group = 'Inspect', icon = '' },
+      { '<leader>k', group = 'Actions', icon = '' },
+      { '<leader>ko', group = 'Obsidian', icon = '󰠮' },
       { '<leader>l', group = 'LSP', icon = '' },
       { '<leader>m', group = 'Mason', icon = '󱌣' },
       { '<leader>o', group = 'OpenCode', icon = '󱙺' },
       { '<leader>r', group = 'Refactor', icon = '' },
+      { '<leader>s', group = 'Search', icon = '' },
       { '<leader>t', group = 'Terminal', icon = '' },
       { '<leader>v', group = 'Visuals', icon = '' },
       { '<leader>w', group = 'Window' },
+      { '<leader>/', group = 'GrugFar', icon = '󰛔' },
       { '<leader>x', group = 'Trouble', icon = '󰴔' },
+      { '<leader>;', group = 'FT Actions', icon = '' },
+      { '<leader>?', group = 'WTF?', icon = '󱜹' },
     }
   end,
 }

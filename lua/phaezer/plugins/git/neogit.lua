@@ -7,7 +7,17 @@ return {
     'sindrets/diffview.nvim',
     'folke/snacks.nvim',
   },
+  opts = {
+    kind = 'split', -- opens neogit in a split
+    signs = {
+      -- { CLOSED, OPENED }
+      section = { '', '' },
+      item = { '', '' },
+      hunk = { '', '' },
+    },
+    integrations = { diffview = true }, -- adds integration with diffview.nvim
+  },
   keys = {
-    { '<leader>gg', '<cmd>open Neogit<cr>', desc = 'Neogit', mode = 'n' },
+    { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Neogit', mode = 'n' },
   },
 }
