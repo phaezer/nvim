@@ -16,8 +16,6 @@ return {
         headings = presets.headings.glow,
       },
       preview = {
-        -- add Avante
-        filetypes = { 'md', 'rmd', 'quarto', 'Avante' },
         icon_provider = 'devicons',
       },
     }
