@@ -1,3 +1,15 @@
+local fts = {
+  'go',
+  'lua',
+  'python',
+  'javascript',
+  'typescript',
+  'js',
+  'ts',
+  'react',
+  'rust',
+}
+
 return {
   -- cSpell:words pocco81
   'pocco81/auto-save.nvim',
@@ -8,6 +20,9 @@ return {
     require('auto-save').setup {
       -- only save if no warn or worse diagnostics
       condition = function(buf)
+        local utils = require 'auto-save.utils.data'
+        -- only allow specific filetypes
+        if utils.not_in(vim.fn.getbufvar(buf, '&filetype'), fts) then return false end
         local ok, diagnostics =
           pcall(vim.diagnostic.get, buf, { severity = { min = vim.diagnostic.severity.WARN } })
         if ok and vim.fn.getbufvar(buf, '&modifiable') == 1 and #diagnostics < 1 then
