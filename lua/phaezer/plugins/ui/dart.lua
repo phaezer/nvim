@@ -8,13 +8,13 @@ return {
   opts = {
     -- List of characters to use to mark 'pinned' buffers
     -- The characters will be chosen for new pins in order
-    marklist = { 'a', 's', 'd', 'f', 'j', 'h', 'k', 'l', 'g', 'h'},
+    marklist = { 'a', 's', 'd', 'f', 'j', 'h', 'k', 'l', 'g', 'h' },
 
     -- List of characters to use to mark recent buffers, which are displayed first (left) in the tabline
     -- Buffers that are 'marked' are not included in this list
     -- The length of this list determines how many recent buffers are tracked
     -- Set to {} to disable recent buffers in the tabline
-    buflist = { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
+    buflist = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' },
 
     tabline = {
       -- Force the tabline to always be shown, even if no files are currently marked
