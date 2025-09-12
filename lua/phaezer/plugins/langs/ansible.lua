@@ -3,6 +3,7 @@ return {
   -- SRC: https://github.com/pearofducks/ansible-vim
   {
     'pearofducks/ansible-vim',
+    enabled = false,
     name = 'ansible-vim',
     lazy = true,
     ft = { 'yaml.ansible', 'ansible' },
