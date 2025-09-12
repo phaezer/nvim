@@ -18,6 +18,7 @@ return {
   event = { 'BufEnter', 'InsertLeave' },
   config = function()
     require('auto-save').setup {
+      trigger_events = { 'InsertLeave' },
       -- only save if no warn or worse diagnostics
       condition = function(buf)
         local utils = require 'auto-save.utils.data'
@@ -30,8 +31,22 @@ return {
         end
         return false -- can't save
       end,
+      callbacks = { -- functions to be executed at different intervals
+        enabling = nil, -- ran when enabling auto-save
+        disabling = nil, -- ran when disabling auto-save
+        before_asserting_save = nil, -- ran before checking `condition`
+        before_saving = function()
+          ---@diagnostic disable-next-line: inject-field
+          vim.b.autosaving = true
+        end,
+        after_saving = function()
+          ---@diagnostic disable-next-line: inject-field
+          vim.b.autosaving = false
+        end,
+      },
     }
   end,
+
   init = function()
     require('phaezer.core.keys').map {
       mode = 'n',
