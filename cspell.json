@@ -51,7 +51,9 @@
     "timeoutlen",
     "Avante",
     "tpope",
-    "getbufvar"
+    "getbufvar",
+    "getregion",
+    "getpos"
   ],
   "language": "en",
   "userWords": [
