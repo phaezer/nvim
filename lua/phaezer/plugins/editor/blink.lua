@@ -22,7 +22,7 @@ return {
       dependencies = { 'nvim-lua/plenary.nvim' },
     },
     -- avante provider
-    'Kaiser-Yang/blink-cmp-avante',
+    -- 'Kaiser-Yang/blink-cmp-avante',
   },
 
   opts = {
@@ -146,7 +146,7 @@ return {
 
     -- DOCS: https://cmp.saghen.dev/configuration/sources.html
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'avante', 'ripgrep' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'ripgrep' },
       per_filetype = {
         sql = { 'dadbod' },
         lua = { inherit_defaults = true, 'lazydev' },
@@ -173,21 +173,21 @@ return {
             },
           },
         },
-        avante = {
-          module = 'blink-cmp-avante',
-          name = 'Avante',
-          opts = {
-            command = {
-              get_kind_name = function(_) return 'Cmd' end,
-            },
-            mention = {
-              get_kind_name = function(_) return 'Mention' end,
-            },
-            shortcut = {
-              get_kind_name = function(_) return 'Shortcut' end,
-            },
-          },
-        },
+        -- avante = {
+        --   module = 'blink-cmp-avante',
+        --   name = 'Avante',
+        --   opts = {
+        --     command = {
+        --       get_kind_name = function(_) return 'Cmd' end,
+        --     },
+        --     mention = {
+        --       get_kind_name = function(_) return 'Mention' end,
+        --     },
+        --     shortcut = {
+        --       get_kind_name = function(_) return 'Shortcut' end,
+        --     },
+        --   },
+        -- },
         ripgrep = {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
@@ -226,9 +226,7 @@ return {
   keys = {
     {
       '<C-.>',
-      function()
-        require('blink-cmp').show { providers = { 'buffer', 'lsp', 'path', 'avante', 'copilot' } }
-      end,
+      function() require('blink-cmp').show { providers = { 'buffer', 'lsp', 'path', 'copilot' } } end,
       desc = 'Blink cmp text',
       mode = 'i',
     },
@@ -246,7 +244,7 @@ return {
     },
     {
       '<C-;>',
-      function() require('blink-cmp').show { providers = { 'avante', 'copilot' } } end,
+      function() require('blink-cmp').show { providers = { 'copilot' } } end,
       desc = 'blink cmp ai',
       mode = 'i',
     },

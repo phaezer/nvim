@@ -1,12 +1,14 @@
 -- NOTE: copilot-lsp provides next edit prediction
 return {
   'copilotlsp-nvim/copilot-lsp',
+  enabled = false, -- NES sucks
   opts = {
     nes = {
       move_count_threshold = 1, -- clear after moving
     },
   },
   init = function()
+    ---@diagnostic disable-next-line: inject-field
     vim.g.copilot_nes_debounce = 200
     vim.lsp.enable 'copilot_ls'
 
