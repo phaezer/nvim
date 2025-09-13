@@ -8,15 +8,19 @@ return {
   opts = {
     notify_on_error = false,
     format_on_save = function(bufnr)
-      -- do not format on save if autosaving
-      if vim.b.autosaving then return nil end
-      -- Disable "format_on_save lsp_fallback" for languages that don't
-      -- have a well standardized coding style. You can add additional
-      -- languages here or re-enable it for the disabled ones.
-      local disable_filetypes = { c = true, cpp = true }
-      if disable_filetypes[vim.bo[bufnr].filetype] then
-        return nil
-      else
+      -- only format on save if set
+      if not vim.g.format_on_save then return nil end
+      local enabled_filetypes = {
+        go = true,
+        lua = true,
+        typescript = true,
+        typescriptreact = true,
+        javascript = true,
+        javascriptreact = true,
+        rust = true,
+        yaml = true,
+      }
+      if enabled_filetypes[vim.bo[bufnr].filetype] then
         return {
           timeout_ms = 500,
           lsp_format = 'fallback',
@@ -41,12 +45,28 @@ return {
       yaml = { 'yamlfmt' },
     },
   },
-  keys = {
-    {
-      '<leader>kf',
-      function() require('conform').format { async = true, lsp_format = 'fallback' } end,
-      mode = 'n',
-      desc = 'format  conform',
-    },
-  },
+  init = function()
+    ---@diagnostic disable-next-line: inject-field
+    vim.g.format_on_save = true
+    require('phaezer.core.keys').map {
+      prefix = '<leader>k',
+      plug = 'conform',
+      {
+        'F',
+        function()
+          local format_on_save = not vim.g.format_on_save
+          ---@diagnostic disable-next-line: inject-field
+          vim.g.format_on_save = format_on_save
+          vim.notify('format on save: ' .. (format_on_save and 'enabled' or 'disabled'))
+        end,
+        desc = 'toggle format on save',
+      },
+      {
+        'f',
+        function() require('conform').format { async = true, lsp_format = 'fallback' } end,
+        mode = 'n',
+        desc = 'format',
+      },
+    }
+  end,
 }

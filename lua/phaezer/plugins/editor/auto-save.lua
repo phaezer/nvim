@@ -18,6 +18,7 @@ return {
   event = { 'BufEnter', 'InsertLeave' },
   config = function()
     require('auto-save').setup {
+      enabled = false, -- disable by default.
       trigger_events = { 'InsertLeave' },
       -- only save if no warn or worse diagnostics
       condition = function(buf)
