@@ -1,5 +1,6 @@
 # nvim sessions
 .sessions/
+.chezmoiignore
 
 tags
 test.sh
