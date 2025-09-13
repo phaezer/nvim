@@ -47,26 +47,26 @@ return {
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
       preset = 'super-tab',
-      -- integration with copilot-lsp nes edits
-      -- SRC: https://github.com/copilotlsp-nvim/copilot-lsp#blink-integration
-      ['<Tab>'] = {
-        function(cmp)
-          if vim.b[vim.api.nvim_get_current_buf()].nes_state then
-            cmp.hide()
-            return (
-              require('copilot-lsp.nes').apply_pending_nes()
-              and require('copilot-lsp.nes').walk_cursor_end_edit()
-            )
-          end
-          if cmp.snippet_active() then
-            return cmp.accept()
-          else
-            return cmp.select_and_accept()
-          end
-        end,
-        'snippet_forward',
-        'fallback',
-      },
+      -- -- integration with copilot-lsp nes edits
+      -- -- SRC: https://github.com/copilotlsp-nvim/copilot-lsp#blink-integration
+      -- ['<Tab>'] = {
+      --   function(cmp)
+      --     if vim.b[vim.api.nvim_get_current_buf()].nes_state then
+      --       cmp.hide()
+      --       return (
+      --         require('copilot-lsp.nes').apply_pending_nes()
+      --         and require('copilot-lsp.nes').walk_cursor_end_edit()
+      --       )
+      --     end
+      --     if cmp.snippet_active() then
+      --       return cmp.accept()
+      --     else
+      --       return cmp.select_and_accept()
+      --     end
+      --   end,
+      --   'snippet_forward',
+      --   'fallback',
+      -- },
       ['<C-k>'] = { 'select_prev', 'fallback' },
       ['<C-j>'] = { 'select_next', 'fallback' },
     },
