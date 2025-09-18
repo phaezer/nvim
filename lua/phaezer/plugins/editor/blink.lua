@@ -199,7 +199,7 @@ return {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
           min_keyword_length = 3,
-          max_item = 3,
+          max_items = 3,
           opts = {
             project_root_marker = { '.git', 'package.json', '.root', 'go.mod' },
           },
