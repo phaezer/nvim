@@ -349,7 +349,7 @@ map {
     plugin = 'mini.sessions',
   },
   {
-    'b',
+    'B',
     function()
       local session_name = vim.fn.input('Buffer Session Name:', '', '')
       require('dart').write_session(session_name)
