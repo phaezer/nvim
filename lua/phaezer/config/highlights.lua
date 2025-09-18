@@ -74,14 +74,6 @@ local function maybe_set_hl(group, v)
   end
 end
 
----sets a list of hightlight groups only if values are not nil
----@param groups table
-local function maybe_set_hls(groups)
-  for group, value in pairs(groups) do
-    maybe_set_hl(group, value)
-  end
-end
-
 ---patch a theme to include additional highlight groups
 ---@param pattern string | string[]
 ---@param opts {rainbow: rainbowHighlightOpts, groups: table} | function
@@ -94,7 +86,9 @@ function M.patch_theme(pattern, opts)
       end
       -- rainbow highlights
       M.rainbow.set_hl_groups(opts.rainbow)
-      maybe_set_hls(opts.groups)
+      for group, value in pairs(opts.groups) do
+        maybe_set_hl(group, value)
+      end
     end,
   })
 end

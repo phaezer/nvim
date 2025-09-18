@@ -52,12 +52,13 @@ return {
             groups = {
               -- cursors
               nCursor = { fg = plt.bg_dark1, bg = plt.blue },
-              iCursor = { bg = plt.green, fg = 'NONE' },
+              iCursor = { bg = plt.green, fg = plt.bg_dark1 },
               -- NeoTree colors
               NeoTreeGitAdded = git.added,
               NeoTreeGitConflict = git.conflict,
               NeoTreeGitDeleted = git.deleted,
               NeoTreeGitModified = git.modified,
+              NeoTreeDotFile = { fg = plt.comment },
               -- Oil git colors
               OilGitAdded = git.added,
               OilGitModified = git.modified,
