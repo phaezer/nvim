@@ -1,4 +1,3 @@
--- Blink
 -- NOTE: Autocompletion provider
 -- DOCS: https://cmp.saghen.dev/
 return {
@@ -8,16 +7,14 @@ return {
   -- TODO: update version when datetime bug is fixed
   version = '1.6.0',
   dependencies = {
-    -- copilot
+    -- cSpell:words jmbuhr mikavilpas lazydev
     'fang2hou/blink-copilot',
     'L3MON4D3/LuaSnip',
-    -- 'rafamadriz/friendly-snippets',
     'L3MON4D3/LuaSnip',
     'folke/lazydev.nvim',
     'xzbdmw/colorful-menu.nvim',
     'jmbuhr/otter.nvim',
     'mikavilpas/blink-ripgrep.nvim',
-    -- 'olimorris/codecompanion.nvim',
     {
       'Kaiser-Yang/blink-cmp-dictionary',
       dependencies = { 'nvim-lua/plenary.nvim' },
@@ -147,7 +144,7 @@ return {
 
     -- DOCS: https://cmp.saghen.dev/configuration/sources.html
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'ripgrep' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'ripgrep', 'copilot' },
       per_filetype = {
         sql = { 'dadbod' },
         lua = { inherit_defaults = true, 'lazydev' },
@@ -161,17 +158,19 @@ return {
           module = 'lazydev.integrations.blink',
           -- make lazydev completions top priority (see `:h blink.cmp`)
           score_offset = 100,
+          max_items = 5,
         },
         copilot = {
           name = 'copilot',
           module = 'blink-copilot',
+          -- copilot below lsp / lazydev cmp
           score_offset = 0,
+          min_keyword_length = 2,
           async = true,
           opts = {
             max_completions = 5,
             max_attempts = 5,
             kind_name = 'Copilot',
-            -- kind_hl = false,
             debounce = 200,
             auto_refresh = {
               backward = true,
@@ -179,24 +178,28 @@ return {
             },
           },
         },
-        -- avante = {
-        --   module = 'blink-cmp-avante',
-        --   name = 'Avante',
-        --   opts = {
-        --     command = {
-        --       get_kind_name = function(_) return 'Cmd' end,
-        --     },
-        --     mention = {
-        --       get_kind_name = function(_) return 'Mention' end,
-        --     },
-        --     shortcut = {
-        --       get_kind_name = function(_) return 'Shortcut' end,
-        --     },
-        --   },
-        -- },
+        lsp = {
+          score_offset = 100, -- lsp should have top priority
+          min_keyword_length = 1,
+          max_items = 5,
+        },
+        path = {
+          min_keyword_length = 2,
+          max_items = 3,
+        },
+        snippets = {
+          min_keyword_length = 2,
+        },
+        buffer = {
+          score_offset = 10, -- lsp should have top priority
+          min_keyword_length = 3,
+          max_items = 3,
+        },
         ripgrep = {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
+          min_keyword_length = 3,
+          max_item = 3,
           opts = {
             project_root_marker = { '.git', 'package.json', '.root', 'go.mod' },
           },
