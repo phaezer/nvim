@@ -1,7 +1,7 @@
 -- NOTE: Extend and create a/i textobjects
 -- DOCS: https://github.com/echasnovski/mini.ai
 return {
-  'echasnovski/mini.ai',
+  'nvim-mini/mini.ai',
   version = '*',
   opts = {
     mappings = {

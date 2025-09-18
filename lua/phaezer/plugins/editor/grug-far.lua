@@ -1,4 +1,4 @@
--- Grug Far
+--cSpell:words grug
 -- NOTE: Find and replace across multiple files
 return {
   'MagicDuck/grug-far.nvim',

@@ -3,6 +3,7 @@ return {
   'HiPhish/rainbow-delimiters.nvim',
   lazy = false,
   config = function()
+    ---@diagnostic disable-next-line: inject-field
     vim.g.rainbow_delimiters = {
       strategy = {
         [''] = 'rainbow-delimiters.strategy.global',

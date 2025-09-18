@@ -8,7 +8,7 @@ return {
   },
   keys = {
     {
-      '<leader>r',
+      '<leader>rr',
       mode = 'n',
       function() require('substitute').operator() end,
       desc = 'replace  substitute',

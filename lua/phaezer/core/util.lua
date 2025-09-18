@@ -169,4 +169,61 @@ function M.first_truthy(tbl)
   end)
 end
 
+--- Format all strings in a table
+--- @param fmt string format to apply to all strings
+--- @param tbl table of strings to format
+--- @return table table of formatted strings
+function M.format_all(fmt, tbl)
+  return vim
+    .iter(tbl)
+    :map(function(v, k)
+      return string.format(fmt, v)
+    end)
+    :totable()
+end
+
+--- Get the selected text in visual mode
+---@return string
+function M.get_selected_text()
+  local mode = vim.api.nvim_get_mode().mode
+  local opts = {}
+  -- \22 is an escaped version of <c-v>
+  if mode == 'v' or mode == 'V' or mode == '\22' then
+    opts.type = mode
+  end
+  local lines = vim.fn.getregion(vim.fn.getpos 'v', vim.fn.getpos '.', opts)
+  return vim.concat(lines, '\n')
+end
+
+--- Replace the selected text in visual mode with the given text
+function M.replace_selection(text)
+  -- Use unpack to give tuple values a name otherwise you can only use indexing.
+  -- We are getting line, column, buffer nr etc based on the visual markers here.
+  local s_buf, s_row, s_col, _ = unpack(vim.fn.getpos "'<")
+  local _, e_row, e_col, _ = unpack(vim.fn.getpos "'>")
+  -- Indexing into buffer row needs - 1 because lua indexing starts from 1.
+  -- Column subtracts are just to account for start and end scenarios.
+  -- We use the positions to fully clear all selected text of a v-block.
+  vim.api.nvim_buf_set_text(s_buf, e_row - 1, s_col - 1, e_row - 1, e_col, {})
+  -- Place text.
+  vim.api.nvim_buf_set_text(s_buf, s_row - 1, s_col, s_row - 1, s_col, { text })
+  -- Exit visual mode
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<esc>', true, false, true), 'x', false)
+end
+
+--- Run a shell command and return it's output
+function M.shell_cmd(cmd, opt)
+  local cwd = opt.cwd or vim.fn.getcwd()
+  local shell = opt.shell or 'bash'
+  local result = vim.system({ shell, '-c', cmd }, { text = true, cwd = cwd }):wait()
+  if result.code ~= 0 then
+    vim.notify(
+      'Error running command: ' .. result.stdout .. '. Error: ' .. result.stderr,
+      vim.log.levels.ERROR
+    )
+    return nil
+  end
+  return result.stdout
+end
+
 return M

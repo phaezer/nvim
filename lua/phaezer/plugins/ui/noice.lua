@@ -20,14 +20,22 @@ return {
       },
     },
     lsp = {
-      progress = { enabled = false }, -- shhhh
+      progress = { enabled = false }, -- progress is in lualine
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {
         ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
         ['vim.lsp.util.stylize_markdown'] = true,
         ['cmp.entry.get_documentation'] = false,
       },
-      signature = { enabled = false },
+      signature = {
+        enabled = true,
+        auto_open = {
+          enabled = true,
+          trigger = true,
+          luasnip = true,
+          throttle = 100,
+        },
+      },
     },
     -- you can enable a preset for easier configuration
     presets = {

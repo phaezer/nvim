@@ -22,7 +22,7 @@ return {
       trail = '',
     },
     fileformat_chars = {
-      unix = '',
+      unix = '󰌑',
       mac = '',
       dos = '󰘌',
     },

@@ -3,6 +3,7 @@
 return {
   'karb94/neoscroll.nvim',
   lazy = false,
+  cond = not vim.g.neovide, -- not needed if we're in neovide
   opts = {
     mappings = {
       '<C-u>',

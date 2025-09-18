@@ -6,7 +6,7 @@ return {
     'stevearc/oil.nvim',
     lazy = true,
     cmd = { 'Oil' },
-    dependencies = { { 'echasnovski/mini.icons', version = '*', opts = {} } },
+    dependencies = { { 'nvim-mini/mini.icons', version = '*', opts = {} } },
     opts = {
       columns = {
         'icon',
@@ -42,15 +42,15 @@ return {
       keymaps = {
         ['g?'] = { 'actions.show_help', mode = 'n' },
         ['<CR>'] = 'actions.select',
-        ['<C-s>'] = { 'actions.select', opts = { vertical = true } },
-        ['<C-h>'] = { 'actions.select', opts = { horizontal = true } },
+        ['<C-|>'] = { 'actions.select', opts = { vertical = true } },
+        ['<C-%>'] = { 'actions.select', opts = { horizontal = true } },
         ['<C-t>'] = { 'actions.select', opts = { tab = true } },
         ['<C-p>'] = 'actions.preview',
-        ['<C-c>'] = { 'actions.close', mode = 'n' },
+        ['<C-q>'] = { 'actions.close', mode = 'n' },
         ['<C-y>'] = { 'actions.yank_entry', mode = 'n' },
         ['<C-l>'] = 'actions.refresh',
+        ['<C-~>'] = { 'actions.open_cwd', mode = 'n' },
         ['-'] = { 'actions.parent', mode = 'n' },
-        ['_'] = { 'actions.open_cwd', mode = 'n' },
         ['.'] = { 'actions.cd', mode = 'n' },
         [','] = { 'actions.cd', opts = { scope = 'tab' }, mode = 'n' },
         ['gs'] = { 'actions.change_sort', mode = 'n' },
@@ -101,7 +101,7 @@ return {
     keys = {
       { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
       {
-        '_',
+        '<leader>-',
         function()
           local oil = require 'oil'
           if vim.w.is_oil_win then

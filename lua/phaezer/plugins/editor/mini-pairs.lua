@@ -1,6 +1,6 @@
 -- NOTE: auto creates open/close paris of brackets, quotes, etc.
 return {
-  'echasnovski/mini.pairs',
+  'nvim-mini/mini.pairs',
   version = '*',
   lazy = false,
   opts = {

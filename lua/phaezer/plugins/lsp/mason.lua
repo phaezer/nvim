@@ -17,9 +17,14 @@ return {
       },
     },
   },
-  keys = {
-    { '<leader>ms', '<cmd>Mason<cr>', desc = 'Mason' },
-    { '<leader>mu', '<cmd>MasonUpdate<cr>', desc = 'update Mason' },
-    { '<leader>ml', '<cmd>MasonLog<cr>', desc = 'Mason log' },
-  },
+  init = function()
+    require('phaezer.core.keys').map {
+      mode = 'n',
+      prefix = '<leader>m',
+      plugin = 'Mason',
+      { 'm', '<cmd>Mason<cr>', desc = 'Mason' },
+      { 'u', '<cmd>MasonUpdate<cr>', desc = 'update Mason' },
+      { 'l', '<cmd>MasonLog<cr>', desc = 'Mason log' },
+    }
+  end,
 }

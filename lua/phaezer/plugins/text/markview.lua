@@ -13,7 +13,7 @@ return {
     local presets = require 'markview.presets'
     require('markview').setup {
       markdown = {
-        headings = presets.headings.glow,
+        headings = presets.headings.marker,
       },
       preview = {
         icon_provider = 'devicons',

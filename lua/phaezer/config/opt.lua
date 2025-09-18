@@ -1,3 +1,4 @@
+-- cSpell: disable
 --- neovim options
 local o = vim.opt
 
@@ -8,13 +9,18 @@ o.termguicolors = true
 o.number = true
 o.relativenumber = true
 
+-- add spacing to lines
+o.linespace = 4
+
 o.guicursor = {
-  'n-c-sm:block',
-  'i-ci-ve:ver25',
-  'v-r-cr-o:hor20',
-  't:block-blinkon500-blinkoff500-TermCursor',
-  'a:SmearCursorHideable',
+  'n-c-sm:block-nCursor',
+  'i-ci-ve:ver25-iCursor',
+  'v-r-cr-o:hor20-Cursor',
+  't:ver25-blinkon500-blinkoff500-TermCursor',
 }
+
+-- disable auto-wrap and newline comments
+o.formatoptions:remove { 'c', 'r', 'o' }
 
 -- enable mouse mode https://neovim.io/doc/user/options.html#'mouse'
 o.mouse = 'a'
@@ -52,7 +58,7 @@ o.splitbelow = true
 o.list = false
 
 o.listchars = {
-  eol = '',
+  eol = '󰌑',
   tab = ' ',
   trail = '',
   extends = '',
@@ -60,9 +66,6 @@ o.listchars = {
   space = '',
   nbsp = '',
 }
-
--- do not show listchars by default
--- o.nolist = true
 
 -- fillchars
 o.fillchars = {

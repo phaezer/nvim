@@ -2,6 +2,7 @@
 return {
   -- cSpell: disable
   'yetone/avante.nvim',
+  enabled = false, -- switching to opencode
   -- cSpell: enable
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = vim.fn.has 'win32' ~= 0
@@ -33,7 +34,7 @@ return {
     'nvim-lua/plenary.nvim',
     'MunifTanjim/nui.nvim',
     --- The below dependencies are optional,
-    'echasnovski/mini.pick', -- for file_selector provider mini.pick
+    'nvim-mini/mini.pick', -- for file_selector provider mini.pick
     'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
     'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
     'ibhagwan/fzf-lua', -- for file_selector provider fzf

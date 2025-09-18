@@ -11,7 +11,8 @@ return {
     'nvim-neotest/nvim-nio',
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-    'nvim-tree/nvim-web-devicons',
+    -- 'nvim-tree/nvim-web-devicons',
+    { 'nvim-mini/mini.icons', opts = {} }, -- add mini.icons
   },
   opts = {
     close_if_last_window = false,
@@ -52,17 +53,32 @@ return {
         folder_closed = icons.kind.FolderClosed,
         folder_open = icons.kind.FolderOpen,
         folder_empty = icons.kind.FolderEmpty,
-        provider = function(icon, node, state) -- default icon provider utilizes nvim-web-devicons if available
-          if node.type == 'file' or node.type == 'terminal' then
-            local ok, web_devicons = pcall(require, 'nvim-web-devicons')
-            local name = node.type == 'terminal' and 'terminal' or node.name
-            if ok then
-              local devicon, hl = web_devicons.get_icon(name)
-              icon.text = devicon or icon.text
-              icon.highlight = hl or icon.highlight
-            end
+        provider = function(icon, node) -- setup a custom icon provider
+          local text, hl
+          local mini_icons = require 'mini.icons'
+          if node.type == 'file' then -- if it's a file, set the text/hl
+            text, hl = mini_icons.get('file', node.name)
+          elseif node.type == 'directory' then -- get directory icons
+            text, hl = mini_icons.get('directory', node.name)
+            -- only set the icon text if it is not expanded
+            if node:is_expanded() then text = nil end
           end
+
+          -- set the icon text/highlight only if it exists
+          if text then icon.text = text end
+          if hl then icon.highlight = hl end
         end,
+        -- provider = function(icon, node, state) -- default icon provider utilizes nvim-web-devicons if available
+        --   if node.type == 'file' or node.type == 'terminal' then
+        --     local ok, web_devicons = pcall(require, 'nvim-web-devicons')
+        --     local name = node.type == 'terminal' and 'terminal' or node.name
+        --     if ok then
+        --       local devicon, hl = web_devicons.get_icon(name)
+        --       icon.text = devicon or icon.text
+        --       icon.highlight = hl or icon.highlight
+        --     end
+        --   end
+        -- end,
         -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
         -- then these will never be used.
         default = '',
@@ -89,7 +105,7 @@ return {
           ignored = icons.git.Ignored,
           unstaged = icons.git.Unstaged,
           staged = icons.git.Staged,
-          conflict = icons.git.Confict,
+          conflict = icons.git.Conflict,
         },
       },
       -- If you don't want to use these columns, you can set `enabled = false` for each of them individually
@@ -173,5 +189,4 @@ return {
       'document_symbols',
     },
   },
-
 }

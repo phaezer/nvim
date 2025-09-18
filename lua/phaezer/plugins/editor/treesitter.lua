@@ -100,7 +100,7 @@ return {
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = {
       enable = true,
-      max_lines = 5, -- Keep this 0 to disable max_lines
+      max_lines = 3, -- Keep this 0 to disable max_lines
     },
   }, -- / TreeSitter Context
 }

@@ -8,20 +8,25 @@ return {
       'gs',
       mode = { 'n', 'x', 'o' },
       function() require('flash').jump() end,
-      desc = 'Flash',
+      desc = 'flash jump',
     },
     {
-      'gS',
+      'gt',
       mode = { 'n', 'x', 'o' },
       function() require('flash').treesitter() end,
-      desc = 'Flash Treesitter',
-    },
-    {
-      '<c-l>',
-      mode = { 'c' },
-      function() require('flash').toggle() end,
-      desc = 'Toggle Flash Search',
+      desc = 'flash TS',
     },
   },
-  opts = {},
+  opts = {
+    label = {
+      rainbow = {
+        enabled = true,
+        shade = 7,
+      },
+    },
+    modes = {
+      -- do not use with f F t T ; keys
+      char = { enabled = false },
+    },
+  },
 }

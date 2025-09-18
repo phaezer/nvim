@@ -50,7 +50,7 @@ return {
     vim.g.format_on_save = true
     require('phaezer.core.keys').map {
       prefix = '<leader>k',
-      plug = 'conform',
+      plugin = 'conform',
       {
         'F',
         function()

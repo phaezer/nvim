@@ -3,8 +3,7 @@ return {
   -- cSpell:words iofq marklist buflist
   'iofq/dart.nvim',
   dependencies = {
-    'echasnovski/mini.nvim',
-    'nvim-tree/nvim-web-devicons',
+    'nvim-mini/mini.icons',
   },
   opts = {
     -- List of characters to use to mark 'pinned' buffers
@@ -33,29 +32,26 @@ return {
       -- Supported icon providers are mini.icons and nvim-web-devicons
       icons = true,
 
-      -- Function to determine the order mark/buflist items will be shown on the tabline
-      -- Should return a table with keys being the mark and values being integers,
-      -- e.g. { "a": 1, "b", 2 } would sort the "a" mark to the left of "b" on your tabline
-      order = function(config)
+      -- reverse the order, keep marked buffers to the left
+      order = function()
+        local config = require('dart').config
         local order = {}
-        for i, key in ipairs(vim.list_extend(vim.deepcopy(config.buflist), config.marklist)) do
+        for i, key in ipairs(vim.list_extend(vim.deepcopy(config.marklist), config.buflist)) do
           order[key] = i
         end
         return order
       end,
 
-      -- Function to format a tabline item after the path is built
       format_item = function(item)
-        local icon = item.icon ~= nil and string.format('%s  ', item.icon) or ''
+        local content = item.icon ~= nil and string.format('%s %s', item.icon, item.content)
+          or item.content
         return string.format(
-          '%%#%s#%s %s%%#%s#%s%%#%s#%s %%X',
-          item.hl,
-          item.click,
-          icon,
+          '%%#%s#%s %s%%#%s#%s %%X',
           item.hl_label,
+          item.click,
           item.label,
           item.hl,
-          item.content
+          content
         )
       end,
     },
@@ -63,7 +59,7 @@ return {
     picker = {
       -- argument to pass to vim.fn.fnamemodify `mods`, before displaying the file path in the picker
       -- e.g. ":t" for the filename, ":p:." for relative path to cwd
-      path_format = ':t',
+      path_format = ':p',
       -- border style for the picker window
       -- See `:h winborder` for options
       border = 'rounded',

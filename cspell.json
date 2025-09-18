@@ -53,7 +53,9 @@
     "tpope",
     "getbufvar",
     "getregion",
-    "getpos"
+    "getpos",
+    "augroup",
+    "toggleterm"
   ],
   "language": "en",
   "userWords": [
@@ -71,6 +73,8 @@
     "gofumpt",
     "goimports",
     "zigfmt",
-    "hsluv"
+    "hsluv",
+    "neovide",
+    "undercurl"
   ]
 }

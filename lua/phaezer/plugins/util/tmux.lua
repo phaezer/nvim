@@ -2,7 +2,7 @@ return {
   -- NOTE: provides seemless navigation between Neovim splits and tmux panes
   {
     'alexghergh/nvim-tmux-navigation',
-    enabled = false,
+    cond = not vim.g.neovide,
     lazy = false,
     opts = {
       disable_when_zoomed = true, -- defaults to false

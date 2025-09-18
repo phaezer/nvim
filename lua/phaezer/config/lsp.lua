@@ -216,6 +216,7 @@ vim.api.nvim_create_user_command('ToggleLSP', function(opts)
   toggle_lsp(lsp_name)
 end, { nargs = 1 })
 
+-- show a vim select menu to choose an lsp to toggle
 local function toggle_select()
   local client_names = {}
   for _, client in ipairs(vim.lsp.get_clients()) do

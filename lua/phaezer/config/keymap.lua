@@ -1,11 +1,10 @@
 ---@diagnostic disable: inject-field
 local map = require('phaezer.core.keys').map
 
--- cSpell:disable
+-- cSpell:words mapleader maplocalleader gitsigns inlay hints lspselect
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- cSpell:enable
 map {
   mode = { 'i', 'c' },
   -- alt esc chords
@@ -13,6 +12,7 @@ map {
   { 'kj', '<esc>', desc = 'Exit insert mode' },
 }
 
+-- move lines up and down in normal mode
 map {
   mode = 'n',
   expr = true,
@@ -37,31 +37,35 @@ map {
 }
 
 -- alt key bindings in normal mode
-map { -- normal mode move current line
+-- normal mode move current line
+map {
   mode = 'n',
   -- move lines up and down
-  { '<A-j>', '<cmd> m+ <CR>', desc = 'Move current line down' },
-  { '<A-k>', '<cmd> m-- <CR>', desc = 'Move current line up' },
-}
-map { -- visual mode, move selected lines
-  mode = 'v',
-  { '<A-j>', ":m '>+1<CR>gv=gv", desc = 'Move move selected line down' },
-  { '<A-k>', ":m '<-2<CR>gv=gv", desc = 'Move move selected lines up' },
+  { '<A-j>', '<cmd> m+ <CR>', desc = 'move current line down' },
+  { '<A-k>', '<cmd> m-- <CR>', desc = 'move current line up' },
 }
 
--- map $ and ^ to more natural keys
+-- visual mode, move selected lines
+map {
+  mode = 'v',
+  { '<A-j>', ":m '>+1<CR>gv=gv", desc = 'move move selected line down' },
+  { '<A-k>', ":m '<-2<CR>gv=gv", desc = 'move move selected lines up' },
+}
+
+-- map $, ^, and % to more natural keys
 map {
   mode = { 'n', 'x', 'o' },
-  { 'gl', '$', desc = 'Move to start of line' },
-  { 'gh', '^', desc = 'Move to end of line' },
+  { 'gl', '$', desc = 'move to start of line' },
+  { 'gh', '^', desc = 'move to end of line' },
+  { 'gb', '%', desc = 'move to matching bracket' },
 }
 
 -- inspections
 map {
   mode = 'n',
   prefix = '<leader>i',
-  { 't', '<CMD>InspectTree<CR>', desc = 'Inspect TS tree' },
-  { 'i', '<CMD>Inspect<CR>', desc = 'Inspect' },
+  { 't', '<CMD>InspectTree<CR>', desc = 'inspect TS tree' },
+  { 'i', '<CMD>Inspect<CR>', desc = 'inspect' },
 }
 
 -- window management
@@ -126,19 +130,25 @@ map {
     vim.api.nvim_replace_termcodes('<C-\\><C-N>', true, true, true),
     desc = 'exit terminal mode',
   },
+  {
+    '<esc><esc>',
+    vim.api.nvim_replace_termcodes('<C-\\><C-N>', true, true, true),
+    desc = 'exit terminal mode',
+  },
 }
 
-local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+local esc = vim.api.nvim_replace_termcodes('<esc>', true, false, true)
 
 -- comments
 map {
   prefix = '<c-/>',
+  plugin = 'Comment',
   {
     '',
     function()
       require('Comment.api').toggle.linewise.current()
     end,
-    desc = 'comment line  Comment',
+    desc = 'comment line',
     mode = { 'i', 'n' },
   },
   {
@@ -147,7 +157,7 @@ map {
       vim.api.nvim_feedkeys(esc, 'nx', false)
       require('Comment.api').locked 'toggle.linewise'(vim.fn.visualmode())
     end,
-    desc = 'comment line  Comment',
+    desc = 'comment line',
     mode = 'x',
   },
 }
@@ -193,6 +203,13 @@ map {
     desc = 'toggle cursorcolumn',
   },
   { 't', '<cmd>TSToggle highlight<cr>', desc = 'toggle TS highlights' },
+  {
+    's',
+    function()
+      vim.o.list = not vim.o.list
+    end,
+    desc = 'toggle list chars',
+  },
 }
 
 -- lsp

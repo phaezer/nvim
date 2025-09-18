@@ -192,6 +192,55 @@ return {
           kinds = icons.kind,
         },
       },
+      scope = {
+        enabled = true,
+        keys = {
+          textobject = {
+            ii = {
+              min_size = 2, -- minimum size of the scope
+              edge = false, -- inner scope
+              cursor = false,
+              treesitter = { blocks = { enabled = false } },
+              desc = 'inner scope',
+            },
+            ai = {
+              cursor = false,
+              min_size = 2, -- minimum size of the scope
+              treesitter = { blocks = { enabled = false } },
+              desc = 'full scope',
+            },
+          },
+          jump = {
+            ['[i'] = {
+              min_size = 1, -- allow single line scopes
+              bottom = false,
+              cursor = false,
+              edge = true,
+              treesitter = { blocks = { enabled = false } },
+              desc = 'jump to top edge of scope',
+            },
+            [']i'] = {
+              min_size = 1, -- allow single line scopes
+              bottom = true,
+              cursor = false,
+              edge = true,
+              treesitter = { blocks = { enabled = false } },
+              desc = 'jump to bottom edge of scope',
+            },
+          },
+        },
+      },
+      -- cSpell:words statuscolumn
+      statuscolumn = {
+        enabled = true,
+        left = { 'mark', 'sign' }, -- priority of signs on the left (high to low)
+        right = { 'fold', 'git' }, -- priority of signs on the right (high to low)
+      },
+      -- words: Auto-show LSP references and quickly navigate between them
+      words = {
+        enabled = true,
+        debounce = 400,
+      },
       terminal = { enabled = false }, -- using toggleterm instead
       quickfile = { enabled = false }, -- can be buggy.
     }

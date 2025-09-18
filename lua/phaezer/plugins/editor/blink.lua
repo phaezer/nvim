@@ -5,7 +5,8 @@ return {
   'saghen/blink.cmp',
   lazy = true,
   event = 'VimEnter',
-  version = '1.*',
+  -- TODO: update version when datetime bug is fixed
+  version = '1.6.0',
   dependencies = {
     -- copilot
     'fang2hou/blink-copilot',
@@ -46,7 +47,7 @@ return {
       -- <c-k>: Toggle signature help
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
-      preset = 'super-tab',
+      preset = 'enter',
       -- -- integration with copilot-lsp nes edits
       -- -- SRC: https://github.com/copilotlsp-nvim/copilot-lsp#blink-integration
       -- ['<Tab>'] = {
@@ -146,7 +147,7 @@ return {
 
     -- DOCS: https://cmp.saghen.dev/configuration/sources.html
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'ripgrep' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'ripgrep' },
       per_filetype = {
         sql = { 'dadbod' },
         lua = { inherit_defaults = true, 'lazydev' },
@@ -155,11 +156,16 @@ return {
         norg = { inherit_defaults = true, 'dictionary' },
       },
       providers = {
-        -- copilot
+        lazydev = {
+          name = 'LazyDev',
+          module = 'lazydev.integrations.blink',
+          -- make lazydev completions top priority (see `:h blink.cmp`)
+          score_offset = 100,
+        },
         copilot = {
           name = 'copilot',
           module = 'blink-copilot',
-          score_offset = 10,
+          score_offset = 0,
           async = true,
           opts = {
             max_completions = 5,
@@ -207,7 +213,6 @@ return {
           },
         },
         dadbod = { module = 'vim_dadbod_completion.blink' },
-        lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
       },
     },
     snippets = { preset = 'luasnip' },
@@ -225,21 +230,19 @@ return {
   },
   keys = {
     {
+      '<C-Space>',
+      function()
+        require('blink-cmp').show {
+          providers = { 'buffer', 'lsp', 'snippets', 'path', 'ripgrep', 'lazydev' },
+        }
+      end,
+      desc = 'blink cmp',
+      mode = 'i',
+    },
+    {
       '<C-.>',
-      function() require('blink-cmp').show { providers = { 'buffer', 'lsp', 'path', 'copilot' } } end,
-      desc = 'Blink cmp text',
-      mode = 'i',
-    },
-    {
-      '<C-,>',
       function() require('blink-cmp').show { providers = { 'buffer', 'dictionary' } } end,
-      desc = 'Blink cmp text',
-      mode = 'i',
-    },
-    {
-      '<C-l>',
-      function() require('blink-cmp').show { providers = { 'lsp', 'path', 'snippets' } } end,
-      desc = 'Blink cmp lsp',
+      desc = 'blink cmp text',
       mode = 'i',
     },
     {

@@ -2,6 +2,7 @@ local util = require 'phaezer.core.util'
 local icons = require 'phaezer.core.icons'
 
 -- cSpell:words bwpge statusline lualine globalstatus ministarter filesize gitsigns
+-- cSpell:words navic linrongbin16 SmiteshP
 -- LuaLine
 -- NOTE: a statusline plugin for Neovim
 local LuaLine = {
@@ -11,13 +12,16 @@ local LuaLine = {
     'bwpge/lualine-pretty-path',
     'stevearc/overseer.nvim',
     'folke/noice.nvim',
+    'linrongbin16/lsp-progress.nvim',
+    'SmiteshP/nvim-navic',
   },
 }
 
 LuaLine.opts = function(_, opts)
+  local navic = require 'nvim-navic'
+  local overseer = require 'overseer'
   -- local has_lsp = function() return next(vim.lsp.get_clients()) ~= nil end
   local buffer_not_empty = function() return vim.fn.empty(vim.fn.expand '%:t') ~= 1 end
-  local overseer = require 'overseer'
   return vim.tbl_deep_extend('force', opts or {}, {
     options = {
       refresh = {
@@ -50,17 +54,26 @@ LuaLine.opts = function(_, opts)
           'Outline',
           'neo-tree',
         },
+        winbar = {
+          'neo-tree',
+          'Outline',
+          'dashboard',
+          'snacks_dashboard',
+          'Oil',
+          'ministarter',
+        },
       },
       component_separators = ' ',
       section_separators = { left = '', right = '' },
     },
+    -- status line
     sections = {
       -- left side
       lualine_a = {
         {
           'mode',
           color = { gui = 'bold' },
-          separator = { left = '█', right = '█' },
+          separator = { left = ' ', right = '' },
           padding = { left = 0, right = 0 },
           icon = icons.gui.Neovim,
         },
@@ -76,37 +89,17 @@ LuaLine.opts = function(_, opts)
         { 'filesize', cond = buffer_not_empty },
         {
           'diagnostics',
-          icon = '',
           symbols = {
-            error = icons.diagnostics.Error,
-            warn = icons.diagnostics.Warn,
-            info = icons.diagnostics.Info,
-            hint = icons.diagnostics.Hint,
+            error = icons.diagnostics.Error .. ' ',
+            warn = icons.diagnostics.Warn .. ' ',
+            info = icons.diagnostics.Info .. ' ',
+            hint = icons.diagnostics.Hint .. ' ',
           },
           {
             function() return ' ' .. require('dap').status() end,
             cond = function() return require('dap').status() ~= '' end,
             color = function() return { fg = util.color 'Debug' } end,
           },
-        },
-        {
-          'diff',
-          icon = '',
-          symbols = {
-            added = icons.git.Added,
-            modified = icons.git.Modified,
-            removed = icons.git.Removed,
-          },
-          source = function()
-            local gs = vim.b.gitsigns_status_dict
-            if gs then
-              return {
-                added = gs.added,
-                modified = gs.changed,
-                removed = gs.removed,
-              }
-            end
-          end,
         },
       },
       lualine_x = {
@@ -136,21 +129,24 @@ LuaLine.opts = function(_, opts)
           status = nil, -- List of task statuses to display
           status_not = false, -- When true, invert the status search
         },
-        { 'filetype' },
         {
-          'lsp_status',
-          icon = icons.gui.Server,
-          -- separator = { left = '', right = '' },
-          symbols = {
-            -- Standard unicode symbols to cycle through for LSP progress:
-            spinner = icons.spinners.circle,
-            -- Standard unicode symbol for when LSP is done:
-            done = '',
-            -- Delimiter inserted between LSP names:
-            separator = ' ',
-          },
-          ignore_lsp = { 'null-ls', 'cspell', 'cspell_ls' },
+          function()
+            -- invoke `progress` here.
+            return require('lsp-progress').progress {
+              max_size = 100,
+            }
+          end,
         },
+        -- {
+        --   'lsp_status',
+        --   icon = icons.gui.Server,
+        --   symbols = {
+        --     spinner = icons.spinners.circle,
+        --     done = '',
+        --     separator = ', ',
+        --   },
+        --   ignore_lsp = { 'null-ls', 'cspell', 'cspell_ls' },
+        -- },
         {
           'progress',
           icon = '',
@@ -165,15 +161,60 @@ LuaLine.opts = function(_, opts)
       lualine_y = {},
       lualine_z = {},
     },
-    inactive_sections = {
-      lualine_a = { 'filename' },
+    -- winbar
+    winbar = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {
+        { 'pretty_path' },
+        {
+          'navic',
+          color_correction = nil,
+          navic_opts = nil,
+        },
+      },
+      lualine_x = {
+        {
+          'diagnostics',
+          symbols = {
+            error = icons.diagnostics.Error .. ' ',
+            warn = icons.diagnostics.Warn .. ' ',
+            info = icons.diagnostics.Info .. ' ',
+            hint = icons.diagnostics.Hint .. ' ',
+          },
+        },
+      },
+      lualine_y = {},
+      lualine_z = {},
+    },
+    inactive_winbar = {
+      lualine_a = {},
       lualine_b = {},
       lualine_c = { 'pretty_path' },
       lualine_x = {},
       lualine_y = {},
-      lualine_z = { 'location' },
+      lualine_z = {},
     },
-    extensions = { 'lazy', 'fzf', 'trouble' },
+    -- inactive
+    inactive_sections = {
+      lualine_a = { 'mode' },
+      lualine_b = {},
+      lualine_c = { 'pretty_path' },
+      lualine_x = { 'location' },
+      lualine_y = {},
+      lualine_z = {},
+    },
+    extensions = { 'lazy', 'fzf', 'trouble', 'overseer', 'toggleterm', 'oil' },
+  })
+end
+
+LuaLine.init = function()
+  -- listen lsp-progress event and refresh lualine
+  vim.api.nvim_create_augroup('lualine_augroup', { clear = true })
+  vim.api.nvim_create_autocmd('User', {
+    group = 'lualine_augroup',
+    pattern = 'LspProgressStatusUpdated',
+    callback = require('lualine').refresh,
   })
 end
 

@@ -15,7 +15,7 @@ icons.git = {
   Modified = '󰥛',
   Staged = '',
   Ignored = '',
-  Confict = '',
+  Conflict = '',
   Untracked = '',
   Unstaged = '',
 }

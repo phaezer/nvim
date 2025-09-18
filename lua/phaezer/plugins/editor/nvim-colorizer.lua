@@ -12,5 +12,6 @@ return {
     '!TelescopePrompt',
     '!lazy',
     '!snacks_dashboard',
+    '!Oil',
   },
 }

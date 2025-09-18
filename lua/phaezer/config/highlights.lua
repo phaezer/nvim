@@ -1,5 +1,6 @@
 local colors = require 'phaezer.core.colors'
 local util = require 'phaezer.core.util'
+local set_hl = vim.api.nvim_set_hl
 
 local M = {}
 
@@ -8,14 +9,6 @@ M.rainbow = {
   names = {
     indent = {},
     delimiters = {},
-    headlines = {},
-    org_ts_headlines = {},
-  },
-  prefix = {
-    indent = 'RainbowIndent',
-    delimiter = 'RainbowDelimiter',
-    headline = 'Healine',
-    org_ts_headlines = '@OrgTSHeadlineLevel',
   },
 }
 
@@ -23,10 +16,8 @@ local rb = M.rainbow
 
 -- populate the names
 for i = 1, M.rainbow.count do
-  table.insert(rb.names.indent, rb.prefix.indent .. i)
-  table.insert(rb.names.delimiters, rb.prefix.delimiter .. i)
-  table.insert(rb.names.headlines, rb.prefix.headline .. i)
-  table.insert(rb.names.headlines, rb.prefix.org_ts_headlines .. i)
+  table.insert(rb.names.indent, 'RainbowIndent' .. i)
+  table.insert(rb.names.delimiters, 'RainbowDelimiter' .. i)
 end
 
 ---@alias rainbowHighlightOpts {base: string | nil, bg: string | nil, fg: string | nil, bg_alpha: number | nil, fg_alpha: number | nil}
@@ -45,30 +36,32 @@ function M.rainbow.set_hl_groups(opts)
   local rb_colors = colors.generate_rainbow_from_hex(M.rainbow.count, _opts.base)
 
   for i, v in ipairs(rb_colors) do
-    vim.api.nvim_set_hl(
-      0,
-      rb.prefix.indent .. i,
-      { fg = colors.blend(v, _opts.bg_alpha, _opts.bg), bold = false }
-    )
-  end
-  for i, v in ipairs(rb_colors) do
-    vim.api.nvim_set_hl(
-      0,
-      rb.prefix.delimiter .. i,
-      { fg = colors.blend(v, _opts.fg_alpha, _opts.fg), bold = false }
-    )
-  end
+    local dim = colors.blend(v, _opts.bg_alpha, _opts.bg)
+    local bright = colors.blend(v, _opts.fg_alpha, _opts.fg)
 
-  -- set hl for headlines
-  for i = 1, M.rainbow.count do
-    local dm = rb.prefix.indent .. i
-    local br = rb.prefix.delimiter .. i
-    vim.api.nvim_set_hl(0, rb.prefix.headline .. i, { fg = util.color(br), bg = util.color(dm) })
-    vim.api.nvim_set_hl(
-      0,
-      rb.prefix.org_ts_headlines .. i,
-      { fg = util.color(br), bg = util.color(dm) }
-    )
+    set_hl(0, 'RainbowIndent' .. i, { fg = dim, bold = false })
+    set_hl(0, 'RainbowDelimiter' .. i, { fg = bright, bold = false })
+    set_hl(0, 'Headline' .. i, { fg = bright })
+    set_hl(0, '@OrgTSHeadlineLevel' .. i, { fg = bright })
+    -- markview hls start at 0
+    set_hl(0, 'MarkviewPalette' .. i - 1, { bg = bright, fg = _opts.bg })
+    set_hl(0, 'MarkviewPalette' .. i - 1 .. 'Sign', { fg = bright })
+    set_hl(0, 'MarkviewPalette' .. i - 1 .. 'Fg', { fg = bright })
+    set_hl(0, 'MarkviewPalette' .. i - 1 .. 'Bg', { fg = dim })
+  end
+  -- set markview hls
+  -- SEE: https://github.com/OXY2DEV/markview.nvim/wiki#-highlight-groups
+
+  local mv_rb = colors.generate_rainbow_from_hex(7, _opts.base)
+  for i, v in ipairs(mv_rb) do
+    -- markview hls start at 0
+    local idx = i - 1
+    local dim = colors.blend(v, _opts.bg_alpha, _opts.bg)
+    local bright = colors.blend(v, _opts.fg_alpha, _opts.fg)
+    set_hl(0, 'MarkviewPalette' .. idx, { bg = bright, fg = _opts.bg })
+    set_hl(0, 'MarkviewPalette' .. idx .. 'Sign', { fg = bright })
+    set_hl(0, 'MarkviewPalette' .. idx .. 'Fg', { fg = bright })
+    set_hl(0, 'MarkviewPalette' .. idx .. 'Bg', { fg = dim })
   end
 end
 
@@ -77,7 +70,7 @@ end
 ---@param v table | nil
 local function maybe_set_hl(group, v)
   if v ~= nil then
-    vim.api.nvim_set_hl(0, group, v)
+    set_hl(0, group, v)
   end
 end
 
@@ -109,23 +102,22 @@ end
 -- add colorscheme tweaks
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function()
+    local normal_bg = util.color('Normal', 'bg') or '#000000'
+    local normal_fg = util.color('Normal', 'fg') or '#ffffff'
     for _, v in pairs {
       'DiagnosticVirtualTextHint',
       'DiagnosticVirtualTextWarn',
       'DiagnosticVirtualTextError',
       'DiagnosticVirtualTextInfo',
     } do
-      vim.api.nvim_set_hl(0, v, { fg = util.color(v), bg = 'NONE' })
+      set_hl(0, v, { fg = util.color(v), bg = 'NONE' })
     end
 
     for _, v in pairs {
-      'DiagnosticUnderlineOk',
-      'DiagnosticUnderlineHint',
       'DiagnosticUnderlineWarn',
       'DiagnosticUnderlineError',
-      'DiagnosticUnderlineInfo',
     } do
-      vim.api.nvim_set_hl(0, v, {
+      set_hl(0, v, {
         fg = 'NONE',
         bg = 'NONE',
         sp = util.color(v, 'sp'),
@@ -134,27 +126,34 @@ vim.api.nvim_create_autocmd('ColorScheme', {
       })
     end
 
-    -- make sure unnecessary / unused code is underlined but keeps sytax high
-    vim.api.nvim_set_hl(
-      0,
-      'DiagnosticUnnecessary',
-      { sp = util.color 'Comment', undercurl = true, cterm = { undercurl = true } }
-    )
+    for _, v in pairs {
+      'DiagnosticUnderlineOk',
+      'DiagnosticUnderlineHint',
+      'DiagnosticUnderlineInfo',
+    } do
+      set_hl(0, v, {
+        fg = 'NONE',
+        bg = 'NONE',
+        sp = colors.blend(util.color(v, 'sp'), 0.75, normal_bg),
+        underdotted = true,
+        cterm = { underdotted = true },
+      })
+    end
+
+    set_hl(0, 'DiagnosticUnnecessary', {
+      sp = colors.blend(normal_fg, 0.1, normal_bg),
+      underline = true,
+      cterm = { underline = true },
+    })
 
     -- set the gitsigns inline highlights
-    vim.api.nvim_set_hl(0, 'GitSignsDeleteInline', { bg = util.color 'DiffDelete' })
-    vim.api.nvim_set_hl(0, 'GitSignsAddInline', { bg = util.color 'DiffAdd' })
-    vim.api.nvim_set_hl(0, 'GitSignsChangeInline', { bg = util.color 'DiffChange' })
+    set_hl(0, 'GitSignsDeleteInline', { bg = util.color 'DiffDelete' })
+    set_hl(0, 'GitSignsAddInline', { bg = util.color 'DiffAdd' })
+    set_hl(0, 'GitSignsChangeInline', { bg = util.color 'DiffChange' })
 
-    local normal_bg = util.color('Normal', 'bg') or '#000000'
-    local normal_fg = util.color('Normal', 'fg') or '#ffffff'
-
-    -- adjust the flash hl groups
-    vim.api.nvim_set_hl(0, 'FlashBackdrop', { fg = colors.blend(normal_fg, 0.7, normal_bg) })
+    -- set the visual whitespace hl
+    set_hl(0, 'VisualWhitespace', { fg = util.color('Comment', 'fg'), bg = 'NONE' })
   end,
 })
-
--- create default HL group
--- M.rainbow.set_hl_groups('#0058ff', '#000000', '#ffffff', 0.25, 0.5)
 
 return M
