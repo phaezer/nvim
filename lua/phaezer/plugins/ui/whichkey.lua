@@ -8,6 +8,7 @@ return {
     local wk = require 'which-key'
 
     wk.setup {
+      preset = 'helix',
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
       delay = 250,
@@ -57,7 +58,7 @@ return {
       { '<leader>a', group = 'Avante', icon = '󱙺' },
       { '<leader>b', group = 'Buffer' },
       { '<leader>e', group = 'Explorers', icon = '󰱼' },
-      { '<leader>f', group = 'Files', icon = '' },
+      { '<leader>fa', group = 'FT Actions', icon = '' },
       { '<leader>g', group = 'Git', icon = '' },
       { '<leader>h', group = 'Git Hunk', icon = '' },
       { '<leader>i', group = 'Inspect', icon = '' },
@@ -69,11 +70,10 @@ return {
       { '<leader>r', group = 'Refactor', icon = '' },
       { '<leader>s', group = 'Search', icon = '' },
       { '<leader>t', group = 'Terminal', icon = '' },
-      { '<leader>v', group = 'Visuals', icon = '' },
+      { '<leader>u', group = 'UI', icon = '' },
       { '<leader>w', group = 'Window' },
       { '<leader>/', group = 'GrugFar', icon = '󰛔' },
       { '<leader>x', group = 'Trouble', icon = '󰴔' },
-      { '<leader>;', group = 'FT Actions', icon = '' },
       { '<leader>?', group = 'WTF?', icon = '󱜹' },
     }
   end,

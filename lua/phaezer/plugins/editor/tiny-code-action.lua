@@ -24,9 +24,12 @@ return {
   },
   init = function()
     local open = function() require('tiny-code-action').code_action() end
-    require('phaezer.core.keys').map {
+    local map = require('phaezer.core.keys').map
+    map {
       plugin = 'tiny-code-action',
-      { '<leader>kk', open, desc = 'Code Action' },
+      prefix = '<leader>',
+      { 'a', open, desc = 'Code Action' },
+      { '.', open, desc = 'Code Action' },
     }
   end,
 }

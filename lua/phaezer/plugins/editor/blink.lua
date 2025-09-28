@@ -1,5 +1,6 @@
 -- NOTE: Autocompletion provider
 -- DOCS: https://cmp.saghen.dev/
+
 return {
   'saghen/blink.cmp',
   lazy = true,
@@ -19,11 +20,22 @@ return {
       'Kaiser-Yang/blink-cmp-dictionary',
       dependencies = { 'nvim-lua/plenary.nvim' },
     },
-    -- avante provider
-    -- 'Kaiser-Yang/blink-cmp-avante',
   },
 
   opts = {
+    enabled = function()
+      return not vim.tbl_contains({
+        'noice',
+        'Oil',
+        'neo-tree',
+        'neo-tree-popup',
+        'snacks_dashboard',
+        -- grug-far doesn't play nice with cmp
+        'grug-far',
+        'grug-far-history',
+        'grug-far-help',
+      }, vim.bo.filetype) and vim.b.completion
+    end,
     keymap = {
       -- 'default' (recommended) for mappings similar to built-in completions
       --   <c-y> to accept ([y]es) the completion.
@@ -44,7 +56,7 @@ return {
       -- <c-k>: Toggle signature help
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
-      preset = 'enter',
+      preset = 'super-tab',
       -- -- integration with copilot-lsp nes edits
       -- -- SRC: https://github.com/copilotlsp-nvim/copilot-lsp#blink-integration
       -- ['<Tab>'] = {
@@ -82,7 +94,8 @@ return {
         treesitter_highlighting = true,
       },
       ghost_text = { enabled = true }, -- show the ghost text
-      list = { -- DOCS: https://cmp.saghen.dev/configuration/completion.html#list
+      -- DOCS: https://cmp.saghen.dev/configuration/completion.html#list
+      list = {
         selection = {
           auto_insert = true,
         },
@@ -229,11 +242,11 @@ return {
     fuzzy = { implementation = 'prefer_rust_with_warning' },
 
     -- Shows a signature help window while you type arguments for a function
-    signature = { enabled = false }, -- this is done with noice
+    signature = { enabled = true }, -- this is done with noice
   },
   keys = {
     {
-      '<C-Space>',
+      '<C-;>',
       function()
         require('blink-cmp').show {
           providers = { 'buffer', 'lsp', 'snippets', 'path', 'ripgrep', 'lazydev' },
@@ -249,10 +262,19 @@ return {
       mode = 'i',
     },
     {
-      '<C-;>',
+      '<C-,>',
       function() require('blink-cmp').show { providers = { 'copilot' } } end,
       desc = 'blink cmp ai',
       mode = 'i',
+    },
+    {
+      '<leader>kc',
+      function()
+        ---@diagnostic disable-next-line: inject-field
+        vim.b.completion = not vim.b.completion
+      end,
+      desc = 'disable completion',
+      mode = 'n'
     },
   },
 }

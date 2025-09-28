@@ -15,9 +15,11 @@ map {
 -- move lines up and down in normal mode
 map {
   mode = 'n',
-  expr = true,
-  { 'k', 'v:count == 0 ? "gk" : "k"', desc = 'move up' },
-  { 'j', 'v:count == 0 ? "gj" : "j"', desc = 'move down' },
+  map = {
+    expr = true,
+    { 'k', 'v:count == 0 ? "gk" : "k"', desc = 'move up' },
+    { 'j', 'v:count == 0 ? "gj" : "j"', desc = 'move down' },
+  },
 }
 
 -- indent and keep selection
@@ -25,6 +27,12 @@ map {
   mode = 'v',
   { '<', '<gv', desc = 'indent left' },
   { '>', '>gv', desc = 'indent right' },
+}
+
+-- searching
+map {
+  { mode = 'x', '<leader>/', '<esc>/\\%V', desc = 'search within selected' },
+  { mode = 'v', '//', 'y/<C-R>"<CR>N', desc = 'search with selected' },
 }
 
 -- use h,j,k,l to nav in insert mode
@@ -36,11 +44,8 @@ map {
   { '<A-l>', '<Right>', desc = 'move right' },
 }
 
--- alt key bindings in normal mode
--- normal mode move current line
 map {
   mode = 'n',
-  -- move lines up and down
   { '<A-j>', '<cmd> m+ <CR>', desc = 'move current line down' },
   { '<A-k>', '<cmd> m-- <CR>', desc = 'move current line up' },
 }
@@ -76,18 +81,11 @@ map {
   { 's', '<CMD>split<CR>', desc = 'split ' },
   { 'v', '<CMD>vsplit<CR>', desc = 'split |' },
   { 'q', '<CMD>close<CR>', desc = 'close' },
-  { 'T', '<CMD>wincmd T<CR>', desc = 'move to new tab' },
-  { 'r', '<CMD>wincmd r<CR>', desc = 'rotate ' },
-  { 'R', '<CMD>wincmd R<CR>', desc = 'rotate ' },
-  { 'H', '<CMD>wincmd H<CR>', desc = 'move 󰜱' },
-  { 'J', '<CMD>wincmd J<CR>', desc = 'move 󰜮' },
-  { 'K', '<CMD>wincmd K<CR>', desc = 'move 󰜷' },
-  { 'L', '<CMD>wincmd L<CR>', desc = 'move 󰜴' },
-  { 'k', '<CMD>resize +5<CR>', desc = ' height' },
-  { 'j', '<CMD>resize -5<CR>', desc = ' height' },
-  { 'h', '<CMD>vertical resize +5<CR>', desc = ' width' },
-  { 'l', '<CMD>vertical resize -3<CR>', desc = ' width' },
-  { '=', '<CMD>wincmd =<CR>', desc = ' width' },
+  { 't', '<CMD>wincmd T<CR>', desc = 'move to new tab' },
+  { 'h', '<CMD>wincmd H<CR>', desc = 'move 󰜱' },
+  { 'j', '<CMD>wincmd J<CR>', desc = 'move 󰜮' },
+  { 'k', '<CMD>wincmd K<CR>', desc = 'move 󰜷' },
+  { 'l', '<CMD>wincmd L<CR>', desc = 'move 󰜴' },
 }
 
 -- remap window switching keys
@@ -98,11 +96,6 @@ map {
   { '<C-j>', '<cmd>wincmd j<cr>', desc = ' 󰜮' },
   { '<C-k>', '<cmd>wincmd k<cr>', desc = ' 󰜷' },
   { '<C-l>', '<cmd>wincmd l<cr>', desc = ' 󰜴' },
-  -- move windows
-  { '<A-S-h>', '<cmd>wincmd h<cr>', desc = 'move  󰜱' },
-  { '<A-S-j>', '<cmd>wincmd j<cr>', desc = 'move  󰜮' },
-  { '<A-S-k>', '<cmd>wincmd k<cr>', desc = 'move  󰜷' },
-  { '<A-S-l>', '<cmd>wincmd h<cr>', desc = 'move  󰜴' },
 }
 
 -- buffer management
@@ -113,13 +106,6 @@ map {
   { 'h', '<cmd>bprevious<cr>', desc = 'previous buffer' },
   { 'D', '<cmd>%bd|e#|bd#<cr>', desc = 'Close all but the current buffer' },
   { 'n', '<cmd>enew<cr>', desc = 'new buffer' },
-}
-
--- file ops
-map {
-  mode = 'n',
-  prefix = '<leader>f',
-  { 'r', vim.cmd.checktime, desc = 'refresh files' },
 }
 
 -- terminal
@@ -141,18 +127,15 @@ local esc = vim.api.nvim_replace_termcodes('<esc>', true, false, true)
 
 -- comments
 map {
-  prefix = '<c-/>',
   plugin = 'Comment',
   {
-    '',
-    function()
-      require('Comment.api').toggle.linewise.current()
-    end,
+    '<c-/>',
+    function() require('Comment.api').toggle.linewise.current() end,
     desc = 'comment line',
     mode = { 'i', 'n' },
   },
   {
-    '',
+    '<c-/>',
     function()
       vim.api.nvim_feedkeys(esc, 'nx', false)
       require('Comment.api').locked 'toggle.linewise'(vim.fn.visualmode())
@@ -160,13 +143,14 @@ map {
     desc = 'comment line',
     mode = 'x',
   },
-}
-
-map {
-  prefix = 'ic',
-  { '', require('vim._comment').textobject, desc = 'Uncomment commented lines', mode = 'o' },
   {
-    '',
+    '<leader>/',
+    function() require('Comment.api').toggle.linewise.current() end,
+    desc = 'comment line',
+  },
+  { 'ic', require('vim._comment').textobject, desc = 'Uncomment commented lines', mode = 'o' },
+  {
+    'ic',
     function()
       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<esc>', true, true, true), 'nx', false)
       require('vim._comment').textobject()
@@ -179,9 +163,9 @@ map {
 -- visuals
 map {
   mode = 'n',
-  prefix = '<leader>v',
+  prefix = '<leader>u',
   {
-    'c',
+    'h',
     function()
       if vim.opt.cursorline._value == true then
         vim.opt.cursorline = false
@@ -192,7 +176,7 @@ map {
     desc = 'toggle cursorline',
   },
   {
-    'C',
+    'j',
     function()
       if vim.opt.cursorcolumn._value == true then
         vim.opt.cursorcolumn = false
@@ -204,11 +188,52 @@ map {
   },
   { 't', '<cmd>TSToggle highlight<cr>', desc = 'toggle TS highlights' },
   {
-    's',
-    function()
-      vim.o.list = not vim.o.list
-    end,
+    'll',
+    function() vim.o.list = not vim.o.list end,
     desc = 'toggle list chars',
+  },
+  {
+    'lm',
+    function()
+      local icons = require 'phaezer.core.icons'
+      vim.opt.listchars = icons.listchars {
+        'extends',
+        'precedes',
+        'nbsp',
+        'trail',
+      }
+      vim.o.list = true
+    end,
+    desc = 'enable minimal listchars',
+  },
+  {
+    'la',
+    function()
+      local icons = require 'phaezer.core.icons'
+      vim.opt.listchars = icons.listchars 'all'
+      vim.o.list = true
+    end,
+    desc = 'enable all listchars',
+  },
+  {
+    'x',
+    function() vim.o.conceallevel = vim.o.conceallevel ~= 1 and 1 or 0 end,
+    desc = 'toggle conceal level1',
+  },
+  {
+    'c',
+    function() vim.o.conceallevel = vim.o.conceallevel ~= 2 and 2 or 0 end,
+    desc = 'toggle conceal level2',
+  },
+  {
+    'w',
+    function() vim.o.wrap = not vim.o.wrap end,
+    desc = 'toggle conceal level2',
+  },
+  {
+    'r',
+    function() vim.o.relativenumber = not vim.o.relativenumber end,
+    desc = 'toggle relativenumber',
   },
 }
 
@@ -218,9 +243,7 @@ map {
   prefix = '<leader>l',
   {
     'h',
-    function()
-      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
-    end,
+    function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 }) end,
     desc = 'toggle inlay hints',
   },
   {
@@ -240,22 +263,15 @@ map {
 map {
   mode = 'n',
   prefix = '<leader>k',
+  { 'r', vim.cmd.checktime, desc = 'refresh files' },
   { 'w', '<cmd>write<cr>', desc = 'write buffer' },
   { 'q', '<cmd>quit<cr>', desc = 'quit window' },
-  {
-    '/',
-    function()
-      require('Comment.api').toggle.linewise.current()
-    end,
-    desc = 'comment line  Comment',
-  },
+
   { 'i', '<CMD>Inspect<CR>', desc = 'Inspect' },
   { 't', '<cmd>TSToggle highlight<cr>', desc = 'toggle TS highlights' },
   {
-    'd',
-    function()
-      vim.diagnostic.enabled(not vim.diagnostic.is_enabled())
-    end,
+    '?',
+    function() vim.diagnostic.enabled(not vim.diagnostic.is_enabled()) end,
     desc = 'toggle diagnostics',
   },
 }
@@ -268,7 +284,7 @@ map {
 
   -- cut/copy/paste
   { 'x', '"_x', desc = 'single x no register' },
-  { '<leader>d', '"_d', desc = 'Delete no register' },
+  { '<leader>kd', '"_d', desc = 'Delete no register' },
 
   -- undo/redo
   { '<A-u>', '<cmd>earlier 1f<cr>', desc = 'undo to last saved' },
@@ -291,24 +307,15 @@ map {
 -- explorers
 map {
   mode = 'n',
-  prefix = '<leader>',
+  prefix = '<leader>e',
   plugin = 'Neo-tree',
-  { 'E', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer' },
-  { 'ee', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer' },
-  { 'eh', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree left' },
-  { 'el', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree right' },
-  { 'ef', '<cmd>Neotree reveal float<cr>', desc = 'Neo-tree float' },
-  { 'eb', '<cmd>Neotree buffers reveal<cr>', desc = 'Buffer Explorer' },
-  {
-    'es',
-    '<cmd>Neotree document_symbols reveal<cr>',
-    desc = 'Symbol Explorer',
-  },
-  {
-    'eg',
-    '<cmd>Neotree git_status reveal<cr>',
-    desc = 'Git Status Explorer',
-  },
+  { 'e', '<cmd>Neotree filesystem reveal<cr>', desc = 'File Explorer' },
+  { 'h', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree left' },
+  { 'l', '<cmd>Neotree reveal left<cr>', desc = 'Neo-tree right' },
+  { 'f', '<cmd>Neotree reveal float<cr>', desc = 'Neo-tree float' },
+  { 'b', '<cmd>Neotree buffers reveal<cr>', desc = 'Buffer Explorer' },
+  { 's', '<cmd>Neotree document_symbols reveal<cr>', desc = 'Symbol Explorer' },
+  { 'g', '<cmd>Neotree git_status reveal<cr>', desc = 'Git Status Explorer' },
 }
 
 -- sessions
@@ -317,32 +324,26 @@ map {
   prefix = '<leader>ks',
   {
     'r',
-    function()
-      require('mini.sessions').select 'read'
-    end,
+    function() require('mini.sessions').select 'read' end,
     desc = 'select session',
     plugin = 'mini.sessions',
   },
   {
     'w',
-    function()
-      require('mini.sessions').write()
-    end,
+    function() require('mini.sessions').write() end,
     desc = 'write session',
     plugin = 'mini.sessions',
   },
   {
     'd',
-    function()
-      require('mini.sessions').write 'delete'
-    end,
+    function() require('mini.sessions').write 'delete' end,
     desc = 'delete session',
     plugin = 'mini.sessions',
   },
   {
     'n',
     function()
-      local session_name = vim.fn.input('Session Name:', '', '')
+      local session_name = vim.fn.input('Session Name:', '')
       require('mini.sessions').write(session_name, { verbose = true })
     end,
     desc = 'new sessions',
@@ -371,16 +372,11 @@ map {
 -- terminal
 -- NOTE: currently using toggle term for nvim terminals
 map {
-  mode = { 'n', 'i' },
+  mode = { 'n', 'i', 't' },
   plugin = 'ToggleTerm',
   {
     '<C-`>',
     '<cmd>ToggleTerm direction=horizontal<cr>',
-    desc = 'toggle horizontal Terminal',
-  },
-  {
-    '<C-\\>',
-    '<cmd>ToggleTerm direction=vertical<cr>',
     desc = 'toggle horizontal Terminal',
   },
 }
@@ -393,7 +389,6 @@ map {
     'f',
     '<cmd>ToggleTerm direction=float<cr>',
     desc = 'toggle floating terminal',
-    mode = 'n',
   },
   {
     't',
@@ -404,33 +399,30 @@ map {
     'v',
     '<cmd>ToggleTerm direction=vertical<cr>',
     desc = 'toggle Vertical Terminal',
-    mode = 'n',
-  },
-}
-
--- refactoring
-map {
-  mode = 'n',
-  prefix = '<leader>r',
-  {
-    'n',
-    function()
-      return ':IncRename ' .. vim.fn.expand '<cword>'
-    end,
-    expr = true,
-    desc = 'rename identifier',
-    plugin = 'inc-rename',
   },
 }
 
 -- ft specific key maps (leader a)
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'yaml' },
+  pattern = { 'yaml.ansible' },
   callback = function()
     map {
       mode = 'n',
       buffer = true,
       { '<leader>ar', '<cmd>AnsibleRunFile<cr>', desc = 'Run Ansible Playbook' },
+    }
+  end,
+})
+
+-- ft specific key maps (leader a)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'markdown', 'mdx', 'md' },
+  callback = function()
+    map {
+      mode = 'n',
+      buffer = true,
+      prefix = 'Table Mode',
+      { '<leader>T', '<cmd>TableModeToggle<cr>', desc = 'toggle table mode' },
     }
   end,
 })

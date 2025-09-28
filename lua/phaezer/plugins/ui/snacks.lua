@@ -131,7 +131,7 @@ return {
         timeout = 3000, -- 3 seconds
       },
       image = {
-        enabled = true,
+        enabled = not vim.g.neovide, -- do not enable if in neovide (until neovide supports images)
         -- image resolving for obsidian
         -- SRC: https://github.com/obsidian-nvim/obsidian.nvim/wiki/Images
         resolve = function(path, src)
@@ -253,8 +253,10 @@ return {
       plugin = 'snacks',
       -- Top Pickers & Explorer
       { '<space>', function() Snacks.picker.smart() end, desc = 'smart ' },
+      { 'd', function() Snacks.bufdelete() end, desc = 'delete buffer' },
       { ',', function() Snacks.picker.buffers() end, desc = 'buffers' },
       { ':', function() Snacks.picker.command_history() end, desc = ' history' },
+      { '/', function() Snacks.picker.grep() end, desc = 'grep' },
       -- zen
       { 'z', function() Snacks.zen() end, desc = 'zen mode' },
       { 'Z', function() Snacks.zen.zoom() end, desc = 'toggle zoom' },
@@ -285,10 +287,16 @@ return {
       { ':', function() Snacks.picker.commands() end, desc = 'commands' },
       { 'R', function() Snacks.picker.resume() end, desc = 'resume' },
       { 'Z', function() Snacks.picker.lazy() end, desc = 'search for plugin Spec' },
-      { 'c', function() Snacks.picker.colorschemes() end, desc = 'grep' },
-      { 'g', function() Snacks.picker.grep() end, desc = 'grep' },
+      { 'C', function() Snacks.picker.colorschemes() end, desc = 'grep' },
+      {
+        'c',
+        function() Snacks.picker.files { cwd = vim.fn.stdpath 'config' } end,
+        desc = 'find config File',
+      },
       { 'h', function() Snacks.picker.help() end, desc = 'help pages' },
-      { 'h', function() Snacks.picker.highlights() end, desc = 'highlights' },
+      { 'H', function() Snacks.picker.highlights() end, desc = 'highlights' },
+      { 'f', function() Snacks.picker.files() end, desc = 'files' },
+      { 'g', function() Snacks.picker.git_files() end, desc = 'git files' },
       { 'i', function() Snacks.picker.icons() end, desc = 'icons' },
       { 'j', function() Snacks.picker.jumps() end, desc = 'jumps' },
       { 'k', function() Snacks.picker.keymaps() end, desc = 'keymap' },
@@ -297,25 +305,13 @@ return {
       { 'n', function() Snacks.picker.notifications() end, desc = 'notifications' },
       { 'p', function() Snacks.picker.projects() end, desc = 'projects' },
       { 'q', function() Snacks.picker.qflist() end, desc = 'quickfix list' },
-      { 'r', function() Snacks.picker.registers() end, desc = 'registers' },
-      { 's', function() Snacks.picker.treesitter() end, desc = 'TS symbols' },
+      { 'y', function() Snacks.picker.registers() end, desc = 'registers' },
+      { 'r', function() Snacks.picker.recent() end, desc = 'recent' },
+      { 'S', function() Snacks.picker.treesitter() end, desc = 'TS symbols' },
+      { 's', function() Snacks.picker.smart() end, desc = 'smart ' },
       { 'u', function() Snacks.picker.undo() end, desc = 'undo history' },
       { 'w', function() Snacks.picker.grep_word() end, desc = 'find word' },
       { 'z', function() Snacks.picker.zoxide() end, desc = 'zoxide' },
-    }
-
-    -- files
-    map {
-      prefix = '<leader>f',
-      plugin = 'snacks',
-      { 'f', function() Snacks.picker.files() end, desc = 'files' },
-      { 'r', function() Snacks.picker.recent() end, desc = 'recent' },
-      {
-        'c',
-        function() Snacks.picker.files { cwd = vim.fn.stdpath 'config' } end,
-        desc = 'find config File',
-      },
-      { 'g', function() Snacks.picker.git_files() end, desc = 'git files' },
     }
 
     -- lsp

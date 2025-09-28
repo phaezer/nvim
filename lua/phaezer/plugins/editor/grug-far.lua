@@ -7,25 +7,25 @@ return {
   opts = {},
   keys = {
     {
-      '<leader>/w',
+      '<leader>rw',
       function() require('grug-far').open { prefills = { search = vim.fn.expand '<cword>' } } end,
       desc = 'find Current word  grug-far',
       mode = { 'n', 'x' },
     },
     {
-      '<leader>/f',
+      '<leader>rf',
       function() require('grug-far').open { prefills = { paths = vim.fn.expand '%' } } end,
       desc = 'find in file  grug-far',
       mode = { 'n', 'x' },
     },
     {
-      '<leader>/i',
+      '<leader>ri',
       function() require('grug-far').open { visualSelectionUsage = 'operate-within-range' } end,
       desc = 'find within range   grug-far',
       mode = { 'n', 'x' },
     },
     {
-      '<leader>/r',
+      '<leader>rg',
       function() require('grug-far').open { transient = true } end,
       desc = 'find and replace  grug-far',
       mode = { 'n', 'x' },

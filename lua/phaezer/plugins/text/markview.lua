@@ -7,16 +7,21 @@ return {
   priority = 49,
   dependencies = {
     'saghen/blink.cmp',
-    'nvim-tree/nvim-web-devicons',
+    'nvim-mini/mini.icons',
   },
   config = function()
     local presets = require 'markview.presets'
     require('markview').setup {
       markdown = {
         headings = presets.headings.marker,
+        list_items = {
+          marker_minus = { text = '' },
+          marker_plus = { text = '' },
+          marker_star = { text = '' },
+        },
       },
       preview = {
-        icon_provider = 'devicons',
+        icon_provider = 'mini',
       },
     }
     -- setup the checkboxes module
@@ -34,7 +39,7 @@ return {
           mode = 'n',
           buffer = true,
           plugin = 'MarkView',
-          prefix = '<leader>;',
+          prefix = '<leader>fa',
           { 'r', '<cmd>Markview Toggle<cr>', desc = 'toggle render' },
           { 'y', '<cmd>Markview hybridToggle<cr>', desc = 'toggle hybrid render' },
           { 'c', '<cmd>Checkbox interactive<cr>', desc = 'checkbox state change' },

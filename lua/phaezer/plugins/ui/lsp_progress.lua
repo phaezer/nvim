@@ -4,6 +4,7 @@ return {
   config = function()
     local lsp_name_map = {
       ['GitHub Copilot'] = '',
+      copilot = '',
       cspell_ls = '',
     }
     require('lsp-progress').setup {
@@ -29,14 +30,18 @@ return {
         if #lsp_clients > 0 then
           table.sort(lsp_clients, function(a, b) return a.name < b.name end)
           local builder = {}
+          local unique = {} -- don't show duplicates
           for _, cli in ipairs(lsp_clients) do
             if type(cli) == 'table' and type(cli.name) == 'string' and string.len(cli.name) > 0 then
               -- if client name is in the lsp_name_map, use the mapped icon
               local name = lsp_name_map[cli.name] or cli.name
-              if messages_map[cli.name] then
-                table.insert(builder, stringify(name, messages_map[name]))
-              else
-                table.insert(builder, stringify(name))
+              if not unique[name] then
+                unique[name] = true
+                if messages_map[cli.name] then
+                  table.insert(builder, stringify(name, messages_map[name]))
+                else
+                  table.insert(builder, stringify(name))
+                end
               end
             end
           end

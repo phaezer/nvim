@@ -8,6 +8,7 @@ return {
     require('illuminate').configure {
       delay = 100,
       filetypes_denylist = {
+        'noice',
         'dirbuf',
         'dirvish',
         'fugitive',

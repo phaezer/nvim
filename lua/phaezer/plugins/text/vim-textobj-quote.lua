@@ -12,9 +12,14 @@ return {
 
     local function setup_textobj_quote(bufnr)
       vim.cmd 'call textobj#quote#init({"educate": 0})'
+      vim.notify(
+        'curly quotes enabled',
+        vim.log.levels.INFO,
+        { title = 'textobj-quote' }
+      )
       keys.map {
         {
-          '<leader>mq',
+          '<leader>kq',
           '<cmd>ToggleEducate<cr>',
           desc = 'Toggle Typographic Quotes',
           buffer = bufnr,

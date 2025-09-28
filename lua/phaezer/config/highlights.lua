@@ -55,9 +55,11 @@ function M.rainbow.set_hl_groups(opts)
   local mv_rb = colors.generate_rainbow_from_hex(7, _opts.base)
   for i, v in ipairs(mv_rb) do
     -- markview hls start at 0
-    local idx = i - 1
+    -- local idx = i - 1
+    local idx = i
     local dim = colors.blend(v, _opts.bg_alpha, _opts.bg)
-    local bright = colors.blend(v, _opts.fg_alpha, _opts.fg)
+    -- local bright = colors.blend(v, _opts.fg_alpha, _opts.fg)
+    local bright = v
     set_hl(0, 'MarkviewPalette' .. idx, { bg = bright, fg = _opts.bg })
     set_hl(0, 'MarkviewPalette' .. idx .. 'Sign', { fg = bright })
     set_hl(0, 'MarkviewPalette' .. idx .. 'Fg', { fg = bright })
@@ -69,9 +71,7 @@ end
 ---@param group string
 ---@param v table | nil
 local function maybe_set_hl(group, v)
-  if v ~= nil then
-    set_hl(0, group, v)
-  end
+  if v ~= nil then set_hl(0, group, v) end
 end
 
 ---patch a theme to include additional highlight groups
@@ -81,9 +81,7 @@ function M.patch_theme(pattern, opts)
   vim.api.nvim_create_autocmd('ColorScheme', {
     pattern = pattern,
     callback = function()
-      if type(opts) == 'function' then
-        opts = opts()
-      end
+      if type(opts) == 'function' then opts = opts() end
       -- rainbow highlights
       M.rainbow.set_hl_groups(opts.rainbow)
       for group, value in pairs(opts.groups) do
@@ -145,8 +143,10 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     set_hl(0, 'GitSignsAddInline', { bg = util.color 'DiffAdd' })
     set_hl(0, 'GitSignsChangeInline', { bg = util.color 'DiffChange' })
 
-    -- set the visual whitespace hl
-    set_hl(0, 'VisualWhitespace', { fg = util.color('Comment', 'fg'), bg = 'NONE' })
+    -- set the visual whitespace hl text to a slightly darker color than comments
+    set_hl(0, 'VisualNonText', {
+      fg = colors.blend(util.color('Comment', 'fg'), 0.5, normal_bg),
+    })
   end,
 })
 

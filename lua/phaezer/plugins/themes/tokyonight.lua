@@ -66,7 +66,7 @@ return {
               OilGitUntracked = git.untracked,
               OilGitIgnored = git.ignored,
               -- Dart
-              DartPickLabel = { fg = plt.blue, bold = true },
+              DartPickLabel = dart.label,
               -- current
               DartCurrent = dart.current,
               DartCurrentModified = vim.tbl_extend('force', dart.current, { italic = true }),

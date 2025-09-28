@@ -57,24 +57,19 @@ o.splitbelow = true
 
 o.list = false
 
-o.listchars = {
-  eol = '󰌑',
-  tab = ' ',
-  trail = '',
-  extends = '',
-  precedes = '',
-  space = '',
-  nbsp = '',
+local icons = require 'phaezer.core.icons'
+
+-- default to minimal
+o.listchars = icons.listchars {
+  'lead',
+  'trail',
+  'extends',
+  'precedes',
+  'nbsp',
 }
 
 -- fillchars
-o.fillchars = {
-  eob = ' ',
-  fold = '󱑼',
-  foldsep = '│',
-  foldopen = '󰘖',
-  foldclose = '󰘕',
-}
+o.fillchars = icons.fillchars 'all'
 
 -- Preview substitutions
 o.inccommand = 'split'

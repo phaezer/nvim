@@ -1,52 +1,48 @@
 local hl = require 'phaezer.config.highlights'
 
--- cSpell:words nightfox Bufferline
+-- cSpell:words darianmorat gruvdark
 return {
-  'navarasu/onedark.nvim',
+  'darianmorat/gruvdark.nvim',
   lazy = false,
   priority = 1000,
   opts = {
-    options = {
-      styles = {
-        -- comments = 'italic',
-        types = 'bold',
-        functions = 'bold',
-      },
-    },
+    transparent = false,
   },
   init = function()
-    local palettes = require('nightfox.palette').load()
+    local palettes = require('gruvdark.colors').palettes
+    local palette_map = {
+      gruvdark = palettes.gruvdark,
+      ['gruvdark-light'] = palettes.gruvdark_light
+    }
     for name, plt in pairs(palettes) do
       hl.patch_theme(name, function()
         local dart = {
-          visible = { fg = plt.comment, bg = plt.bg0 },
-          current = { fg = plt.fg1, bg = plt.bg2 },
-          label = { fg = plt.magenta.base, bold = true },
-          modified_label = { fg = plt.orange.base, bold = true },
+          visible = { fg = plt.grey, bg = plt.bg0 },
+          current = { fg = plt.fg, bg = plt.bg2 },
+          label = { fg = plt.blue, bold = true },
+          modified_label = { fg = plt.orange, bold = true },
         }
 
         local git = {
-          added = { fg = plt.green.base },
-          conflict = { fg = plt.orange.base },
-          modified = { fg = plt.yellow.base },
-          deleted = { fg = plt.red.base },
-          untracked = { fg = plt.magenta.base },
-          ignored = { fg = plt.comment },
-          renamed = { fg = plt.cyan.base },
+          added = { fg = plt.diff_add },
+          conflict = { fg = plt.red },
+          modified = { fg = plt.diff_change },
+          deleted = { fg = plt.diff_delete },
+          untracked = { fg = plt.grey },
+          ignored = { fg = plt.grey },
+          renamed = { fg = plt.orange },
         }
 
         return {
           rainbow = {
-            base = plt.blue.base,
+            base = plt.blue,
             bg = plt.bg1,
-            fg = plt.fg1,
+            fg = plt.fg,
             bg_alpha = 0.2,
             fg_alpha = 0.75,
           },
 
           groups = {
-            BufferlineActive = { fg = plt.magenta.base, bg = plt.bg2, bold = true },
-            BufferlineInactive = { fg = plt.comment, bg = plt.bg0 },
             -- NeoTree colors
             NeoTreeGitAdded = git.added,
             NeoTreeGitConflict = git.conflict,

@@ -20,7 +20,7 @@ return {
         return vim.o.columns * 0.4
       end
     end,
-    open_mapping = [[<c-`>]], -- same as vscode default
+    open_mapping = [[<c-~>]], -- same as vscode default
     hide_numbers = true,
     shade_terminals = false,
     insert_mappings = true,
@@ -41,5 +41,5 @@ return {
       width = math.ceil(vim.o.columns - 4),
       winblend = 0,
     },
-  }
+  },
 }

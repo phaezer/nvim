@@ -71,44 +71,52 @@ return {
       }
 
       map {
-        mode = { 'n', 'v' },
+        mode = 'n',
         buffer = bufnr,
+        prefix = '<leader>h',
         {
-          '<leader>hs',
+          's',
           function() gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' } end,
           desc = 'git stage hunk  gitsigns',
         },
         {
-          '<leader>hr',
+          'r',
           function() gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' } end,
           desc = 'git reset hunk  gitsigns',
         },
-        { '<leader>hS', gs.stage_buffer, desc = 'git stage buffer  gitsigns' },
-        { '<leader>hu', gs.stage_hunk, desc = 'git undo stage hunk  gitsigns' },
-        { '<leader>hR', gs.reset_buffer, desc = 'git reset buffer  gitsigns' },
-        { '<leader>hp', gs.preview_hunk, desc = 'git preview hunk  gitsigns' },
-        { '<leader>hb', gs.blame_line, desc = 'git blame line  gitsigns' },
-        { '<leader>hd', gs.diffthis, desc = 'git diff against index  gitsigns' },
-        { '<leader>hq', gs.setqflist, desc = 'to qflist  gitsigns' },
-        { '<leader>hp', gs.preview_hunk_inline, desc = 'toggle git show deleted  gitsigns' },
+        { 'S', gs.stage_buffer, desc = 'git stage buffer  gitsigns' },
+        { 'u', gs.stage_hunk, desc = 'git undo stage hunk  gitsigns' },
+        { 'R', gs.reset_buffer, desc = 'git reset buffer  gitsigns' },
+        { 'p', gs.preview_hunk, desc = 'git preview hunk  gitsigns' },
+        { 'b', gs.blame_line, desc = 'git blame line  gitsigns' },
+        { 'd', gs.diffthis, desc = 'git diff against index  gitsigns' },
+        { 'q', gs.setqflist, desc = 'to qflist  gitsigns' },
+        { 'p', gs.preview_hunk_inline, desc = 'toggle git show deleted  gitsigns' },
         {
-          '<leader>hQ',
+          'Q',
           function() gs.setqflist 'all' end,
           desc = 'add all to qflist  gitsigns',
         },
         {
-          '<leader>hD',
+          'D',
           function() gs.diffthis '@' end,
           desc = 'git diff against last commit',
         },
+      }
+
+      -- ui key maps
+      map {
+        mode = 'n',
+        buffer = bufnr,
+        prefix = '<leader>u',
         {
-          '<leader>vgb',
+          'gb',
           gs.toggle_current_line_blame,
           desc = 'toggle git blame line  gitsigns',
         },
-        { '<leader>vgn', '<cmd>Gitsigns toggle_numhl<cr>', desc = 'toggle git numhl  gitsigns' },
+        { 'gn', '<cmd>Gitsigns toggle_numhl<cr>', desc = 'toggle git numhl  gitsigns' },
         {
-          '<leader>vgw',
+          'gw',
           '<cmd>Gitsigns toggle_word_diff<cr>',
           desc = 'toggle git numhl  gitsigns',
         },

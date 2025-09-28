@@ -1,3 +1,5 @@
+local icons = require 'phaezer.core.icons'
+
 -- Visual Whitespace
 -- NOTE: Display white space characters in visual mode, like VSCode's renderWhitespace: selection.
 return {
@@ -14,15 +16,9 @@ return {
       lead = true,
       trail = true,
     },
-    list_chars = {
-      space = '',
-      tab = '',
-      nbsp = '',
-      lead = '',
-      trail = '',
-    },
+    list_chars = icons.list,
     fileformat_chars = {
-      unix = '󰌑',
+      unix = icons.list.eol,
       mac = '',
       dos = '󰘌',
     },
@@ -41,7 +37,7 @@ return {
   },
   keys = {
     {
-      '<leader>v.',
+      '<leader>u.',
       function() require('visual-whitespace').toggle() end,
       desc = 'toggle visual whitespace',
     },

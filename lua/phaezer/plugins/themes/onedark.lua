@@ -1,32 +1,32 @@
-local opts = {
-  background = 'hard',
-  colours_override = function(palette) end,
-}
+local hl = require 'phaezer.config.highlights'
 
+local style = 'darker'
+
+-- cSpell:words navarasu onedark
 return {
-  'neanias/everforest-nvim',
+  'navarasu/onedark.nvim',
   lazy = false,
   priority = 1000,
-  opts = opts,
-  config = function()
-    local hl = require 'phaezer.config.highlights'
-    hl.patch_theme('everforest', function()
-      local plt = require('everforest.colours').generate_palette(opts, 'dark')
-
+  opts = {
+    style = style,
+  },
+  init = function()
+    local plt = require('onedark.palette')[style]
+    hl.patch_theme('onedark', function()
       local dart = {
         visible = { fg = plt.comment, bg = plt.bg0 },
         current = { fg = plt.fg, bg = plt.bg2 },
-        label = { fg = plt.blue, bold = true },
-        modified_label = { fg = plt.yellow, bold = true },
+        label = { fg = plt.cyan, bold = true },
+        modified_label = { fg = plt.purple, bold = true },
       }
 
       local git = {
         added = { fg = plt.green },
-        conflict = { fg = plt.red },
-        modified = { fg = plt.orange },
+        conflict = { fg = plt.orange },
+        modified = { fg = plt.yellow },
         deleted = { fg = plt.red },
-        untracked = { fg = plt.grey1 },
-        ignored = { fg = plt.grey2 },
+        untracked = { fg = plt.grey },
+        ignored = { fg = plt.grey },
         renamed = { fg = plt.blue },
       }
 
@@ -35,8 +35,10 @@ return {
           base = plt.blue,
           bg = plt.bg1,
           fg = plt.fg,
-          fg_alpha = 0.9,
+          bg_alpha = 0.2,
+          fg_alpha = 0.75,
         },
+
         groups = {
           -- NeoTree colors
           NeoTreeGitAdded = git.added,

@@ -7,17 +7,13 @@ local autocmd = api.nvim_create_autocmd
 -- highlight on yank
 autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
-  callback = function()
-    vim.hl.on_yank()
-  end,
+  callback = function() vim.hl.on_yank() end,
 })
 
 -- disable auto commenting on new lines
 autocmd('BufEnter', {
   desc = 'Disable New Line Comment',
-  callback = function()
-    vim.opt.formatoptions:remove { 'c', 'r', 'o' }
-  end,
+  callback = function() vim.opt.formatoptions:remove { 'c', 'r', 'o' } end,
 })
 
 -- remember last loc when opening a buffer
@@ -26,9 +22,7 @@ autocmd('BufReadPost', {
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
+    if mark[1] > 0 and mark[1] <= lcount then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
   end,
 })
 
@@ -37,12 +31,8 @@ autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if not client then
-      return
-    end
-    if not client.server_capabilities then
-      return
-    end
+    if not client then return end
+    if not client.server_capabilities then return end
 
     if
       client
@@ -72,7 +62,7 @@ autocmd('LspAttach', {
       -- Set keymaps for LSP
       keys.map {
         {
-          '<leader>vh',
+          '<leader>uh',
           function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end,

@@ -25,15 +25,11 @@ local function set_keymap(mode, lhs, rhs, opts)
   -- handle os
   if opts then
     if opts.os then
-      if not util.is_os(opts.os) then
-        return
-      end
+      if not util.is_os(opts.os) then return end
       opts.os = nil
     end
     if opts.vs_code then
-      if not vim.g.vs_code then
-        return
-      end
+      if not vim.g.vs_code then return end
       opts.vs_code = nil
     end
   end
@@ -48,22 +44,23 @@ local function set_keymap(mode, lhs, rhs, opts)
 end
 
 ---Map a key
----@param val {keys: KeyTable[], opts: table? } | {[number]: KeyTable, opts: table?} | KeyTable[]
+---@param val {keys: KeyTable[], opts: table? } | {[number]: KeyTable | KeyTable[], opts: table?} | KeyTable[]
 M.map = function(val)
-  local key_tbls, common_opts = util.tbl_extract(val, function(k, _)
-    return type(k) == 'number' or k == 'keys'
-  end)
+  local key_tbls, common_opts = util.tbl_extract(
+    val,
+    function(k, _) return type(k) == 'number' or k == 'keys' end
+  )
   -- filter out prefix and mode
-  local extra, common_opts = util.tbl_extract(common_opts, { 'prefix', 'mode' })
+  local extra, _common_opts = util.tbl_extract(common_opts, { 'prefix', 'mode' })
+
   for _, key_tbl in ipairs(key_tbls) do
-    local key_opts = util.tbl_extract(key_tbl, function(k, _)
-      return type(k) ~= 'number' and k ~= 'mode'
-    end)
-    local opts = vim.tbl_deep_extend('force', common_opts or {}, key_opts or {})
+    local key_opts = util.tbl_extract(
+      key_tbl,
+      function(k, _) return type(k) ~= 'number' and k ~= 'mode' end
+    )
+    local opts = vim.tbl_deep_extend('force', _common_opts or {}, key_opts or {})
     local lhs = (extra.prefix or '') .. key_tbl[1] -- add prefix if exists
-    assert(lhs, 'lhs is required')
     local rhs = key_tbl[2]
-    assert(rhs, 'rhs is required')
     set_keymap(key_tbl.mode or extra.mode or 'n', lhs, rhs, opts)
   end
 end
@@ -75,13 +72,12 @@ M.unmap = function(keys)
   for _, key in ipairs(keys) do
     local mode = key.mode or 'n'
 
-    local opts = util.tbl_extract(key, function(k, _)
-      return type(k) ~= 'number' and k ~= 'mode'
-    end)
+    local opts = util.tbl_extract(
+      key,
+      function(k, _) return type(k) ~= 'number' and k ~= 'mode' end
+    )
 
-    local ok, err = pcall(function()
-      vim.keymap.del(mode, key[1], opts)
-    end)
+    local ok, err = pcall(function() vim.keymap.del(mode, key[1], opts) end)
 
     if not ok then
       vim.notify(

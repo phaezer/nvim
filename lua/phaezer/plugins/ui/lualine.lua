@@ -58,9 +58,9 @@ LuaLine.opts = function(_, opts)
           'neo-tree',
           'Outline',
           'dashboard',
-          'snacks_dashboard',
+          'Snacks_dashboard',
           'Oil',
-          'ministarter',
+          'mini',
         },
       },
       component_separators = ' ',
@@ -137,16 +137,6 @@ LuaLine.opts = function(_, opts)
             }
           end,
         },
-        -- {
-        --   'lsp_status',
-        --   icon = icons.gui.Server,
-        --   symbols = {
-        --     spinner = icons.spinners.circle,
-        --     done = '',
-        --     separator = ', ',
-        --   },
-        --   ignore_lsp = { 'null-ls', 'cspell', 'cspell_ls' },
-        -- },
         {
           'progress',
           icon = '',
@@ -166,7 +156,14 @@ LuaLine.opts = function(_, opts)
       lualine_a = {},
       lualine_b = {},
       lualine_c = {
-        { 'pretty_path' },
+        {
+          'pretty_path',
+          cond = function()
+            return not vim.tbl_contains({
+              'snacks_dashboard',
+            }, vim.bo.filetype)
+          end,
+        },
         {
           'navic',
           color_correction = nil,
@@ -204,7 +201,7 @@ LuaLine.opts = function(_, opts)
       lualine_y = {},
       lualine_z = {},
     },
-    extensions = { 'lazy', 'fzf', 'trouble', 'overseer', 'toggleterm', 'oil' },
+    -- extensions = { 'lazy', 'fzf', 'trouble', 'overseer', 'toggleterm', 'oil' },
   })
 end
 

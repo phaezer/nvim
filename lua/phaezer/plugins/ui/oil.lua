@@ -14,6 +14,7 @@ return {
         -- 'size',
         -- 'mtime',
       },
+      watch_for_changes = true, -- refresh oil when changes detected
       -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
       skip_confirm_for_simple_edits = false,
       keymaps_help = {
@@ -26,8 +27,8 @@ return {
       float = {
         -- Padding around the floating window
         padding = 2,
-        max_width = 0.6,
-        max_height = 0.6,
+        max_width = 0.8,
+        max_height = 0.8,
         border = 'rounded',
         preview_win = {
           win_options = {
@@ -40,17 +41,25 @@ return {
         },
       },
       keymaps = {
+        -- disable some defaults
+        ['_'] = false,
+        ['<C-h>'] = false,
+        ['<C-s>'] = false,
+        ['`'] = false,
+
         ['g?'] = { 'actions.show_help', mode = 'n' },
         ['<CR>'] = 'actions.select',
-        ['<C-|>'] = { 'actions.select', opts = { vertical = true } },
-        ['<C-%>'] = { 'actions.select', opts = { horizontal = true } },
+        ['%'] = { 'actions.select', mode = 'n', opts = { vertical = true } },
+        ['-'] = { 'actions.select', mode = 'n', opts = { horizontal = true } },
+        ['<C-%>'] = { 'actions.select', opts = { vertical = true } },
+        ['<C-->'] = { 'actions.select', opts = { horizontal = true } },
         ['<C-t>'] = { 'actions.select', opts = { tab = true } },
         ['<C-p>'] = 'actions.preview',
         ['<C-q>'] = { 'actions.close', mode = 'n' },
         ['<C-y>'] = { 'actions.yank_entry', mode = 'n' },
         ['<C-l>'] = 'actions.refresh',
-        ['<C-~>'] = { 'actions.open_cwd', mode = 'n' },
-        ['-'] = { 'actions.parent', mode = 'n' },
+        ['~'] = { 'actions.open_cwd', mode = 'n' },
+        ['^'] = { 'actions.parent', mode = 'n' },
         ['.'] = { 'actions.cd', mode = 'n' },
         [','] = { 'actions.cd', opts = { scope = 'tab' }, mode = 'n' },
         ['gs'] = { 'actions.change_sort', mode = 'n' },
@@ -99,9 +108,10 @@ return {
       },
     },
     keys = {
-      { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+      { '-', '<cmd>Oil<cr>', desc = 'Oil (parent directory)' },
+      { '<C-->', '<cmd>Oil<cr>', desc = 'Oil (parent directory)' },
       {
-        '<leader>-',
+        '_',
         function()
           local oil = require 'oil'
           if vim.w.is_oil_win then

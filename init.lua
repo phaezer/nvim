@@ -1,7 +1,5 @@
 vim.uv = vim.uv or vim.loop
 
-local colorscheme = 'tokyonight'
-
 require 'phaezer.config'
 
 -- Lazy.nvim setup
@@ -19,9 +17,7 @@ if not vim.uv.fs_stat(lazypath) then
     lazypath,
   }
 
-  if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
-  end
+  if vim.v.shell_error ~= 0 then error('Error cloning lazy.nvim:\n' .. out) end
 end
 
 vim.opt.rtp:prepend(lazypath)
@@ -48,5 +44,4 @@ end
 ---@diagnostic disable-next-line: different-requires
 require('lazy').setup(lazy_config)
 
-vim.cmd 'set nolist'
-vim.cmd('colorscheme ' .. colorscheme)
+vim.cmd('colorscheme ' .. (vim.env.NVIM_THEME or 'tokyonight'))

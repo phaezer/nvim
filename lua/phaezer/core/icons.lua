@@ -1,11 +1,54 @@
 local icons = {}
 
 icons.diagnostics = {
-  Error = '',
-  Warn = '',
-  Info = '',
-  Hint = '󰛨',
+  Error = '',
+  Warn = '',
+  Info = '󰙎',
+  Hint = '',
 }
+
+icons.list = {
+  eol = '󰌑',
+  tab = '  ',
+  lead = '',
+  trail = '',
+  extends = '󰄾',
+  precedes = '󰄽',
+  space = '',
+  nbsp = '',
+}
+
+---@param keys ('all'|'eol'|'tab'|'lead'|'trail'|'extends'|'precedes'|'space'|'nbsp')[] | 'all'
+icons.listchars = function(keys)
+  if keys == 'all' then return icons.list end
+  local chars = {}
+  if type(keys) ~= 'table' then return end
+  for _, k in ipairs(keys) do
+    chars[k] = icons.list[k]
+  end
+  return chars
+end
+
+icons.fill = {
+  eob = ' ',
+  lastline = '',
+  fold = '󱑼',
+  foldopen = '',
+  foldclose = '',
+  foldsep = '',
+  diff = '',
+}
+
+---@param keys ('eob'|'lastline'|'fold'|'foldopen'|'foldclose'|'foldsep'|'diff')[] | 'all'
+icons.fillchars = function(keys)
+  if keys == 'all' then return icons.fill end
+  local chars = {}
+  if type(keys) ~= 'table' then return end
+  for _, k in ipairs(keys) do
+    chars[k] = icons.fill[k]
+  end
+  return chars
+end
 
 icons.git = {
   Commit = '󰜘',
@@ -13,11 +56,11 @@ icons.git = {
   Removed = '',
   Renamed = '󰟵',
   Modified = '󰥛',
-  Staged = '',
+  Staged = '',
   Ignored = '',
   Conflict = '',
-  Untracked = '',
-  Unstaged = '',
+  Untracked = '',
+  Unstaged = '',
 }
 
 icons.gui = {

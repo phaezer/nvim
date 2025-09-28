@@ -42,17 +42,19 @@ return {
       jsonc = { 'prettierd', 'prettier', stop_after_first = true },
       zig = { 'zigfmt' },
       terraform = { 'tofu_fmt' },
+      tofu = { 'tofu_fmt' },
       yaml = { 'yamlfmt' },
+      markdown = { 'markdownlint' },
     },
   },
   init = function()
     ---@diagnostic disable-next-line: inject-field
     vim.g.format_on_save = true
     require('phaezer.core.keys').map {
-      prefix = '<leader>k',
+      prefix = '<leader>',
       plugin = 'conform',
       {
-        'F',
+        'kf',
         function()
           local format_on_save = not vim.g.format_on_save
           ---@diagnostic disable-next-line: inject-field
@@ -65,7 +67,7 @@ return {
         'f',
         function() require('conform').format { async = true, lsp_format = 'fallback' } end,
         mode = 'n',
-        desc = 'format',
+        desc = 'format buffer',
       },
     }
   end,
